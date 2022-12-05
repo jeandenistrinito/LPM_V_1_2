@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>lpm.v.0</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+
+    <link rel="stylesheet" href="/webjars/bootstrap/5.1.3/css/bootstrap.min.css">
+    <script rel="stylesheet" src="/webjars/bootstrap/5.1.3/js/bootstrap.bundle.js"></script>
+
+    <link href="../assets2/css/icons.min.css" rel="stylesheet" type="text/css">
+    <link href="../liens/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="../liens/remixicon/remixicon.css" rel="stylesheet">
+
+    <link href="../js/print.min.css" rel="stylesheet">
+    <link href="../js/simplebar.css" rel="stylesheet">
+    <link href="../css/styles.css" rel="stylesheet">
+
+</head>
+<body style="background-color: transparent">
+
+    <!-- *********************************************** content *********************************** -->
+
+    <div class="container-fluid" style="height: 100vh;padding-top: 20px" data-simplebar>
+
+        <div class="row mb-1">
+            <div class="col-12 mt-1">
+                <!--<img id="image" src="../images/produit1.jpg" alt="produit1" style="position: absolute;max-width: 300px;min-width: 300px;max-height: 80px;left: 35%;border-radius: 10px;opacity: 0.3;">-->
+                <div class="boutons_modals head">
+                    <ul class="ul-nav">
+                        <li class="d-flex" style="display: flex;justify-content: left">
+                            <h4 class="page-title">Utilisateur</h4>
+                        </li>
+                    </ul>
+                    <ul class="ul-nav">
+                        <li class="ul-li-nav search">
+                            <div class="input-group inputSearchStock" id="inputSearch">
+                                <input type="text" required class="form-control dropdown-toggle" placeholder="Search..." id="input-search-stock">
+                                <button id="btn-search-stick" class="input-group-text btn-primary" type="submit"><i class="ri ri-search-2-line"></i></button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="boutons_modals">
+                <ul class="ul-nav">
+                    <li class="ul-li-nav">
+                        <a class="btn btn-primary" id="btnNouvelleFonction">Nouvelle fonction</a>
+                    </li>
+                    <li class="ul-li-nav">
+                        <a class="btn btn-primary" id="btnNouveauUtilisateur">Nouveau utilisateur</a>
+                    </li>
+                </ul>
+                <ul class="ul-nav">
+                    <li class="ul-li-nav">
+                        <a class="btn btn-primary" id="btnExcelUtilisateur"><img src="../images/excel1_24px.png" style="height: 20px;width: 16px"></a>
+                    </li>
+                    <li class="ul-li-nav">
+                        <a class="btn btn-primary" id="btnPrintUtilisateur"><img src="../images/print1_24px.png" style="height: 16px"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row" style="margin: 1px" id="utilisateur">
+            <div class="col-lg-3 col-xl-3 col-md-4 col-sm-12">
+                <div class="row" style="margin: 0 -17px">
+                    <div class="col-12">
+                        <div class="card mb-2">
+                            <div class="card-body">
+                                <table class="table dt-responsive nowrap w-100 table-hover text-dark" id="tableFonction">
+                                    <thead>
+                                        <tr>
+                                            <th>Fonction</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="fonction:${fonctionList}">
+                                        <td th:text="${fonction.getNomFonction()}"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div> <!-- end card body-->
+                        </div> <!-- end card -->
+                    </div><!-- end col-->
+                </div>
+            </div>
+            <div class="col-lg-9 col-xl-9 col-md-8 col-sm-12">
+                <div class="row" style="margin: 0 -17px">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="tab-pane show active" id="buttons-table-preview">
+                                    <table id="datatable-buttons" class="table dt-responsive nowrap w-100 table-hover text-dark">
+                                        <thead>
+                                        <tr>
+                                            <th>Nom & Prénom</th>
+                                            <th>Adresse</th>
+                                            <th>Contact</th>
+                                            <th>Fonction</th>
+                                            <th></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="user:${utilisateurList}">
+                                            <td th:text="${user.getNomPrenomUtilisateur()}"></td>
+                                            <td th:text="${user.getAdresseUtilisateur()}"></td>
+                                            <td th:text="${user.getContactUtilisateur()}"></td>
+                                            <td th:text="${user.getFonction()}"></td>
+                                            <td style="padding-right: 0px;max-width: 46px;min-width: 46px;width: 46px">
+                                                <div class="actionEditSupp" style="margin: -1px 0 -3px 0;right: 0px;align-content: end">
+                                                    <a class="btn modifierVente" style="padding: 3px;width: 20px;height: 20px;border-radius: 3px;background-color: olivedrab;color: white;margin-top: -2px"><img src="../images/edit_user1_24px.png" style="height: 12px;vertical-align: top"></img></a>
+                                                    <a class="btn supprimerVente" style="padding: 3px;width: 20px;height: 20px;border-radius: 3px;background-color: orangered;color: white;margin-top: -2px"><img src="../images/remove_user1_24px.png" style="height: 12px;vertical-align: top"></img></a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="tableCleintImprimer" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-contentClient">
+                    <div class="modal-body"  id="datatable-utilisateurImprimer2">
+                        <h4 align="center" style="alignment: center;height: 40px;width: 100%;font-weight: 700;font-size: 16px;color: #223">LISTE DES UTILISATEURS ENREGISTRES</h4>
+                        <table class="table dt-responsive nowrap w-100 table-hover text-dark">
+                            <thead style="background-color: #aaa">
+                            <tr>
+                                <th style="text-align: left;padding-left: 10px;padding-top: 5px;padding-bottom: 5px;border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;color: #333">Nom & Prénom</th>
+                                <th style="text-align: left;padding-left: 10px;padding-top: 5px;padding-bottom: 5px;border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;color: #333">Adresse</th>
+                                <th style="text-align: left;padding-left: 10px;padding-top: 5px;padding-bottom: 5px;border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;color: #333">Contact</th>
+                                <th style="text-align: left;padding-left: 10px;padding-top: 5px;padding-bottom: 5px;border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;color: #333">Fonction</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="user:${utilisateurList}">
+                                <td th:text="${user.getNomPrenomUtilisateur()}" style="border: 0.2px solid transparent;border-bottom-color: #eee;border-bottom-width: 2px;"></td>
+                                <td th:text="${user.getAdresseUtilisateur()}" style="border: 0.2px solid transparent;border-bottom-color: #eee;border-bottom-width: 2px;"></td>
+                                <td th:text="${user.getContactUtilisateur()}" style="border: 0.2px solid transparent;border-bottom-color: #eee;border-bottom-width: 2px;"></td>
+                                <td th:text="${user.getFonction()}" style="border: 0.2px solid transparent;border-bottom-color: #eee;border-bottom-width: 2px;"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Standard modal -->
+        <div id="modalNouvelleFonction" class="modal modalEnc" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-content modal-contentEnc" style="width: 400px;height: 250px;margin-top: 50px;background: rgb(24,35,50);box-shadow: 0 0 10px rgba(200,200,200,0.9)">
+                <div class="container corpsprixSpecial" style="margin: 0">
+                    <form class="modal-content" method="post" th:action="@{/saveFunction}" style="background: transparent;border: none">
+                        <div class="modal-header" style="height: 50px">
+                            <h6 class="modal-title" id="standard-modalLabel" style="font-weight: 500;color: #ddd">Nouvelle Fonction</h6>
+                            <a type="button" id="btnCloseModalFonction" class="btn"></a>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="libelle-fonction" class="form-label">Libelle</label>
+                                <input name="nomFonction" th:value="${fonction.nomFonction}" type="text" required id="libelle-fonction" class="form-control">
+                            </div>
+                        </div>
+                        <div class="modal-footer" style="display: flex;justify-content: center">
+                            <button type="button" class="btn btn-danger" id="btnAnnulerFonction">Annuler</button>
+                            <button id="btn-enregistrer-fonction" type="submit" class="btn btn-primary btn-enregistrer">Enregistrer</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div id="modalNouveauEmployer" class="modal modalEnc" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-content modal-contentEnc" style="width: 400px;height: 540px;margin-top: 50px;background: rgb(24,35,50);box-shadow: 0 0 10px rgba(200,200,200,0.9)">
+                <div class="container corpsprixSpecial" style="margin: 0">
+                    <form class="modal-content" method="post" th:action="@{/saveUser}" style="background: transparent;border: none">
+                        <div class="modal-header" style="height: 50px">
+                            <h6 class="modal-title" id="standard-modalLabel" style="font-weight: 500;color: #ddd">Nouveau Utilisateur</h6>
+                            <a type="button" id="btnCloseModalAvoir" class="btn"></a>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-1">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label for="input-nom" class="form-label">Nom & Prenoms</label>
+                                        <input name="nomPrenomUtilisateur" th:value="${utilisateur.nomPrenomUtilisateur}" type="text" id="input-nom" class="form-control">
+                                    </div>
+                                </div>
+                                <input type="hidden">
+                            </div>
+                            <div class="mb-1">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <label for="input-adresse" class="form-label">Adresse</label>
+                                        <input name="adresseUtilisateur" th:value="${utilisateur.adresseUtilisateur}" type="text" id="input-adresse" class="form-control">
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="input-contact" class="form-label">Contact</label>
+                                        <input name="contactUtilisateur" th:value="${utilisateur.contactUtilisateur}" type="text" id="input-contact" class="form-control">
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="mb-1">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <label for="select-fonction" class="form-label">Fonction</label>
+                                        <select name="nomFonction" th:value="${fonction.nomFonction}" id="select-fonction" class="form-select">
+                                            <option th:each="fonction:${fonctionList}" th:value="${fonction.getNomFonction()}" th:text="${fonction.getNomFonction()}"></option>
+                                        </select>
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="select-magasin" class="form-label">Magasin</label>
+                                        <select name="nomMagasin" th:value="${magasin.nomMagasin}" id="select-magasin" class="form-select">
+                                            <option th:each="mag:${magasinList}" th:value="${mag.getNomMagasin()}" th:text="${mag.getNomMagasin()}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="mb-1">
+                                <label for="input-username" class="form-label">Nom d'utilisateur</label>
+                                <input name="nomUtilisateur" th:value="${utilisateur.nomUtilisateur}" type="text" id="input-username" class="form-control">
+                            </div>
+                            <div class="mb-1">
+                                <label for="input-password" class="form-label">Mot de passe</label>
+                                <input name="motpassUtilisateur" th:value="${utilisateur.motpassUtilisateur}" type="password" id="input-password" class="form-control">
+                            </div>
+                            <div class="mb-1">
+                                <div class="mt-3">
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input" id="check-statut" checked="">
+                                        <label class="form-check-label" for="check-statut">Statut utilisateur</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer" style="display: flex;justify-content: center">
+                            <button type="button" class="btn btn-danger" id="btnAnnulerUtilisateur">Annuler</button>
+                            <button id="btn-enregistrer-utilisateur" type="submit" class="btn btn-primary">Enregistrer</button>
+                        </div>
+                    </form><!-- /.modal-content -->
+                </div>
+            </div>
+        </div>
+        <!-- /.modal -->
+
+    </div> <!-- container -->
+
+    <!-------------------------------------------------------------------- script ------------------------------->
+
+    <script src="../liens/js/jquery-3.5.1.min.js"></script>
+    <script src="../js/table2excel.js"></script>
+    <script src="../js/print.min.js"></script>
+    <script src="../js/simplebar.min.js"></script>
+    <script src="../js/main.js"></script>
+
+    <script>
+    /* *************************** filtrage du tableau ************************************ */
+    var inputSearch = document.getElementById("input-search-stock");
+    inputSearch.addEventListener("keyup",function(){
+        var keyword = this.value;
+        keyword = keyword.toUpperCase();
+        var table_3 = document.getElementById("datatable-buttons");
+        var all_tr = table_3.getElementsByTagName("tr");
+        for(var i=0; i<all_tr.length; i++){
+            var all_columns = all_tr[i].getElementsByTagName("td");
+            for(j=0;j<all_columns.length; j++){
+                if(all_columns[j]){
+                    var column_value = all_columns[j].textContent || all_columns[j].innerText;
+                    column_value = column_value.toUpperCase();
+                    if(column_value.indexOf(keyword) > -1){
+                        all_tr[i].style.display = ""; // show
+                        break;
+                    }else{
+                        all_tr[i].style.display = "none"; // hide
+                    }
+                }
+            }
+        }
+    })
+
+    /* ****************** print pageListe client *************************************** */
+
+    var boutonImprimerUser = document.getElementById("btnPrintUtilisateur");
+    boutonImprimerUser.addEventListener('click',printUserAction);
+    function printUserAction() {
+        printJS({
+            printable: 'datatable-utilisateurImprimer2',
+            type: 'html',
+            targetStyles: ['*']
+        });
+    }
+
+    /* ********************** exporter tableClient vers excel ******************************** */
+
+    var boutonExcelUser = document.getElementById("btnExcelUtilisateur");
+    boutonExcelUser.addEventListener('click',Export);
+    function Export() {
+        $("#datatable-utilisateurImprimer2").table2excel({
+            filename: "Utilisateur_Liste "+new Date().getFullYear()+"-"+new Date().getMonth()+"-"+new Date().getDate()+" "+new Date().getHours()+"h"+new Date().getMinutes()+"min .xls"
+        });
+    }
+
+
+    /* -------------------------------------- mobal nouveau utilisateur ------------------------------- */
+    document.getElementById("btnNouveauUtilisateur").addEventListener('click',function (){
+        document.getElementById("modalNouveauEmployer").style.display="block";
+    })
+    document.getElementById("btnCloseModalAvoir").addEventListener('click',function (){
+        document.getElementById("modalNouveauEmployer").style.display="none";
+    })
+    document.getElementById("btnAnnulerUtilisateur").addEventListener('click',function (){
+        document.getElementById("modalNouveauEmployer").style.display="none";
+    })
+
+    document.getElementById("btnNouvelleFonction").addEventListener('click',function (){
+        document.getElementById("modalNouvelleFonction").style.display="block";
+    })
+    document.getElementById("btnCloseModalFonction").addEventListener('click',function (){
+        document.getElementById("modalNouvelleFonction").style.display="none";
+    })
+    document.getElementById("btnAnnulerFonction").addEventListener('click',function (){
+        document.getElementById("modalNouvelleFonction").style.display="none";
+    })
+</script>
+
+</body>
+</html>

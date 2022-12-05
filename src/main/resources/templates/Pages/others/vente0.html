@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>lpm.v.0</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+
+    <link rel="stylesheet" href="/webjars/bootstrap/5.1.3/css/bootstrap.min.css">
+    <script rel="stylesheet" src="/webjars/bootstrap/5.1.3/js/bootstrap.bundle.js"></script>
+
+    <link href="../liens/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="../liens/remixicon/remixicon.css" rel="stylesheet">
+    <link href="../assets3/css/icons.min.css" rel="stylesheet" >
+
+    <link href="../js/print.min.css" rel="stylesheet">
+    <link href="../js/simplebar.css" rel="stylesheet">
+    <link href="../css/styles.css" rel="stylesheet">
+
+</head>
+<body style="background-color: transparent">
+
+<!-- *********************************************** content *********************************** -->
+<div class="container-fluid" style="height: 100vh" data-simplebar>
+
+    <div class="row">
+        <div class="boutons_modals">
+            <ul class="ul-nav">
+                <li>
+                    <h4 style="color: #bbb">Vente produit</h4>
+                </li>
+            </ul>
+            <ul class="ul-nav">
+                <li class="ul-li-nav">
+                    <a class="btn btn-primary" id="btnExcelVenteNonFacture"><img src="../images/excel1_24px.png" style="height: 20px;width: 16px"></a>
+                </li>
+                <li class="ul-li-nav">
+                    <a class="btn btn-primary" id="btnPrintVenteNonFacture"><img src="../images/print1_24px.png" style="height: 16px"></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-lg-5 col-xl-5 col-md-5 col-sm-12">
+            <div class="ajoutArticle mt-0">
+                <form class="modal-content ajout" style="height: 73vh" method="post" th:action="@{/AjouterVente}">
+                    <div class="modal-body" style="padding: 15px">
+                        <div class="mb-1">
+                            <input type="hidden" name="prixEtat" value="prixVente" id="prixEtat">
+                            <label for="input-magasin" class="form-label">Magasin</label>
+                            <select name="nomMagasin" th:value="${magasin.nomMagasin}" id="input-magasin" class="form-select">
+                                <option th:each="magasin:${magasinList}" th:value="${magasin.nomMagasin}" th:text="${magasin.nomMagasin}"></option>
+                            </select>
+                        </div>
+                        <div class="mb-1">
+                            <label for="input-client" class="form-label">Client</label>
+                            <div class="input-group">
+                                <input type="text" id="input-client" name="nomClient" class="form-control" th:value="${nomClient}">
+                                <a type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#client-modal"><i class="ri ri-search-2-line"></i> </a>
+                            </div>
+                        </div>
+                        <div class="mb-1">
+                            <label for="input-cin" class="form-label">Désignation</label>
+                            <div class="input-group">
+                                <input type="text" id="input-cin" name="nomProduit" class="form-control" th:value="${nomProduit}">
+                                <a type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#designation-modal"><i class="ri ri-search-2-line"></i> </a>
+                            </div>
+                        </div>
+                        <div class="mb-1">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="input-quantite" class="form-label">Quantité</label>
+                                    <input type="text" id="input-quantite" class="form-control" name="quantite">
+                                </div>
+                                <div class="col-6">
+                                    <label for="select-unite" class="form-label">Unité</label>
+                                    <select name="uniteProduit" th:value="${prod.uniteProduit}" id="select-unite" class="form-select" >
+                                        <option th:each="prod:${produitList}" th:value="${prod.uniteProduit}" th:text="${prod.getUniteProduit()}"></option>
+                                    </select>
+
+                                </div>
+                            </div>
+                            <div style="background-color: blue;height: 90px;width: 160px;display: none">
+                                <div th:each="vente:${prixProduitList}">
+                                    <input th:id="${vente.getUniteProduitPP()}" th:value="${vente.getPrixVentePP()}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-1">
+                            <div class="row">
+                                <div class="col-12">
+                                    <input type="hidden" id="input-pa" class="form-control" name="prixAchat" th:value="${prixAchat}">
+                                    <label for="input-prixVente" class="form-label">Prix Unitaire(Ar)</label>
+                                    <div class="input-group">
+                                        <input type="text" id="input-prixVente" class="form-control" name="prixVente" th:value="${prixVente}" style="display: block">
+                                        <input type="text" id="input-prixVenteSpecial" class="form-control" name="prixSpecial" style="display: none;border-radius: 3px 0px 0px 3px;color: #ccc">
+                                        <a type="button" id="boutonPrixSpecial" class="btn btn-primary" ><i class="ri ri-money-dollar-box-fill me-2"></i>Prix Special </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="mt-3 mb-3">
+                        <div class="mt-1">
+                            <div class="row" style="padding-right: 10px;padding-left: 10px;padding-bottom: 10px">
+                                <input type="hidden" id="remiseParUnite" name="remiseParUnite" th:value="${remiseParUnite}">
+                                <button type="submit" class="btn btn-success"  style="width: 100%;"><span style="margin-right: 10px;font-size: 20px">+</span>Ajouter </button>
+                            </div>
+                            <div class="row" style="padding-right: 10px;padding-left: 10px;padding-top: 2px">
+                                <a id="btn-enregistrer-vente" class="btn btn-primary" style="width: 100%">Enregistrer</a>
+                            </div>
+                        </div>
+                    </div>
+                </form><!-- /.modal-content -->
+            </div>
+        </div>
+        <div class="col-lg-7 col-xl-7 col-md-7 col-sm-12">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card" id="cardTableVente" style="height: 73vh" th:class="${'card '+etat}">
+                        <div class="card-body" style="padding-right: 0px">
+                            <div>
+                                <div id="divTableVente" th:class="${etat}" data-simplebar>
+                                <table class="table nowrap w-100 tableAjoutArticle" style="height: 62vh">
+                                    <thead>
+                                    <tr>
+                                        <th>Désignation</th>
+                                        <th>Quantité</th>
+                                        <th>Unité</th>
+                                        <th>Prix/kg</th>
+                                        <th>Montant</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="vente:${venteProduitList}">
+                                        <td th:text="${vente.getNomProduit()}"></td>
+                                        <td th:text="${vente.getQuantiteProduit()}"></td>
+                                        <td th:text="${vente.getUniteProduit()}"></td>
+                                        <td th:text="${vente.getPrixVenteProduit()}"></td>
+                                        <td th:text="${vente.getMontant()}"></td>
+                                        <td style="padding-right: 0px">
+                                            <div class="actionEditSupp" style="right: 0px;align-content: end">
+                                                <a class="btn modifierVente" style="padding: 0;width: 20px;height: 20px;border-radius: 3px;background-color: olivedrab;color: white;margin-top: -2px"><i class="bi bi-pencil-fill" style="font-size: 11px;vertical-align: top"></i></a>
+                                                <a class="btn supprimerVente" style="padding: 0;width: 20px;height: 20px;border-radius: 3px;background-color: orangered;color: white;margin-top: -2px"><i class="bi bi-cart-x" style="font-size: 12px;vertical-align: top"></i></a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                </div>
+                                <div class="boutons_modals">
+                                    <ul class="ul-nav">
+                                        <li>
+                                            <label style="background: none;margin-left: 10px">Client :<span class="ms-2" th:text="${nomClient}"></span> </label>
+                                        </li>
+                                    </ul>
+                                    <ul class="ul-nav">
+                                        <li class="ul-li-nav">
+                                            <label style="background: none">Nombre d'article :<span class="ms-2" th:text="${nbrArticle}"></span> </label>
+                                        </li>
+                                        <li class="ul-li-nav">
+                                            <label style="background: none">Somme : <span class="ms-2" th:text="${somme}"> </span>Ar </label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div> <!-- end preview-->
+                        </div> <!-- end card body-->
+                    </div> <!-- end card -->
+                </div><!-- end col-->
+            </div>
+            <!--<div class="row">
+                <div class="boutons_modals">
+                    <ul class="ul-nav">
+                        <li>
+                            <label style="background: none;margin-left: 10px">Client :<span class="ms-2" th:text="${nomClient}"></span> </label>
+                        </li>
+                    </ul>
+                    <ul class="ul-nav">
+                        <li class="ul-li-nav">
+                            <label style="background: none">Nombre d'article :<span class="ms-2" th:text="${nbrArticle}"></span> </label>
+                        </li>
+                        <li class="ul-li-nav">
+                            <label style="background: none">Somme : <span class="ms-2" th:text="${somme}"> </span>Ar </label>
+                        </li>
+                    </ul>
+                </div>
+            </div>-->
+            <div class="row" style="margin-top: 15px" id="panPayement" th:class="${etat}">
+                <div class="col-12">
+                    <div class="card" style="background: #405264;border: 1.5px solid #aa1111;border-radius: 5px;box-shadow: 0px -3px 8px #ddd">
+                        <div class="card-body" style="padding: 0px">
+                            <div class="row">
+                                <div class="col-12">
+                                    <label style="background: none;margin: 10px;padding: 5px;width: 100%">Client :<span class="ms-2" th:text="${nomClient}"></span> </label>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="boutons_modals">
+                                        <ul class="ul-nav">
+                                            <li class="ul-li-nav">
+                                                <ul style="padding-left: 0;margin-left: 0;list-style: none">
+                                                    <li style="margin-left: 0;list-style: none">
+                                                        <label style="background: none;font-size: 14px">SOMME : <span class="ms-2" th:text="${somme + remiseParUnite}"> </span>Ar </label>
+                                                    </li>
+                                                    <li style="margin-left: 0;list-style: none">
+                                                        <label style="background: none;font-size: 14px">REMISE : <span class="ms-2" th:text="${remise}"> </span>Ar </label>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                        <ul class="ul-nav">
+                                            <li class="ul-li-nav">
+                                                <ul style="padding-left: 0;margin-left: 0;list-style: none">
+                                                    <li style="margin-left: 0;list-style: none">
+                                                        <label style="background: none;font-size: 14px">TOTAL A PAYER : <span class="ms-2" th:text="${netaPayer}"> </span>Ar </label>
+                                                    </li>
+                                                    <li style="margin-left: 0;list-style: none">
+                                                        <label style="background: none;font-size: 14px">RESTE : <span class="ms-2" th:text="${netaPayer - montantPaye}"> </span>Ar </label>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-12 mb-2">
+                                    <label style="background-color: transparent;width: 100%;text-align: center;color: #90caf9">MODE DE REGLEMENT</label>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-12 mb-2" style="justify-content: center;justify-items: center">
+                                    <div class="row">
+                                        <div class="col-12 mb-2">
+                                            <table class="table ms-4" id="tabListePaye" th:class="${etat}" style="width: 100%;padding-left: 10px">
+                                                <tbody>
+                                                <tr th:each="paye:${payementList}">
+                                                    <td>payé</td>
+                                                    <td th:text="${paye.getMontantPayement()}"></td>
+                                                    <td>par</td>
+                                                    <td th:text="${paye.getTypePayement()}"></td>
+                                                    <td><a class="btn modifier" ><img src="/images/icons8_ball_point_pen2.ico" alt="Profile" class="rounded-circle"> </a></td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="row" id="entrerPaye" th:class="${montantPaye < netaPayer ? 'show':'hide'}">
+                                        <div class="col-12 mb-2">
+                                            <form method="post" th:action="@{OkPayement}">
+                                                <div class="d-flex" style="width: 100%;justify-items: center;display: flex">
+                                                    <input type="hidden" name="nomClient" th:value="${nomClient}">
+                                                    <input type="hidden" name="nomProduit" th:value="${nomProduit}">
+                                                    <input type="hidden" name="prixAchat" th:value="${prixAchat}">
+                                                    <input type="hidden" name="prixVente" th:value="${prixVente}">
+                                                    <input type="hidden" name="remise" th:value="${remise}">
+                                                    <input type="hidden" name="netaPayer" th:value="${netaPayer}">
+                                                    <input type="hidden" name="remiseParUnite" th:value="${remiseParUnite}">
+                                                    <label class="ms-2">Payé:</label>
+                                                    <input class="form-control ms-2" type="text" name="montantPaye" style="background: rgba(2,2,4,0.4);border: 1px solid #1a237e;color: white">
+                                                    <label class="ms-2">par</label>
+                                                    <select name="typePaye" th:value="${typePaye.typePaye}" id="select-typePaye" class="form-select" style="background: rgba(2,2,4,0.4);border-color: #1a237e;color: white">
+                                                        <option th:each="typePaye:${typePayeList}" th:value="${typePaye.typePaye}" th:text="${typePaye.getTypePaye()}"></option>
+                                                    </select>
+                                                    <button type="submit" id="boutonOk" class="btn btn-primary ms-3 me-2">ok</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row mt-2 mb-2">
+                                <div class="col-12" style="justify-content: center;justify-items: center">
+                                    <div class="d-flex" style="width: 100%;justify-items: center;justify-content: center;display: flex">
+                                        <form method="post" th:action="@{EnregistrerVente}">
+                                            <input type="hidden" name="somme" th:value="${somme}">
+                                            <input type="hidden" name="remiseParUnite" th:value="${remiseParUnite}">
+                                            <input type="hidden" id="input-client1" name="nomClient" class="form-control" th:value="${nomClient}">
+                                            <input type="hidden" name="remise" th:value="${remise}">
+                                            <input type="hidden" name="netaPayer" th:value="${netaPayer}">
+                                            <a id="buttonAnnuler" class="btn btn-warning ms-1 me-1">annuler</a>
+                                            <button type="submit" id="buttonValider" th:class="${montantPaye < netaPayer ? 'btn btn-success ms-1 me-1 disabled':'btn btn-success ms-1 me-1'}">valider</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- --------------------------- facture ----------------------------- -->
+    <div class="row">
+        <div id="pageImprimerBR" class="hide" style="margin: 10px;width: calc(100% - 40px)">
+            <div class="row" style="display: block;">
+                <div id="impressionPage" th:class="${impression=='imprimer'?'vraieImprimer':''}" style="background-color: #fff;width: 100%">
+                    <div class="container" style="margin: 10px;padding-bottom: 5px;padding-top: 5px;max-width: 100vw;">
+                        <div class="row" style="width: 100%;margin-left: 0px;margin-right: 0px;margin-bottom: 20px">
+                            <div class="col-12">
+                                <label style="position: absolute;text-align: center;width: calc(100% - 42px);height: 55px;border: 2px solid #ccc;border-radius: 2px;font-size: 16px;font-weight: bold;vertical-align: middle;padding-top: 12px;background: rgba(240,240,240,0.6);top: auto;left: 40px;">(* SLOGAN DE LA SOCIETE *)</label>
+                            </div>
+                        </div>
+                        <div class="row" style="display: flex;justify-content: space-between;margin-top: 75px">
+                            <div class="col-4">
+                                <ul style="list-style: none;list-style: none;margin-block-start: 0px;padding-inline-start: 0">
+                                    <li style="font-weight: bold">(Nom de la société)</li>
+                                    <li>Adresse</li>
+                                    <li>Ville</li>
+                                    <li>Tel : (+261 00 000 00)</li>
+                                    <li>Nif : (000 000 000)</li>
+                                    <li>Stat :(00 000 000 00)</li>
+                                </ul>
+                            </div>
+                            <div class="col-4 offset-4">
+                                <ul style="list-style: none">
+                                    <li style="font-weight: bold" th:text="${'Facture n° : '+numFacture}"></li>
+                                    <li th:text="${'Le '+date}"></li>
+                                    <li>Magasin : Defaul_Magasin</li>
+                                    <li></li>
+                                    <li>Client : <span th:text="${nomClient}"></span></li>
+                                    <li>Operateur :</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row mt-4 mb-4">
+
+                            <table style="width: 100%;margin-top: 30px;border-spacing: 0;">
+                                <tr style="background-color: rgba(240,240,240,0.6);border: 2px solid #aaa;">
+                                    <th style="text-align: left;padding-left: 10px;padding-top: 5px;padding-bottom: 5px;border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;"> Designation</th>
+                                    <th style="text-align: left;padding-left: 10px;padding-top: 5px;padding-bottom: 5px;border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;">Quantite</th>
+                                    <th style="text-align: left;padding-left: 10px;padding-top: 5px;padding-bottom: 5px;border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;">Unite</th>
+                                    <th style="text-align: left;padding-left: 10px;padding-top: 5px;padding-bottom: 5px;border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;">PU</th>
+                                    <th style="text-align: left;padding-left: 10px;padding-top: 5px;padding-bottom: 5px;border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;">Montant</th>
+                                </tr>
+                                <tr th:each="vente:${facVtempList}" style="border: 0.2px solid transparent;border-bottom-color: #eee;border-bottom-width: 2px;">
+                                    <td th:text="${vente.getNomProduit()}" style="padding-left: 10px;padding-top: 10px;border: 1px solid transparent;border-bottom-color: #ccc;">nom1</td>
+                                    <td th:text="${vente.getQuantiteProduit()}" style="padding-left: 10px;padding-top: 10px;border: 1px solid transparent;border-bottom-color: #ccc;">quantite1</td>
+                                    <td th:text="${vente.getUniteProduit()}" style="padding-left: 10px;padding-top: 10px;border: 1px solid transparent;border-bottom-color: #ccc;">unite1</td>
+                                    <td th:text="${vente.getPrixVenteProduit()}" style="padding-left: 10px;padding-top: 10px;border: 1px solid transparent;border-bottom-color: #ccc;">prix1</td>
+                                    <td th:text="${vente.getMontant()}" style="padding-left: 10px;padding-top: 10px;border: 1px solid transparent;border-bottom-color: #ccc;">montant1</td>
+                                </tr>
+                                <tr style="height: 25px">
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr style="background-color: rgba(245,245,245,0.4);border: 1px solid transparent;border-top-color: 0;border-top-width: 1.2px">
+                                    <td style="padding-left: 30px;padding-top: 0;border: 1px solid transparent">SUBTOTAL</td>
+                                    <td style="padding-left: 15px;padding-top: 0;border: 1px solid transparent">REMISE</td>
+                                    <td style="padding-left: 10px;padding-top: 0;border: 1px solid transparent;"></td>
+                                    <td style="padding-left: 10px;padding-top: 0;border: 1px solid transparent">NET A PAYER</td>
+                                </tr>
+                                <tr style="background-color: rgba(245,245,245,0.4);border: 1px solid transparent;border-top-width: 1.2px">
+                                    <td style="padding-left: 30px;padding-top: 10px;border: 1px solid transparent;font-weight: bold;" th:text="${total}"><span class="ms-2">Ar</span></td>
+                                    <td style="padding-left: 15px;padding-top: 10px;border: 1px solid transparent;font-weight: bold;" th:text="${remise+' Ar'}"></td>
+                                    <td style="padding-left: 10px;padding-top: 10px;border: 1px solid transparent;"></td>
+                                    <td style="padding-left: 10px;padding-top: 10px;border: 1px solid transparent;font-weight: bold;" th:text="${netaPayer+' Ar'}"></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div style="margin-left: -5px;margin-right: -5px;border: 1px solid transparent;border-bottom-color: #bbb;padding: 5px;padding-top: 0;margin-bottom: 20px;margin-top: 20px">
+                            <label style="text-align: start">Arrété à la somme de <span th:text="${netaPayer}"></span> Ar</label>
+                        </div>
+                        <div class="row" style="margin-left: -5px;margin-right: 10px;display: flex;justify-content: space-between;">
+                            <h6 style="position: absolute;left: 40px;top: auto;width: auto;height: 30px">Le Client</h6>
+                            <h6 style="position: absolute;left: 40%;top: auto;width: auto;height: 30px">Le Caissier</h6>
+                            <h6 style="position: absolute;right: 15px;top: auto;width: auto;height: 30px">Le Magasinier</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Standard modal -->
+    <div id="client-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" style="margin-top: 100px">
+            <form class="modal-content" method="post" th:action="@{SelectClient}">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="font-weight: 500">Client</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <input type="hidden" name="nomProduit" th:value="${nomProduit}">
+                        <input type="hidden" name="prixAchat" th:value="${prixAchat}">
+                        <input type="hidden" name="prixVente" th:value="${prixVente}">
+                        <label for="select-frs" class="form-label">Client</label>
+                        <select name="nomClient" th:value="${client.nomPrenom}" id="select-frs" class="form-select">
+                            <option th:each="client:${clientList}" th:value="${client.nomPrenom}" th:text="${client.getNomPrenom()}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" name="remiseParUnite" th:value="${remiseParUnite}">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Annuler</button>
+                    <button id="btn-frs" type="submit" class="btn btn-primary btn-enregistrer">Enregistrer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="designation-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" style="margin-top: 100px">
+            <form class="modal-content" method="post" th:action="@{SelectDesignationV}">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="font-weight: 500">Désignation</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <input type="hidden" name="nomClient" th:value="${nomClient}">
+                        <label for="select-desi" class="form-label">Désignation</label>
+                        <select name="nomProduit" th:value="${plp.nomProduit}" id="select-desi" class="form-select">
+                            <option th:each="plp:${plpList}" th:value="${plp.nomProduit}" th:text="${plp.getNomProduit()}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" name="remiseParUnite" th:value="${remiseParUnite}">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Annuler</button>
+                    <button id="btn-desi" type="submit" class="btn btn-primary btn-enregistrer">Enregistrer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- /.modal -->
+
+    <!-- -------------------- prixSpecialModal --------------- -->
+    <div id="simpleModal" class="modal modal0" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content modal-content0">
+            <div class="container corpsprixSpecial">
+                <form>
+                    <label id="prixLabel">Prix Spécial</label>
+                    <hr id="hr1Prix">
+                    <div class="radio selected active" id="enValeur">
+                        <label style="width: 100%;font-size: 14px;padding: 4px;color: #eee">
+                            <input class="form-check-input checked" type="radio" name="optionsRadios" value="enValeur" id="radio1" style="margin-right: 15px;" checked>En valeur
+                        </label>
+                    </div>
+                    <div class="radio" id="enPourcent">
+                        <label style="width: 100%;font-size: 14px;padding: 4px;color: #eee">
+                            <input class="form-check-input" type="radio" name="optionsRadios" value="enPourcent" id="radio2" style="margin-right: 15px;">En ( % )
+                        </label>
+                    </div>
+                    <div id="inputPrixSpecial" class="active">
+                        <input id="inputPrixSpecialValeur" class="form-control" value="0">
+                        <label id="labelAr">Ar</label>
+                    </div>
+                    <div id="inputPrixSpecial2">
+                        <input id="inputPrixSpecial2Valeur" class="form-control" value="0">
+                        <label id="labelPourcent">%</label>
+                    </div>
+                    <hr id="hr2Prix">
+                    <button type="button" class="btn btn-danger" id="annulerprix">Annuler</button>
+                    <button type="button" class="btn btn-primary" style="height: 33px" id="accorderprix">Accorder</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ------------------- Rémise modale --------------------------- -->
+    <div id="remiseModal" class="modal modal0" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content modal-content0">
+            <div class="container corpsprixSpecial">
+                <form method="post" th:action="@{/AccorderRemise}">
+                    <input type="hidden" name="somme" th:value="${somme}">
+                    <input type="hidden" id="input-clientRemise" name="nomClient" class="form-control" th:value="${nomClient}">
+                    <input type="hidden" name="etatRemise" value="remiseEnValeur" id="etatremise">
+                    <label id="prixLabel">Accorder un rémise ?</label>
+                    <hr id="hr1Prix">
+                    <div class="radio selected active" id="enValeur02">
+                        <label style="width: 100%;font-size: 14px;padding: 4px;color: #eee">
+                            <input class="form-check-input checked" type="radio" name="optionsRadios" value="enValeur" id="radio3" style="margin-right: 15px;" checked>En valeur
+                        </label>
+                    </div>
+                    <div class="radio" id="enPourcent02">
+                        <label style="width: 100%;font-size: 14px;padding: 4px;color: #eee">
+                            <input class="form-check-input" type="radio" name="optionsRadios" value="enPourcent" id="radio4" style="margin-right: 15px;">En ( % )
+                        </label>
+                    </div>
+                    <div id="inputPrixRemise" class="active">
+                        <input id="inputPrixRemiseValeur" class="form-control" name="remiseValeur" value="0">
+                        <label id="labelAr02">Ar</label>
+                    </div>
+                    <div id="inputPrixRemise2">
+                        <input id="inputPrixRemise2Valeur" class="form-control" name="remisePourcent" value="0">
+                        <label id="labelPourcent02">%</label>
+                    </div>
+                    <hr id="hr2Prix">
+                    <input type="hidden" id="remiseParUnite0" name="remiseParUnite" th:value="${remiseParUnite}">
+                    <button type="submit" class="btn btn-danger" id="nonRemise">Non</button>
+                    <button type="submit" class="btn btn-primary" style="height: 33px" id="accorderRemise">Accorder</button>
+                    <!--<input type="hidden" name="prixEtat" value="prixVente" id="prixEtat">-->
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- -------------------------- modal print vente --------------------------------- -->
+    <div id="tableCleintImprimer" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-contentClient">
+                <div class="modal-body"  id="tableVentePrintVNF">
+                    <h4 align="center" style="alignment: center;height: 40px;width: 100%;font-weight: 700;font-size: 16px;color: #223">VENTE NON FACTURES LE<span class="ms-2" th:text="${date}"></span> </h4>
+                    <table class="table nowrap w-100 tableAjoutArticle">
+                        <thead style="background-color: #aaa">
+                        <tr>
+                            <th style="border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;color: #333">Désignation</th>
+                            <th style="border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;color: #333">Quantité</th>
+                            <th style="border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;color: #333">Unité</th>
+                            <th style="border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;color: #333">Prix/kg</th>
+                            <th style="border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;color: #333">Montant</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="vente:${venteProduitList}">
+                            <td th:text="${vente.getNomProduit()}" style="border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;color: #333"></td>
+                            <td th:text="${vente.getQuantiteProduit()}" style="border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;color: #333"></td>
+                            <td th:text="${vente.getUniteProduit()}" style="border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;color: #333"></td>
+                            <td th:text="${vente.getPrixVenteProduit()}" style="border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;color: #333"></td>
+                            <td th:text="${vente.getMontant()}" style="border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;color: #333"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <hr>
+                    <div class="row mt-2">
+                        <div class="boutons_modals">
+                            <ul class="ul-nav">
+                                <li>
+                                    <label style="background: none;margin-left: 10px;color: #333">Client :<span class="ms-2" th:text="${nomClient}"></span> </label>
+                                </li>
+                            </ul>
+                            <ul class="ul-nav">
+                                <li class="ul-li-nav">
+                                    <label style="background: none;color: #333">Nombre d'article :<span class="ms-2" th:text="${nbrArticle}"></span> </label>
+                                </li>
+                                <li class="ul-li-nav">
+                                    <label style="background: none;color: #333">Somme : <span class="ms-2" th:text="${somme}"> </span>Ar </label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div> <!-- container -->
+<!-------------------------------------------------------------------- script ------------------------------->
+<script src="../liens/js/jquery-3.5.1.min.js"></script>
+<script src="../js/table2excel.js"></script>
+<script src="../js/print.min.js"></script>
+<script src="../js/simplebar.min.js"></script>
+<script src="../js/main.js"></script>
+<script>
+
+    var cardTableVente = document.getElementById("cardTableVente");
+    if (cardTableVente.classList.contains('active')){
+        cardTableVente.style.height = "25vh";
+    }
+    /* -------------- print js ------------------ */
+
+    var impPage = document.getElementById("impressionPage");
+    if (impPage.classList.contains('vraieImprimer')){
+        printJS({
+            printable:'impressionPage',
+            type:'html',
+            targetStyles: ['*']
+        })
+
+        console.log("vraieImprimer");
+        //printDiv0(),bodypage();
+    }
+
+    var btnSaveVente = document.querySelector("#btn-enregistrer-vente");
+    var panPaye = document.querySelector("#panPayement");
+    var panListPaye = document.querySelector("#tabListePaye");
+    var btnOk = document.querySelector("#boutonOk");
+    var btnAnnuler = document.querySelector("#buttonAnnuler");
+    var btnValider = document.querySelector("#buttonValider");
+    var entrerPaye = document.querySelector("#entrerPaye");
+    var tab = document.qu
+
+    btnAnnuler.onclick = function (){
+        //btnSaveVente.classList.remove('active')
+        //panPaye.classList.remove('active');
+        panListPaye.classList.remove('active');
+    }
+    btnValider.onclick = function (){
+        btnSaveVente.classList.remove('active');
+        panPaye.classList.remove('active');
+    }
+    btnOk.onclick = function (){
+        panPaye.classList.add('active');
+        panListPaye.classList.add('active');
+    }
+
+
+    /* ----------------------------------------------------- modal Prix special ------------------------------------------ */
+    var btnModalPrixSpecial = document.getElementById("boutonPrixSpecial");
+    var btnCloseModalPrixSpecial = document.getElementById("annulerprix");
+    var modalPrixSpexcial = document.getElementById("simpleModal");
+
+    btnModalPrixSpecial.addEventListener('click',openModal);
+    function openModal(){
+        modalPrixSpexcial.style.display='block';
+    }
+    btnCloseModalPrixSpecial.addEventListener('click',closeModal);
+    function closeModal(){
+        modalPrixSpexcial.style.display='none';
+    }
+
+    var btnRadio1 = document.getElementById("radio1");
+    var btnRadio2 = document.getElementById("radio2");
+    var divEnValeur = document.getElementById("inputPrixSpecial");
+    var divEnPourcent = document.getElementById("inputPrixSpecial2");
+    btnRadio1.addEventListener('click',enValeur);
+    function enValeur(){
+        divEnValeur.classList.add('active');
+        divEnPourcent.classList.remove('active');
+    }
+    btnRadio2.addEventListener('click',enValeur2);
+    function enValeur2(){
+        divEnValeur.classList.remove('active');
+        divEnPourcent.classList.add('active');
+    }
+
+
+    /* -------------------------- inputValeurPrixSpecial --------------------------------- */
+    var input1 = document.getElementById("inputPrixSpecialValeur");
+    var lab = document.getElementById("labelAr");
+    input1.addEventListener('keyup',fonction);
+    function fonction(){
+        //var ab=input1.style.width;
+        //var bc = ab.replace('px','');
+        var lett = input1.value;
+        var de = lett.length;
+        //var cd = parseInt(bc);
+        //console.log(ab);
+        //console.log(bc);
+        //console.log(10*de);
+        if (de>=4) {
+            input1.style.width=(10*de)+'px';
+            lab.style.left=((10*de)+32
+            )+'px';
+        }
+
+    }
+
+
+    var uniteSelect = document.getElementById("select-unite");
+    var inputprixVente = document.getElementById("input-prixVente");
+    uniteSelect.addEventListener("change",()=>{
+        inputPSpeciale.style.display='block';
+        inputPSA.style.display='none';
+        var valueSelect = uniteSelect.value;
+        var valeur = document.getElementById(valueSelect).value;
+        inputprixVente.value = valeur;
+        console.log(valueSelect+' = '+valeur);
+    })
+
+    //inputprixVente.value = uniteSelect.value;
+
+    var btnAccorderPrix = document.getElementById("accorderprix");
+    var inputPSpeciale = document.getElementById("input-prixVente");
+    var inputPSA = document.getElementById("input-prixVenteSpecial");
+    var prixEtat = document.getElementById("prixEtat");
+    btnAccorderPrix.addEventListener('click',accorderP);
+    function accorderP(){
+        inputPSpeciale.style.display='none';
+        inputPSA.style.display='block';
+
+        var inputPrixSpecial1 = document.getElementById("inputPrixSpecialValeur");
+        var inputPrixSpecial2 = document.getElementById("inputPrixSpecial2Valeur");
+        var inputRemiseParUnite = document.getElementById("remiseParUnite");
+        var radio1 = document.getElementById("radio1");
+        if (radio1.checked){
+            inputPSA.value=inputPrixSpecial1.value;
+            console.log(inputPrixSpecial1.value)
+            prixEtat.value='prixSpecialValeur';
+        }
+        else {
+            var valeurPourcent1 = (inputprixVente.value * inputPrixSpecial2.value)/100;
+            var valeurPourcent2 = parseFloat(valeurPourcent1);
+            var valeurIntermediaire = parseFloat(inputRemiseParUnite.value);
+            var quantite = parseFloat(document.getElementById("input-quantite").value);
+            inputRemiseParUnite.value = valeurIntermediaire + (valeurPourcent2 * quantite);
+            var valeurPourcent3 = inputprixVente.value - valeurPourcent2;
+            inputPSA.value=valeurPourcent3;
+            prixEtat.value='prixSpecialPourcent';
+        }
+
+        modalPrixSpexcial.style.display='none';
+    }
+
+
+    /* --------------------------- modal remise ---------------------------------- */
+
+    var remiseModal = document.getElementById("remiseModal");
+    var prixInputRemisValeur = document.getElementById("inputPrixRemiseValeur");
+    var prixInputRemis2Valeur = document.getElementById("inputPrixRemise2Valeur");
+    var radio3 = document.getElementById("radio3");
+    var radio4 = document.getElementById("radio4");
+    var etatremise = document.getElementById("etatremise");
+    var nonRemise = document.getElementById("nonRemise");
+    //var accorderRemise = document.getElementById("accorderRemise");
+    var inputRemise = document.getElementById("inputPrixRemise");
+    var inputRemise2 = document.getElementById("inputPrixRemise2");
+    var labelAr02 = document.getElementById("labelAr02")
+
+    btnSaveVente.addEventListener('click',openModalRemise);
+    function openModalRemise(){
+        remiseModal.style.display='block';
+    }
+    //nonRemise.addEventListener('click',closeModalRemise);
+    function closeModalRemise(){
+        remiseModal.style.display='none';
+        btnSaveVente.classList.add('active');
+        panPaye.classList.add('active');
+        entrerPaye.classList.remove('hide');
+        entrerPaye.classList.add('show');
+    }
+    /*accorderRemise.addEventListener('click',accorderModalRemise);
+    function accorderModalRemise(){
+        remiseModal.style.display='none';
+    }*/
+    prixInputRemisValeur.addEventListener('keyup',fonction02);
+    function fonction02(){
+        //var ab=input1.style.width;
+        //var bc = ab.replace('px','');
+        var lett02 = prixInputRemisValeur.value;
+        var de02 = lett02.length;
+        //var cd = parseInt(bc);
+        //console.log(ab);
+        //console.log(bc);
+        //console.log(10*de);
+        if (de02>=4) {
+            prixInputRemisValeur.style.width=(10*de02)+'px';
+            labelAr02.style.left=((10*de02)+32)+'px';
+        }
+
+    }
+    radio3.addEventListener('click',enValeur01);
+    function enValeur01(){
+        inputRemise.classList.add('active');
+        inputRemise2.classList.remove('active');
+        etatremise.value='remiseEnValeur';
+    }
+    radio4.addEventListener('click',enValeur02);
+    function enValeur02(){
+        inputRemise.classList.remove('active');
+        inputRemise2.classList.add('active');
+        etatremise.value='remiseEnPourcent';
+    }
+
+    /* ****************** print pageListe facture *************************************** */
+
+    var boutonImprimerVNF = document.getElementById("btnPrintVenteNonFacture");
+    boutonImprimerVNF.addEventListener('click',printVNFAction);
+    function printVNFAction() {
+        printJS({
+            printable: 'tableVentePrintVNF',
+            type: 'html',
+            targetStyles: ['*']
+        });
+    }
+
+    /* ********************** exporter tableClient vers excel ******************************** */
+
+    var boutonExcelVNF = document.getElementById("btnExcelVenteNonFacture");
+    boutonExcelVNF.addEventListener('click',Export);
+    function Export() {
+        $("#tableVentePrintVNF").table2excel({
+            filename: "Vente "+new Date().getFullYear()+"-"+new Date().getMonth()+"-"+new Date().getDate()+" "+new Date().getHours()+"h"+new Date().getMinutes()+"min .xls"
+        });
+    }
+
+</script>
+
+</body>
+</html>

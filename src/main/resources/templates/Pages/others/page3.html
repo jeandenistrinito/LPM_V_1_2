@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>lpm.v.0</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+
+    <link rel="stylesheet" href="/webjars/bootstrap/5.1.3/css/bootstrap.min.css">
+    <script rel="stylesheet" src="/webjars/bootstrap/5.1.3/js/bootstrap.bundle.js"></script>
+
+    <link href="../liens/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="../liens/remixicon/remixicon.css" rel="stylesheet">
+    <link href="../assets3/css/icons.min.css" rel="stylesheet" >
+
+    <link href="../js/print.min.css" rel="stylesheet">
+    <link href="../js/simplebar.css" rel="stylesheet">
+    <link href="../css/styles.css" rel="stylesheet">
+
+</head>
+<body style="background-color: transparent">
+
+    <div class="content-page" style="background-color: transparent">
+            <div class="content">
+                <!-- Start Content-->
+                <div class="container-fluid">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body" id="cardBodyDetailCient">
+                                <div class="row mb-2">
+                                    <div class="col-12">
+                                        <div class="d-inline-flex ps-2 pe-2 me-2">
+                                            <label style="color: #eee;font-size: 14px;font-weight: 500"> PAGE-3 Information Client</label>
+                                        </div>
+                                        <div class="d-inline-flex float-end ps-2 pe-2 me-0">
+                                            <a id="btnCloseDetailClient" class="btn"></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row mb-1">
+                                    <div class="col-12">
+                                        <div class="float-start d-flex ps-0">
+                                            <a type="button" id="btnNouvCredit" class="btn btn-outline-success me-1" style="min-height: 35px;height: 35px">Nouveau crédit</a>
+                                            <a type="button" id="btnSupprCredit" class="btn btn-outline-danger me-1" style="min-height: 35px;height: 35px" >Payer crédit</a>
+                                        </div>
+                                        <div class="d-inline-flex float-end ps-2 pe-0 me-0">
+                                            <a id="btnexcel3" class="btn btn-success btn-export-to-excel bg-forest ms-2"><i class="ri ri-file-excel-2-fill"></i> </a>
+                                            <a id="btnprint3" class="btn btn-success btn-export-to-excel bg-forest ms-2"><i class="ri ri-printer-fill"></i> </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card" style="background: transparent;">
+                                    <div class="card-body bodyAvoir p-0 mt-2" style="background: transparent;height: 30vh" id="scroll" data-simplebar>
+                                        <table class="table table-bordered dt-responsive nowrap w-100" id="tableClientDetail3">
+                                            <thead>
+                                            <tr>
+                                                <th>Facture</th>
+                                                <th>Date</th>
+                                                <th>Crédit</th>
+                                                <th>Payer</th>
+                                                <th>Reste</th>
+                                                <th>Déscription</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td class="ps-2">FAC-001</td>
+                                                <td class="ps-2">2022/10/13</td>
+                                                <td class="ps-2">0 Ar</td>
+                                                <td class="ps-2">0 Ar</td>
+                                                <td class="ps-2">0 Ar</td>
+                                                <td class="ps-2">null</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <!-------------------------------------------------------------------- script ------------------------------->
+
+    <!-- end demo js-->
+    <script src="../liens/js/jquery-3.5.1.min.js"></script>
+    <script src="../js/table2excel.js"></script>
+    <script src="../js/print.min.js"></script>
+    <script src="../js/simplebar.min.js"></script>
+
+    <script>
+        var boutonImprimerClient = document.getElementById("btnprint3");
+        boutonImprimerClient.addEventListener('click',printClientAction);
+        function printClientAction() {
+            printJS({
+                printable: 'tableClientDetail3',
+                type: 'html',
+                targetStyles: ['*']
+            });
+        }
+
+        var boutonExcelClient = document.getElementById("btnexcel3");
+        boutonExcelClient.addEventListener('click',Export);
+        function Export() {
+            $("#tableClientDetail3").table2excel({
+                filename: "Client_Liste "+new Date().getFullYear()+"-"+new Date().getMonth()+"-"+new Date().getDate()+" "+new Date().getHours()+"h"+new Date().getMinutes()+"min .xls"
+            });
+        }
+    </script>
+
+    <!--<script src="../js/main.js"></script>-->
+
+</body>
+</html>

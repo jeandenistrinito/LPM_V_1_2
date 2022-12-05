@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>lpm.v.0</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+
+    <link rel="stylesheet" href="/webjars/bootstrap/5.1.3/css/bootstrap.min.css">
+    <script rel="stylesheet" src="/webjars/bootstrap/5.1.3/js/bootstrap.bundle.js"></script>
+
+    <link href="../liens/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="../liens/remixicon/remixicon.css" rel="stylesheet">
+    <link href="../assets3/css/icons.min.css" rel="stylesheet" >
+
+    <link href="../js/print.min.css" rel="stylesheet">
+    <link href="../js/simplebar.css" rel="stylesheet">
+    <link href="../css/styles.css" rel="stylesheet">
+    <!--<link rel="stylesheet" href="../css/common.css">-->
+
+</head>
+<body style="background-color: transparent">
+
+<!-- ********************************************** main content ******************************************* -->
+    <div class="container-fluid" style="height: 100vh;padding-top: 20px" data-simplebar>
+        <div class="row">
+            <div class="boutons_modals head" style="margin-left: 18px;width: calc(100% - 36px)">
+                <ul class="ul-nav">
+                    <li>
+                        <h4 style="color: #bbb">Bon de réception</h4>
+                    </li>
+                </ul>
+                <ul class="ul-nav" style="margin-right: 0">
+                    <li class="ul-li-nav" style="margin-right: 0">
+                        <a class="btn btn-primary" id="btnPrintBr"><img src="../images/print1_24px.png" style="max-height: 16px;min-height: 16px;height: 16px;max-width: 16px;min-width: 16px;width: 16px;box-shadow: none"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <hr>
+        <div class="produitDetails br" style="height: 100vh;margin: 10px 5px 10px 5px;">
+            <div class="mb-3 produitContents produitContentPages">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card receptionContent active">
+                            <div class="card-body">
+                                <div class="row mb-4">
+                                    <div class="col-12">
+                                        <div class="d-inline-flex mt-2 ps-2 pe-2 me-2" id="inputDate2">
+                                            <a type="button" id="btn-tous2" class="btn btn-success me-1">Tous</a>
+                                            <input type="date" id="input-date-debut2" class="form-control" style="background: transparent;color: #ccc;border-color: #888;">&nbsp;
+                                            <input type="date" id="input-date-fin2" class="form-control" style="background: transparent;color: #ccc;border-color: #888;">&nbsp;
+                                            <a type="button" id="btn-search-filter2" class="btn btn-success me-1">Valider</a>
+                                        </div>
+                                        <div class="d-inline-flex float-end mt-2 ps-2 pe-2 me-0">
+                                            <div class="input-group inputSearchStock" id="inputSearch">
+                                                <input type="text" required class="form-control dropdown-toggle" placeholder="Search..." id="input-search-stock" style="width: 180px">
+                                                <button id="btn-search-stick" class="input-group-text btn-primary" type="submit"><i class="uil-search"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <table class="table table-hover text-dark">
+                                    <thead>
+                                    <tr>
+                                        <th>BR numéro</th>
+                                        <th>Designation</th>
+                                        <th>Fournisseur</th>
+                                        <th>Date</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="br:${beAchatList}">
+                                        <td th:text="${br.getBeAchat()+'-'+br.getId_BeAchat()}"></td>
+                                        <td>
+                                            <table class="table " id="secondTable2" style="margin: 0px">
+                                                <tbody>
+                                                <tr th:each="be:${bRtempList}" th:class="${be.getBr()==br.getId_BeAchat()?'egale':'different'}" style="border-color: transparent;border-bottom-width: 0px;height: 25px">
+                                                    <td th:text="${be.getNomProduit()}"></td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                        <td>
+                                            <table class="table" id="secondTable3" style="margin: 0px">
+                                                <tbody>
+                                                <tr th:each="be:${bRtempList}" th:class="${be.getBr()==br.getId_BeAchat()?'egale':'different'}" style="border-color: transparent;border-bottom-width: 0px;height: 25px">
+                                                    <td th:text="${be.getFournisseur()}"></td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                        <td>
+                                            <table class="table" id="secondTable4" style="margin: 0px">
+                                                <tbody>
+                                                <tr th:each="be:${bRtempList}" th:class="${be.getBr()==br.getId_BeAchat()?'egale':'different'}" style="border-color: transparent;border-bottom-width: 0px;height: 25px">
+                                                    <td th:text="${br.getDateBeAchat()}"></td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Standard modal -->
+            <div id="tableCleintImprimer" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-contentClient">
+                        <div class="modal-body"  id="datatable-brImprimer2">
+                            <h4 align="center" style="alignment: center;height: 40px;width: 100%;font-weight: 700;font-size: 16px;color: #223">LISTE DES RECEPTIONS ENREGISTRER</h4>
+                            <table class="table table-hover text-dark">
+                                <thead style="background-color: #aaa">
+                                <tr>
+                                    <th style="text-align: left;padding-left: 10px;padding-top: 5px;padding-bottom: 5px;border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;color: #333">BR numéro</th>
+                                    <th style="text-align: left;padding-left: 10px;padding-top: 5px;padding-bottom: 5px;border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;color: #333">Designation</th>
+                                    <th style="text-align: left;padding-left: 10px;padding-top: 5px;padding-bottom: 5px;border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;color: #333">Fournisseur</th>
+                                    <th style="text-align: left;padding-left: 10px;padding-top: 5px;padding-bottom: 5px;border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;color: #333">Date</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="br:${beAchatList}">
+                                    <td th:text="${br.getBeAchat()+'-'+br.getId_BeAchat()}" style="padding-left: 20px;vertical-align: middle;border: 1.5px solid #666;border-right-color: transparent"></td>
+                                    <td style="padding: 0">
+                                        <table class="table " id="secondTable2" style="margin: 0px">
+                                            <tbody>
+                                            <tr th:each="be:${bRtempList}" th:class="${be.getBr()==br.getId_BeAchat()?'egale':'different'}" style="border-color: transparent;border-bottom-width: 0px;height: 25px">
+                                                <td th:text="${be.getNomProduit()}" style="color: #333"></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                    <td style="padding: 0">
+                                        <table class="table" id="secondTable3" style="margin: 0px">
+                                            <tbody>
+                                            <tr th:each="be:${bRtempList}" th:class="${be.getBr()==br.getId_BeAchat()?'egale':'different'}" style="border-color: transparent;border-bottom-width: 0px;height: 25px">
+                                                <td th:text="${be.getFournisseur()}" style="color: #333"></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                    <td style="border: 1px solid #666;border-left-color: transparent;padding: 0px">
+                                        <table class="table" id="secondTable4" style="margin: 0px">
+                                            <tbody>
+                                            <tr th:each="be:${bRtempList}" th:class="${be.getBr()==br.getId_BeAchat()?'egale':'different'}" style="border-color: transparent;border-bottom-width: 0px;height: 25px">
+                                                <td th:text="${br.getDateBeAchat()}" style="color: #333"></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-------------------------------------------------------------------- script ------------------------------->
+
+<script src="../liens/js/jquery-3.5.1.min.js"></script>
+<script src="../js/table2excel.js"></script>
+<script src="../js/print.min.js"></script>
+<script src="../js/simplebar.min.js"></script>
+<script src="../js/main.js"></script>
+
+<script>
+
+    var d = new Date();
+    var year = d.getFullYear();
+    var month = d.getMonth() + 1;
+
+    if (month<10){
+        month = '0'+month;
+    }
+    var date0 = d.getDate();
+    if (date0<10){
+        date0 = '0'+date0;
+    }
+
+    var c_date = year+'-'+month+'-'+date0;
+    document.getElementById("input-date-debut2").value = c_date;
+    document.getElementById("input-date-fin2").value = c_date;
+    /* ****************** print pageListe client *************************************** */
+
+    var boutonImprimerBr = document.getElementById("btnPrintBr");
+    boutonImprimerBr.addEventListener('click',printBrAction);
+    function printBrAction() {
+        printJS({
+            printable: 'datatable-brImprimer2',
+            type: 'html',
+            targetStyles: ['*']
+        });
+    }
+
+    /* ********************** exporter tableClient vers excel ******************************** */
+
+    /*var boutonExcelFrs = document.getElementById("btnExcelFrs");
+    boutonExcelFrs.addEventListener('click',Export);
+    function Export() {
+        $("#datatable-frsImprimer2").table2excel({
+            filename: "Frs_Liste "+new Date().getFullYear()+"-"+new Date().getMonth()+"-"+new Date().getDate()+" "+new Date().getHours()+"h"+new Date().getMinutes()+"min .xls"
+        });
+    }*/
+</script>
+
+</body>
+</html>

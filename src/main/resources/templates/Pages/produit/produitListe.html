@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>lpm.v.0</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+
+    <link rel="stylesheet" href="/webjars/bootstrap/5.1.3/css/bootstrap.min.css">
+    <script rel="stylesheet" src="/webjars/bootstrap/5.1.3/js/bootstrap.bundle.js"></script>
+
+
+    <link href="../liens/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="../liens/remixicon/remixicon.css" rel="stylesheet">
+    <link href="../assets3/css/icons.min.css" rel="stylesheet" >
+
+    <link href="../js/print.min.css" rel="stylesheet">
+    <link href="../js/simplebar.css" rel="stylesheet">
+    <link href="../css/styles.css" rel="stylesheet">
+
+</head>
+<body style="background-color: transparent">
+
+<!-- *********************************************** content *********************************** -->
+<div class="container-fluid" style="height: 100vh;padding-top: 20px" data-simplebar>
+
+<div class="row">
+    <div class="boutons_modals head" style="margin-left: 15px;padding-left: 0;width: calc(100% - 26px)">
+        <ul class="ul-nav">
+            <li class="ul-li-nav">
+                <a class="btn btn-success" onclick="fragmentProduitFrame('Article')">Tous les Produits</a>
+            </li>
+            <li class="ul-li-nav">
+                <a class="btn btn-primary" onclick="fragmentProduitFrame('nouveauProduit')">Nouveau Produit</a>
+            </li>
+            <li class="ul-li-nav">
+                <a class="btn btn-primary" onclick="fragmentProduitFrame('AjoutArticle')">Réception de Produit</a>
+            </li>
+        </ul>
+        <ul class="ul-nav">
+            <!--<li class="ul-li-nav">
+                <a class="btn btn-success" id="btnRefressProduit" style="width: 40px;padding: 5px 0"><img src="../images/synchronize_32px.png" style="height: 22px"></a>
+            </li>-->
+            <li class="ul-li-nav">
+                <a class="btn btn-primary" id="btnExcelProduitArtFrame"><img src="../images/excel1_24px.png" style="height: 20px;width: 16px"></a>
+            </li>
+            <li class="ul-li-nav">
+                <a class="btn btn-primary" id="btnPrintProduitArtFrame"><img src="../images/print1_24px.png" style="height: 16px"></a>
+            </li>
+        </ul>
+    </div>
+</div>
+<hr>
+
+<iframe src="Article" class="ok" name="produitFrame" id="produitFrame" style="background-color: transparent;width: 100%;height: 100vh"></iframe>
+
+
+
+<!-- Standard modal -->
+<div id="categorie-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <input type="hidden" id="filiale-id" value-id="${connectedUser.filiale.id}">
+        <form class="modal-content" method="post" th:action="@{/saveCategorie}">
+            <div class="modal-header">
+                <h4 class="modal-title" id="standard-modalLabel" style="font-weight: 500">CATEGORIE</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="libelle-fonction" class="form-label">Désignation</label>
+                    <input name="nomCategorie" th:value="${categorie.nomCategorie}" type="text" required id="libelle-fonction" class="form-control">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Annuler</button>
+                <button id="btn-enregistrer-fonction" type="submit" class="btn btn-primary btn-enregistrer">Enregistrer</button>
+            </div>
+        </form><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+    <!-- Standard modal -->
+<div id="produit-art-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div id="printTableArt">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div> <!-- container -->
+<!-------------------------------------------------------------------- script ------------------------------->
+
+<script src="../liens/js/jquery-3.5.1.min.js"></script>
+<script src="../js/table2excel.js"></script>
+<script src="../js/print.min.js"></script>
+<script src="../js/simplebar.min.js"></script>
+<script src="../js/main.js"></script>
+
+<script>
+    function fragmentProduitFrame($liens){
+        document.getElementById("produitFrame").src=$liens;
+
+        /*document.getElementById("produitFrame").src=$liens;
+        document.getElementById("produitFrame").style.display='';
+        if (document.getElementById("produitFrame").classList.contains('ok')){
+            document.getElementById("defaultPrduct").style.display='none';
+        }*/
+
+    }
+
+    /*document.getElementById("btnRefressProduit").addEventListener('click',function (){
+       var content = document.getElementById("produitFrame").contentWindow.document;
+       alert(content.getElementById("labelDesignation").innerText)
+    });*/
+
+    var content = document.getElementById("produitFrame").contentWindow.document;
+
+    /* ****************** print pageListe client *************************************** */
+
+    var boutonImprimerProduit = document.getElementById("btnPrintProduitArtFrame");
+    boutonImprimerProduit.addEventListener('click',printDetailVentAction);
+    function printDetailVentAction() {
+        var content1 = document.getElementById("produitFrame").contentWindow.document;
+        var tableProduitArtFrame = content1.getElementById("tableParentModal");
+        //var divDoc = document.getElementById("printTableArt");
+        $("#printTableArt").html(tableProduitArtFrame.innerHTML);
+        //console.log(divDoc.innerHTML);
+        printJS({
+            printable: 'printTableArt',
+            type: 'html',
+            targetStyles: ['*']
+        });
+    }
+    document.getElementById("btnExcelProduitArtFrame").addEventListener('click',excelDetailVentAction)
+    function excelDetailVentAction() {
+        var content1 = document.getElementById("produitFrame").contentWindow.document;
+        var tableProduitArtFrame = content1.getElementById("tableParentModal2");
+        var divDoc = document.getElementById("printTableArt");
+        $("#printTableArt").html(tableProduitArtFrame.innerHTML);
+        //console.log(divDoc.innerHTML);
+        $("#printTableArt").table2excel({
+            filename: "Produit_Liste "+new Date().getFullYear()+"-"+new Date().getMonth()+"-"+new Date().getDate()+" "+new Date().getHours()+"h"+new Date().getMinutes()+"min .xls"
+        });
+    }
+
+</script>
+
+</body>
+</html>

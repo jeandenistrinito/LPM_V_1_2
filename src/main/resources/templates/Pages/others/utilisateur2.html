@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description">
+
+    <meta content="Coderthemes" name="author">
+
+    <!-- App favicon -->
+
+    <!-- third party css -->
+    <link href="../assets/css/vendor/jquery-jvectormap-1.2.2.css" rel="stylesheet" type="text/css">
+    <link href="../assets/css/impression.css" rel="stylesheet" type="text/css">
+    <!-- third party css end -->
+    <!-- App css -->
+    <link href="../assets2/css/icons.min.css" rel="stylesheet" type="text/css">
+    <link href="../assets2/css/app.min.css" rel="stylesheet" type="text/css">
+    <link href="../assets2/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../assets2/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="../assets2/css/table-special-form.css" rel="stylesheet" type="text/css" id="light-style">
+    <link href="../assets2/css/app-dark.min.css" rel="stylesheet" type="text/css" id="dark-style">
+</head>
+<body>
+
+
+    <!-- Start Content-->
+    <div id="menu-utilisateur" class="container-fluid">
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box">
+                    <div class="page-title-right">
+                        <div class="input-group">
+                            <input type="text" required class="form-control dropdown-toggle" placeholder="Search..." id="top-search">
+                            <button class="input-group-text btn-primary" type="submit"><i class="uil-search"></i></button>
+                        </div>
+                    </div>
+                    <h4 class="page-title">Utilisateur</h4>
+                </div>
+            </div>
+        </div>
+        <!-- end page title -->
+        <div class="row mr-2">
+            <div class="col-12">
+                <div class="page-title-box">
+
+                </div>
+                <div class="d-block mt-1">
+                    <a type="button" id="btn-nouveau-utilisateur" class="btn btn-success mr-1" data-bs-toggle="modal" data-bs-target="#nouveau-utilisateur"><i
+                            class="uil-file-plus">&nbsp;</i>Nouveau Utilisateur</a>&nbsp;
+                    <a type="button" class="btn btn-success mr-1 btn-nouvelle-fonction"><i
+                            class="uil-plus">&nbsp;</i>Nouvelle Fonction</a>
+                    <div class="float-end">
+                        <a class="btn btn-success btn-export-to-excel bg-forest"><img src="${pageContext.request.contextPath}/assets/images/excel.png" alt="user-image" class="icon-excel">&nbsp;</a>&nbsp;
+                        <a href="" class="btn btn-primary"><i class="uil-print"></i></a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- suite -->
+        <div><br>
+            <div class="row">
+                <div class="col-lg-2">
+                    <table id="table-liste-fonction" class="table table-sm table-hover">
+                        <thead>
+                        <th>Listes des fonctions</th>
+                        <th></th>
+                        </thead>
+                        <tbody>
+                            <tr id="${fonction.id}">
+                                <td>Secretaire</td>
+                                <td>
+                                    <div class="d-flex align-content-center">
+                                        <a class="edit-fonction"><i
+                                                class="uil-pen"></i></a>
+                                        <a class="delete-fonction"><i class="uil-trash-alt"></i></a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-lg-10">
+                    <table id="table-liste-utilisateur" class="table table-sm dt-responsive nowrap table-hover">
+                        <thead>
+                        <tr>
+                            <th>Nom & Prenoms</th>
+                            <th>Nom d'utilisateur</th>
+                            <th>Contact</th>
+                            <th>Fonction</th>
+                            <th>Status</th>
+                            <th class="text-center">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr id="${user.id}">
+                                <td>Trinito Jean</td>
+                                <td>JDT</td>
+                                <td>0346271195</td>
+                                <td class="function-user">Secretaire</td>
+                                <td>
+                                        <span class="badge badge-success-lighten">activé</span>
+                                        <span class="badge badge-danger-lighten">desactivé</span>
+                                </td>
+                                <td>
+                                    <div class="d-flex justify-content-center">
+                                        <a class="btn-sm btn-primary edit-utilisateur"><i class="uil-pen"></i></a>&nbsp;
+                                        <a class="btn-sm btn-danger delete-utilisateur"><i class="uil-trash-alt"></i></a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- inclusion of modal -->
+                <!--<div class="all-modal">
+                    <%@ include file="modal/utilisateur/new-fonction.jsp" %>
+                    <%@ include file="modal/utilisateur/new-utilisateur.jsp" %>
+                </div>-->
+            </div>
+        </div>
+
+    </div>
+
+
+
+</body>
+</html>

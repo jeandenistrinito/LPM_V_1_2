@@ -1,0 +1,26 @@
+
+
+body{
+    font-family: "Roboto Mono", sans-serif;
+    /*background-color: var(--primary-background-color);
+    color: var(--primary-text-color);*/
+    background: #555;
+    color: #fff;
+}
+select{
+    padding: 5px;
+}
+
+main{
+    height: 380px;
+    overflow-y: auto;
+}
+
+main p{
+
+    background: #999;
+    border-radius: 10px;
+    opacity: 0.4%;
+}
+
+

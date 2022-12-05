@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>lpm.v.0</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+
+    <link rel="stylesheet" href="/webjars/bootstrap/5.1.3/css/bootstrap.min.css">
+    <script rel="stylesheet" src="/webjars/bootstrap/5.1.3/js/bootstrap.bundle.js"></script>
+
+    <link href="../liens/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="../liens/remixicon/remixicon.css" rel="stylesheet">
+
+    <link href="../js/print.min.css" rel="stylesheet">
+    <link href="../js/simplebar.css" rel="stylesheet">
+
+    <link href="../css/styles.css" rel="stylesheet">
+
+</head>
+<body style="background-color: transparent">
+
+    <!-- *********************************************** content *********************************** -->
+
+    <div class="produitActionContainer" style="height: 100vh" data-simplebar>
+        <div class="nouveauProduit active">
+            <div class="row">
+                <div class="col-lg-6 offset-lg-3 col-md-8 offset-md-2 col-sm-12">
+                    <form id="formPlProduit" method="post" th:action="@{/EnregistrerProduit}" class="modal-content ajout" enctype="multipart/form-data">
+                        <div class="card-header">
+                            <h6 class="card-title" >Nouveau Article</h6>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-1">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label for="input-nomProduit" class="form-label">Désignation</label>
+                                        <input name="designation" th:value="${nomP}" type="text" id="input-nomProduit" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-1">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label for="file" class="form-label">Photo</label>
+                                        <div class="inputfile-box" style="height: 34px">
+                                            <input type="file" th:value="${produit.photoProduit}" multiple="multiple" id="file" name="photoProduit" class="inputfile" onchange='uploadFile(this)'>
+                                            <label for="file" style="background: rgba(24,26,30,0.4);width: 93%;height: 34px;">
+                                                <span id="file-name" class="file-box"></span>
+                                                <span class="file-button"><i class="fa fa-upload" aria-hidden="true" style="margin-right: 5px;"></i>Image</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-1">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label for="select-categorieProduit" class="form-label">Catégorie</label>
+                                        <select name="nomCategorie" id="select-categorieProduit" class="form-select">
+                                            <option></option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="mb-1">
+                                <div class="row">
+                                    <div class="col-12" style="display: flex">
+                                        <table class="table dt-responsive nowrap w-100" id="tableProduit10" style="border-color: transparent">
+                                            <thead style="border-color: transparent">
+                                            <tr>
+                                                <th>Niveau</th>
+                                                <th>Unité</th>
+                                                <th>Quantité</th>
+                                                <th>Poids(kg)</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td>
+                                                    <label>
+                                                        <input type="text" id="niveauP" name="niveauP" th:value="${niveau}" class="form-control">
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <label>
+                                                        <input type="text" id="uniteP" name="unite" th:value="${plusProduit.unite}" class="form-control" >
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <label>
+                                                        <input type="text" id="quantiteP" name="quantite" th:value="${plusProduit.quantite}" class="form-control">
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <label>
+                                                        <input type="text" id="poidsP" name="poids" th:value="${plusProduit.poids}" class="form-control">
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <button id="boutonPlusProduit" type="button">+</button>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <table class="table" id="tbl">
+                                            <thead style="border-color: transparent;color: whitesmoke;width: 98%">
+                                            <tr>
+                                                <th>Niveau</th>
+                                                <th>Unité</th>
+                                                <th>Quantité</th>
+                                                <th>Poids(kg)</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button id="annulBtn" type="button" class="btn btn-danger" data-bs-dismiss="modal">Annuler</button>
+                            <button id="btn-enregistrer-utilisateur10" type="submit" class="btn btn-primary" >Enregistrer</button>
+                        </div>
+                    </form><!-- /.modal-content -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-------------------------------------------------------------------- script ------------------------------->
+
+    <script src="../liens/js/jquery-3.5.1.min.js"></script>
+    <script src="../js/table2excel.js"></script>
+    <script src="../js/print.min.js"></script>
+    <script src="../js/simplebar.min.js"></script>
+    <script src="../js/main.js"></script>
+
+    <!-- end demo js-->
+    <script>
+        /* ------------------------- completion du select categorie ------------------------------------- */
+        /*document.getElementById("annulBtn").addEventListener('click',function (){
+            var valFile = document.getElementById("file").value;
+            console.log("file : "+valFile);
+            console.log("last index : "+valFile.lastIndexOf("\\"));
+            var indx = valFile.lastIndexOf("\\");
+            console.log("image nom : "+valFile.substring(indx + 1));
+        })*/
+
+        var formSelectCat = document.getElementById("select-categorieProduit");
+        $.ajax({
+            type : "GET",
+            url : "/selectCategorie",
+            success : function (result) {
+                if (result.status === "success"){
+                    $.each(result.data, function (i,catego){
+                        var option = new Option(catego.nomCategorie,catego.categorie);
+                        formSelectCat.options[formSelectCat.options.length] = option;
+                    })
+                }
+                else {
+                    $("#getResultDiv").html("<strong>Errors...</strong>");
+                    console.log("Fail : "+result);
+                }
+            },
+            error : function (e) {
+                alert("Error...");
+                console.log("Error : "+e);
+            }
+        });
+
+        /* ------------------------- completion du select categorie ------------------------------------- */
+
+        var btnPlusProduit = document.querySelector("#boutonPlusProduit");
+        var tablePlusProduit = document.querySelector(".tableProduitAttente")
+
+        /*btnPlusProduit.onclick = function (){
+            tablePlusProduit.classList.add('active');
+        }*/
+        /* ---------- Fin Plus Produit -------------- */
+        function uploadFile(target) {
+            document.getElementById("file-name").innerHTML = target.files[0].name;
+        }
+
+
+        /* ***************************** plusProduit ***************************** */
+        /*$("#formPlProduit").submit(function (event){
+            //Prevent the form from submitting via the browser
+            event.preventDefault();
+            ajaxPost();
+        });*/
+
+        document.getElementById("boutonPlusProduit").addEventListener('click',function (event){
+            event.preventDefault();
+            ajaxPost();
+        });
+
+        var index = 0;
+        function ajaxPost(){
+            /*var valFile = document.getElementById("file").value;
+            console.log("file : "+valFile);
+            console.log("last index : "+valFile.lastIndexOf("\\"));
+            var indx = valFile.lastIndexOf("\\");
+            console.log("image nom : "+valFile.substring(indx + 1));
+            var imageNom = valFile.substring(indx + 1);
+            console.log("tren")
+            console.log("file1 : "+$("#file")[0].files[0].url);
+            const imageName = window.atob($("#file")[0].files[0]);
+            console.log("file2 : "+imageName);*/
+
+            //Prepare form data
+            var formData = {
+                datePlusProduit : new Date(),
+                designation : $("#input-nomProduit").val(),
+                niveauP : $("#niveauP").val(),
+                unite : $("#uniteP").val(),
+                quantite : $("#quantiteP").val(),
+                poids : $("#poidsP").val(),
+                categorie : $("#select-categorieProduit").val(),
+                image : $("#file").val()
+            }
+            //do post
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url : "/PlusProduit",
+                data : JSON.stringify(formData),
+                dataType : 'json',
+                success : function (result) {
+                    console.log("reussi")
+                    if (result.status === 'success') {
+                        $("#tbl tbody tr").empty();
+
+                        var refTable = document.getElementById("tbl");
+                        var nouvelleLigne = refTable.insertRow(-1);
+                        var nouvelleCellule = nouvelleLigne.insertCell(0);
+                        nouvelleCellule.index = index;
+                        var nouveauTexte = document.createTextNode(document.getElementById("niveauP").value);
+                        nouvelleCellule.appendChild(nouveauTexte);
+                        nouvelleCellule.addEventListener('click', function () {
+                            console.log("index : " + nouvelleCellule.index);
+                        });
+
+                        var nouvelleCellule1 = nouvelleLigne.insertCell(1);
+                        var nouveauTexte1 = document.createTextNode(document.getElementById("uniteP").value);
+                        nouvelleCellule1.index = index;
+                        nouvelleCellule1.appendChild(nouveauTexte1);
+                        nouvelleCellule1.addEventListener('click', function () {
+                            console.log("index : " + nouvelleCellule1.index);
+                        });
+
+                        var nouvelleCellule2 = nouvelleLigne.insertCell(2);
+                        var nouveauTexte2 = document.createTextNode(document.getElementById("quantiteP").value);
+                        nouvelleCellule2.index = index;
+                        nouvelleCellule2.appendChild(nouveauTexte2);
+                        nouvelleCellule2.addEventListener('click', function () {
+                            console.log("index : " + nouvelleCellule2.index);
+                        });
+
+                        var nouvelleCellule3 = nouvelleLigne.insertCell(3);
+                        var nouveauTexte3 = document.createTextNode(document.getElementById("poidsP").value);
+                        nouvelleCellule3.index = index;
+                        nouvelleCellule3.appendChild(nouveauTexte3);
+                        nouvelleCellule3.addEventListener('click', function () {
+                            console.log("index : " + nouvelleCellule3.index);
+                        });
+                        console.log("index ++ : "+index);
+                        index++;
+                        document.getElementById("niveauP").value=parseInt(document.getElementById("niveauP").value) + 1;
+                        /*$.each(result.data, function (i, plusProduit) {
+                            console.log("reussi 2")
+
+                            var refTable = document.getElementById("tbl");
+
+                            var nouvelleLigne = refTable.insertRow(-1);
+                            var nouvelleCellule = nouvelleLigne.insertCell(0);
+                            nouvelleCellule.index = index;
+                            var nouveauTexte = document.createTextNode(plusProduit.niveauP);
+                            nouvelleCellule.appendChild(nouveauTexte);
+                            nouvelleCellule.addEventListener('click', function () {
+                                console.log("index : " + nouvelleCellule.index);
+                            });
+
+                            var nouvelleCellule1 = nouvelleLigne.insertCell(1);
+                            var nouveauTexte1 = document.createTextNode(plusProduit.unite);
+                            nouvelleCellule1.index = index;
+                            nouvelleCellule1.appendChild(nouveauTexte1);
+                            nouvelleCellule1.addEventListener('click', function () {
+                                console.log("index : " + nouvelleCellule1.index);
+                            });
+
+                            var nouvelleCellule2 = nouvelleLigne.insertCell(2);
+                            var nouveauTexte2 = document.createTextNode(plusProduit.quantite);
+                            nouvelleCellule2.index = index;
+                            nouvelleCellule2.appendChild(nouveauTexte2);
+                            nouvelleCellule2.addEventListener('click', function () {
+                                console.log("index : " + nouvelleCellule2.index);
+                            });
+
+                            var nouvelleCellule3 = nouvelleLigne.insertCell(3);
+                            var nouveauTexte3 = document.createTextNode(plusProduit.poids);
+                            nouvelleCellule3.index = index;
+                            nouvelleCellule3.appendChild(nouveauTexte3);
+                            nouvelleCellule3.addEventListener('click', function () {
+                                console.log("index : " + nouvelleCellule3.index);
+                            });
+
+                            index++;
+                        })*/
+                    }
+                    else {
+                        console.log("Fail : "+result);
+                    }
+
+                },
+                error : function (e) {
+                    alert("Error...");
+                    console.log("Error : "+e);
+                }
+            });
+        }
+    </script>
+
+    <script src="../js/main.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>lpm.v.0</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+
+    <link rel="stylesheet" href="/webjars/bootstrap/5.1.3/css/bootstrap.min.css">
+    <script rel="stylesheet" src="/webjars/bootstrap/5.1.3/js/bootstrap.bundle.js"></script>
+
+    <link href="../assets2/css/icons.min.css" rel="stylesheet" type="text/css">
+    <link href="../liens/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="../liens/remixicon/remixicon.css" rel="stylesheet">
+
+    <link href="../js/print.min.css" rel="stylesheet">
+    <link href="../js/simplebar.css" rel="stylesheet">
+    <link href="../css/styles.css" rel="stylesheet">
+
+</head>
+<body style="background-color: transparent">
+
+<!-- *********************************************** content *********************************** -->
+
+<div class="container-fluid" style="height: 100vh;padding-top: 20px">
+
+    <div class="row mb-1">
+        <div class="col-12 mt-1">
+            <div class="boutons_modals head">
+                <ul class="ul-nav">
+                    <li class="d-flex" style="display: flex;justify-content: left">
+                        <h4 class="page-title">Liste des crédits</h4>
+                    </li>
+                </ul>
+                <ul class="ul-nav">
+                    <li class="ul-li-nav search">
+                        <div class="input-group inputSearchStock" id="inputSearch">
+                            <input type="text" required class="form-control dropdown-toggle" placeholder="Search..." id="input-search-credit">
+                            <button id="btn-search-stick" class="input-group-text btn-primary" type="submit"><i class="ri ri-search-2-line"></i></button>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="boutons_modals">
+            <ul class="ul-nav" style="margin-left: 42%">
+                <li class="ul-li-nav">
+                    <a class="btn btn-primary" id="btnReglerCredit">Règler un crédit</a>
+                </li>
+            </ul>
+            <ul class="ul-nav">
+                <li class="ul-li-nav">
+                    <a class="btn btn-primary" id="btnExcelCtedit"><img src="../images/excel1_24px.png" style="height: 20px;width: 16px"></a>
+                </li>
+                <li class="ul-li-nav">
+                    <a class="btn btn-primary" id="btnPrintCredit"><img src="../images/print1_24px.png" style="height: 16px"></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row" id="utilisateur">
+        <div class="col-12">
+            <div class="card" style="margin: 8px">
+                <div class="card-body">
+                    <div class="tab-pane show active" id="buttons-table-preview">
+                        <table id="tableCredit" class="table dt-responsive nowrap w-100 table-hover text-dark">
+                            <thead>
+                            <tr>
+                                <th>Réf Facture</th>
+                                <th>Réf Vente</th>
+                                <th>Montant</th>
+                                <th>Numéro</th>
+                                <th>Nom Client</th>
+                                <th>Date Vente</th>
+                                <th>Status</th>
+                                <th id="checkBoxT" style="min-width: 14px;width: 14px;max-width: 14px;display: none"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                    <hr id="hrBtnSaveAvoir">
+                    <div class="row" id="rowBtnSaveAvoir" style="display:none;">
+                        <div class="col-12">
+                            <div class="container-fluid">
+                                <div class="d-flex" style="justify-content: center">
+                                    <button type="button" class="btn btn-danger" id="annulerCredit" style="min-height: 32px;height: 32px;width: auto;margin-right: 5px">Annuler</button>
+                                    <button type="button" class="btn btn-success" onclick="check();" style="height: 33px;min-height: 32px;height: 32px;width: auto;" id="validerCrdit">Valider</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="tableCleintImprimer" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-contentClient">
+                <div class="modal-body"  id="tableCrediImprimer2">
+                    <h4 align="center" style="alignment: center;height: 40px;width: 100%;font-weight: 700;font-size: 16px;color: #223">LISTE DES CREDIT CLIENTS</h4>
+                    <table class="table dt-responsive nowrap w-100 table-hover text-dark" id="tableCrediImprimer">
+                        <thead style="background-color: #aaa">
+                        <tr>
+                            <th style="text-align: left;padding-left: 10px;padding-top: 5px;padding-bottom: 5px;border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;color: #333">Réf Facture</th>
+                            <th style="text-align: left;padding-left: 10px;padding-top: 5px;padding-bottom: 5px;border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;color: #333">Réf Vente</th>
+                            <th style="text-align: left;padding-left: 10px;padding-top: 5px;padding-bottom: 5px;border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;color: #333">Montant</th>
+                            <th style="text-align: left;padding-left: 10px;padding-top: 5px;padding-bottom: 5px;border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;color: #333">Numéro</th>
+                            <th style="text-align: left;padding-left: 10px;padding-top: 5px;padding-bottom: 5px;border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;color: #333">Nom Client</th>
+                            <th style="text-align: left;padding-left: 10px;padding-top: 5px;padding-bottom: 5px;border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;color: #333">Date Vente</th>
+                            <th style="text-align: left;padding-left: 10px;padding-top: 5px;padding-bottom: 5px;border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;color: #333">Status</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td style="border: 0.2px solid transparent;border-bottom-color: #eee;border-bottom-width: 2px;"></td>
+                            <td style="border: 0.2px solid transparent;border-bottom-color: #eee;border-bottom-width: 2px;"></td>
+                            <td style="border: 0.2px solid transparent;border-bottom-color: #eee;border-bottom-width: 2px;"></td>
+                            <td style="border: 0.2px solid transparent;border-bottom-color: #eee;border-bottom-width: 2px;"></td>
+                            <td style="border: 0.2px solid transparent;border-bottom-color: #eee;border-bottom-width: 2px;"></td>
+                            <td style="border: 0.2px solid transparent;border-bottom-color: #eee;border-bottom-width: 2px;"></td>
+                            <td style="border: 0.2px solid transparent;border-bottom-color: #eee;border-bottom-width: 2px;"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Standard modal -->
+    <div id="modalAvoir" class="modal modalEnc" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content modal-contentEnc" style="width: 400px;height: 450px;margin-top: 50px;background: rgb(24,35,50);box-shadow: 0 0 10px rgba(200,200,200,0.9)">
+            <div class="container corpsprixSpecial" style="margin: 0">
+                <form class="modal-content" style="background: none;border: none">
+                    <div class="modal-header" style="height: 50px">
+                        <h6 class="modal-title" id="standard-modalLabel" style="font-weight: 700;font-size: 14px;color: #aaa">REGLEMENT DU CREDIT</h6>
+                        <button type="button" id="btnCloseModalAvoir" class="btn-close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-0">
+                            <label id="labFac" class="form-label"></label><br/>
+                            <label id="labClient" class="form-label"></label><br/>
+                            <label id="inputDesi" class="form-label" ></label><br/>
+                            <label id="inputQte" class="form-label"></label>
+                        </div>
+                        <hr>
+                        <div class="mb-3">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <label for="inputUte" class="form-label">TOTAL : </label>
+                                    </div>
+                                    <div class="col-8">
+                                        <input id="inputUte" type="text" class="form-control" disabled/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <label for="inputPu" class="form-label">RESTE : </label>
+                                    </div>
+                                    <div class="col-8">
+                                        <input id="inputPu" type="text" class="form-control" disabled/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <label for="inputPAYER" class="form-label">PAYER : </label>
+                                    </div>
+                                    <div class="col-8">
+                                        <input id="inputPAYER" type="text" class="form-control"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <label for="typePaye" class="form-label">PAR : </label>
+                                    </div>
+                                    <div class="col-8">
+                                        <select id="typePaye" class="form-select">
+                                            <option value="espèce">espèce</option>
+                                            <option value="chèque">chèque</option>
+                                            <option value="virement">virement</option>
+                                            <option value="téléphone">téléphone</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="justify-content: center">
+                        <button id="btnAnnulerAvoirModal" type="button" class="btn btn-danger" >Annuler</button>
+                        <button id="btnAccorderPayeCredit" type="button" class="btn btn-primary btn-enregistrer">Accorder</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- /.modal -->
+
+</div> <!-- container -->
+
+    <!-------------------------------------------------------------------- script ------------------------------->
+
+    <script src="../liens/js/jquery-3.5.1.min.js"></script>
+    <script src="../js/table2excel.js"></script>
+    <script src="../js/print.min.js"></script>
+    <script src="../js/simplebar.min.js"></script>
+    <script src="../js/main.js"></script>
+
+    <script>
+
+        getAllCredit();
+         function getAllCredit(){
+             $.ajax({
+                 type: "GET",
+                 url: "/GetAllVenteCredit",
+                 success: function (result) {
+                     if (result.status === "success") {
+                         var tableFacAvoir = document.getElementById("tableCredit");
+                         var tbodyFacA = tableFacAvoir.querySelector("tbody");
+                         tableFacAvoir.removeChild(tbodyFacA);
+                         var nouveauTbodyA = document.createElement("tbody");
+                         tableFacAvoir.appendChild(nouveauTbodyA);
+
+
+                         var tableCreditImp = document.getElementById("tableCrediImprimer");
+                         var tbodyCreditImp = tableCreditImp.querySelector("tbody");
+                         tableCreditImp.removeChild(tbodyCreditImp);
+                         var nouveauTbodyCreditImp = document.createElement("tbody");
+                         tableCreditImp.appendChild(nouveauTbodyCreditImp);
+                         $.each(result.data, function (i, credit) {
+
+                             /*------------ convert date to normale ---------------- */
+                             let date0000 = credit.dateCredit.toString();
+                             let da = date0000.substring(0, date0000.indexOf('.'));
+                             let date3 = new Date(da + "-03:00")
+                             let date4 = date3.toISOString();
+                             let date5 = date4.substring(0, date4.indexOf("."));
+                             let date6 = date5.replace("T", " ")
+                             /*--------- fin convert date to normale ---------------- */
+
+                             var nouvelleLigneA = nouveauTbodyA.insertRow(-1);
+
+                             var nouvelleCelluleA = nouvelleLigneA.insertCell(0);
+                             var nouveauTexteA = document.createTextNode(credit.facVenteCredit);
+                             nouvelleCelluleA.appendChild(nouveauTexteA);
+
+                             var nouvelleCelluleA1 = nouvelleLigneA.insertCell(1);
+                             var nouveauTexteA1 = document.createTextNode(credit.refVenteCredit);
+                             nouvelleCelluleA1.appendChild(nouveauTexteA1);
+
+                             var nouvelleCelluleA2 = nouvelleLigneA.insertCell(2);
+                             var nouveauTexteA2 = document.createTextNode(credit.montantCredit);
+                             nouvelleCelluleA2.appendChild(nouveauTexteA2);
+
+                             var nouvelleCelluleA3 = nouvelleLigneA.insertCell(3);
+                             var nouveauTexteA3 = document.createTextNode(credit.creditDesignation+""+credit.idCredit);
+                             nouvelleCelluleA3.appendChild(nouveauTexteA3);
+
+                             var nouvelleCelluleA4 = nouvelleLigneA.insertCell(4);
+                             var nouveauTexteA4 = document.createTextNode(credit.clientCredit);
+                             nouvelleCelluleA4.appendChild(nouveauTexteA4);
+
+                             var nouvelleCelluleA5 = nouvelleLigneA.insertCell(5);
+                             var nouveauTexteA5 = document.createTextNode(date6);
+                             nouvelleCelluleA5.appendChild(nouveauTexteA5);
+
+
+                             var nouveauTexteA6;
+                             var nouvelleCelluleA6 = nouvelleLigneA.insertCell(6);
+                             if (credit.montantCredit === credit.montantPayeCredit) {
+                                 nouveauTexteA6 = document.createTextNode("payée");
+                                 nouvelleCelluleA6.style.color="green";
+                             }else if (credit.montantCredit > credit.montantPayeCredit){
+                                 nouveauTexteA6 = document.createTextNode("impayée");
+                                 nouvelleCelluleA6.style.color="red";
+                             }
+                             nouvelleCelluleA6.appendChild(nouveauTexteA6);
+
+                             /*var nouvelleCelluleA6 = nouvelleLigneA.insertCell(6);
+                             if (credit.montantCredit === credit.montantPayDette)
+                             var nouveauTexteA6 = document.createTextNode("impayé");
+                             nouvelleCelluleA6.appendChild(nouveauTexteA6);*/
+
+                             var nouvelleCelluleA7 = nouvelleLigneA.insertCell(7);
+                             nouvelleCelluleA7.classList.add('ps-2');
+                             nouvelleCelluleA7.id = "checkBoxT";
+                             nouvelleCelluleA7.style.display="none";
+                             nouvelleCelluleA7.style.minWidth="14px";
+                             nouvelleCelluleA7.style.maxWidth="14px";
+                             var inputCredit = document.createElement("input");
+                             inputCredit.id="checkBoxT";
+                             inputCredit.type="radio";
+                             inputCredit.name="check";
+                             inputCredit.value="1";
+                             inputCredit.style.float="right";
+                             inputCredit.style.marginRight="10px";
+                             nouvelleCelluleA7.appendChild(inputCredit);
+
+
+                             var nouvelleLigneCredit = nouveauTbodyCreditImp.insertRow(-1);
+
+                             var nouvelleCelluleAC = nouvelleLigneCredit.insertCell(0);
+                             var nouveauTexteAC = document.createTextNode(credit.facVenteCredit);
+                             nouvelleCelluleAC.appendChild(nouveauTexteAC);
+
+                             var nouvelleCelluleA1C = nouvelleLigneCredit.insertCell(1);
+                             var nouveauTexteA1C = document.createTextNode(credit.refVenteCredit);
+                             nouvelleCelluleA1C.appendChild(nouveauTexteA1C);
+
+                             var nouvelleCelluleA2C = nouvelleLigneCredit.insertCell(2);
+                             var nouveauTexteA2C = document.createTextNode(credit.montantCredit);
+                             nouvelleCelluleA2C.appendChild(nouveauTexteA2C);
+
+                             var nouvelleCelluleA3C = nouvelleLigneCredit.insertCell(3);
+                             var nouveauTexteA3C = document.createTextNode(credit.creditDesignation+""+credit.idCredit);
+                             nouvelleCelluleA3C.appendChild(nouveauTexteA3C);
+
+                             var nouvelleCelluleA4C = nouvelleLigneCredit.insertCell(4);
+                             var nouveauTexteA4C = document.createTextNode(credit.clientCredit);
+                             nouvelleCelluleA4C.appendChild(nouveauTexteA4C);
+
+                             var nouvelleCelluleA5C = nouvelleLigneCredit.insertCell(5);
+                             var nouveauTexteA5C = document.createTextNode(date6);
+                             nouvelleCelluleA5C.appendChild(nouveauTexteA5C);
+
+                             var nouvelleCelluleA6C = nouvelleLigneCredit.insertCell(6);
+                             var nouveauTexteA6C = document.createTextNode("impayé");
+                             nouvelleCelluleA6C.appendChild(nouveauTexteA6C);
+                         });
+                     }
+                 },
+                 error: function (e){
+                     alert("Erreur liste credit : "+e);
+                 }
+             });
+         }
+
+        var radios = document.querySelectorAll('#radio1');
+        for (var i=0;i<radios.length;i++){
+            radios[i].addEventListener('click',function (){
+                //alert(radios[i].value)
+            })
+        }
+
+        function check() {
+            var inputs = document.querySelectorAll('#checkBoxT'),
+                inputsLength = inputs.length;
+            for (var i = 0 ; i < inputsLength ; i++) {
+                if (inputs[i].type == 'radio' && inputs[i].checked) {
+                    /*var rowCol = inputs[i].parentNode.parentNode;
+                    alert('La case cochée est la n°'+ rowCol.rowIndex);*/
+
+                    document.getElementById("modalAvoir").style.display = "block";
+
+                    //let nomClientFac = document.getElementById("facClient").innerText;
+                    var rowCol = inputs[i].parentNode.parentNode;
+                    let desi = rowCol.querySelector('td:nth-child(1)')
+                    let qte = rowCol.querySelector('td:nth-child(2)')
+                    let pu = rowCol.querySelector('td:nth-child(3)')
+                    let ute = rowCol.querySelector('td:nth-child(4)')
+                    let clientC = rowCol.querySelector('td:nth-child(5)')
+                    let dateC = rowCol.querySelector('td:nth-child(6)')
+
+
+                    let labFac = document.getElementById("labFac");
+                    let labClient = document.getElementById("labClient");
+                    let inputDesi = document.getElementById("inputDesi");
+                    let inputQte = document.getElementById("inputQte");
+                    let inputUte = document.getElementById("inputUte");
+                    let inputPu = document.getElementById("inputPu");
+
+                    labFac.innerText = "Crédit le : "+dateC.textContent;
+                    labClient.innerText = "Client : "+clientC.textContent;
+                    inputDesi.innerText = "Référence facture : "+desi.textContent;
+                    inputQte.innerText = "Référence vente : "+qte.textContent;
+                    inputUte.value = pu.textContent;
+
+                    $.ajax({
+                        type: "GET",
+                        url: "/GetResteCredit?numDette=" + ute.textContent,
+                        success: function (result) {
+                            if (result.status === "success") {
+                                inputPu.value = result.data;
+                                console.log("reste : "+result.data);
+                            }
+                        },
+                        error: function (e) {
+                            alert("erreur 0 : " + e);
+                        }
+                    })
+
+
+                    /*let inputPAYER = document.getElementById("inputPAYER");
+                    inputPAYER.addEventListener('keyup',function (){
+                        inputPu.value = ((inputUte.value) - (inputPAYER.value)) ;
+                    });*/
+
+                    let btnCloseModal = document.getElementById("btnCloseModalAvoir");
+                    btnCloseModal.addEventListener('click',function (){
+                        document.getElementById("modalAvoir").style.display = "none";
+                    })
+                    let btnAnnulerAvoir = document.getElementById("btnAnnulerAvoirModal");
+                    btnAnnulerAvoir.addEventListener('click',function (){
+                        document.getElementById("modalAvoir").style.display = "none";
+                    })
+                }
+            }
+        }
+
+        document.getElementById("btnAccorderPayeCredit").addEventListener('click',function (){
+            var nuDette;
+            var inputs = document.querySelectorAll('#checkBoxT'),
+                inputsLength = inputs.length;
+            for (var i = 0 ; i < inputsLength ; i++) {
+                if (inputs[i].type == 'radio' && inputs[i].checked) {
+
+                    var rowCol = inputs[i].parentNode.parentNode;
+                    nuDette = rowCol.querySelector('td:nth-child(4)')
+                }
+            }
+
+            //alert("id : "+nuDette.textContent+" , inputTotal : "+$("#inputTotalDette").val()+" , livre : "+$("#inputLivre").val())
+
+            var formDataCredit = {
+                idCredit : nuDette.textContent,
+                montantPayeCredit : $("#inputPAYER").val(),
+                typePayeCredit : $("#typePaye").val()
+            }
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url : "/SavePayeCreditC",
+                data : JSON.stringify(formDataCredit),
+                dataType : 'json',
+                success: function (result) {
+                    if (result.status === "success") {
+                        getAllCredit();
+                        document.getElementById("modalAvoir").style.display="none";
+                        document.getElementById("rowBtnSaveAvoir").style.display="none";
+                    }
+                },
+                error: function (e){
+                    alert("erreur d : "+e);
+                }
+            })
+        })
+
+        var rowBtnSaveAvoir = document.getElementById("rowBtnSaveAvoir");
+        var btnAnnulerCredit = document.getElementById("annulerCredit");
+        var btnValiderCredit = document.getElementById("validerCrdit");
+        var btnReglerCredit = document.getElementById("btnReglerCredit");
+        btnReglerCredit.addEventListener('click',creerAvoirFacture);
+        function creerAvoirFacture(){
+            //if (btnReglerCredit.textContent === "Règler un crédit"){
+            var idCheckBox = document.querySelectorAll("#checkBoxT");
+            for (var i=0;i<idCheckBox.length;i++){
+                idCheckBox[i].style.display='';
+            }
+            rowBtnSaveAvoir.style.display="block";
+        }
+        btnAnnulerCredit.addEventListener('click',function (){
+            var idCheckBox2 = document.querySelectorAll("#checkBoxT");
+            for (var j=0;j<idCheckBox2.length;j++){
+                idCheckBox2[j].style.display='none';
+                idCheckBox2[j].classList.add('unchecked')
+            }
+            var inputs = document.querySelectorAll('#checkBoxT'),
+                inputsLength = inputs.length;
+            for (var i = 0 ; i < inputsLength ; i++) {
+                if (inputs[i].type == 'radio') {
+                    inputs[i].checked = false;
+                }
+            }
+            rowBtnSaveAvoir.style.display="none";
+        });
+    /* *************************** filtrage du tableau ************************************ */
+    var inputSearch = document.getElementById("input-search-credit");
+    inputSearch.addEventListener("keyup",function(){
+        var keyword = this.value;
+        keyword = keyword.toUpperCase();
+        var table_3 = document.getElementById("tableCredit");
+        var all_tr = table_3.getElementsByTagName("tr");
+        for(var i=0; i<all_tr.length; i++){
+            var all_columns = all_tr[i].getElementsByTagName("td");
+            for(j=0;j<all_columns.length; j++){
+                if(all_columns[j]){
+                    var column_value = all_columns[j].textContent || all_columns[j].innerText;
+                    column_value = column_value.toUpperCase();
+                    if(column_value.indexOf(keyword) > -1){
+                        all_tr[i].style.display = ""; // show
+                        break;
+                    }else{
+                        all_tr[i].style.display = "none"; // hide
+                    }
+                }
+            }
+        }
+    })
+
+    /* ****************** print pageListe client *************************************** */
+
+    var boutonImprimerUser = document.getElementById("btnPrintCredit");
+    boutonImprimerUser.addEventListener('click',printUserAction);
+    function printUserAction() {
+        printJS({
+            printable: 'tableCrediImprimer2',
+            type: 'html',
+            targetStyles: ['*']
+        });
+    }
+
+    /* ********************** exporter tableClient vers excel ******************************** */
+
+    var boutonExcelUser = document.getElementById("btnExcelCtedit");
+    boutonExcelUser.addEventListener('click',Export);
+    function Export() {
+        $("#tableCrediImprimer2").table2excel({
+            filename: "Liste_crédit "+new Date().getFullYear()+"-"+new Date().getMonth()+"-"+new Date().getDate()+" "+new Date().getHours()+"h"+new Date().getMinutes()+"min .xls"
+        });
+    }
+</script>
+
+</body>
+</html>

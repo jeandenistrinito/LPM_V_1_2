@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>lpm.v.0</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+
+    <link rel="stylesheet" href="/webjars/bootstrap/5.1.3/css/bootstrap.min.css">
+    <script rel="stylesheet" src="/webjars/bootstrap/5.1.3/js/bootstrap.bundle.js"></script>
+
+    <link href="../liens/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="../liens/remixicon/remixicon.css" rel="stylesheet">
+    <link href="../assets3/css/icons.min.css" rel="stylesheet" >
+
+    <link href="../js/print.min.css" rel="stylesheet">
+    <link href="../js/simplebar.css" rel="stylesheet">
+    <link href="../css/styles.css" rel="stylesheet">
+
+</head>
+<body style="background-color: transparent">
+
+<!-- *********************************************** content *********************************** -->
+<div class="container-fluid" id="menu-caisse" style="height: 100vh" data-simplebar>
+    <div class="row">
+        <div class="col-12 mt-1">
+            <div class="boutons_modals">
+                <ul class="ul-nav">
+                    <li class="ul-li-nav">
+                        <a class="btn btn-primary" th:href="@{/Prix}"><i class="bi bi-arrow-left-short" style="color: whitesmoke"></i> </a>
+                    </li>
+                </ul>
+                <ul class="ul-nav">
+                    <li class="ul-li-nav">
+                        <a class="btn btn-primary"><img src="../images/excel1_24px.png" style="height: 20px;width: 16px"></a>
+                    </li>
+                    <li class="ul-li-nav">
+                        <a class="btn btn-primary"><img src="../images/print1_24px.png" style="height: 16px"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- suite -->
+    <div class="container-fluid mt-2">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body p-0">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <table class="table-article-prix table table-sm dt-responsive nowrap table-special-form">
+                                    <thead>
+                                    <tr>
+                                        <th>Designation</th>
+                                        <th>Unité</th>
+                                        <th>Prix</th>
+                                        <th>Date</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td th:text="${nomProduit}" style="padding-top: 15px"></td>
+                                        <td>
+                                            <table class="table mb-2 mt-0" id="secondTable3" style="margin: 0px">
+                                                <tbody>
+                                                <tr th:each="prix:${prixProduitList}" style="border-color: transparent;border-bottom-width: 0px;height: 25px">
+                                                    <td style="padding-top: 1px;padding-bottom: 1px"><span th:text="${prix.getUniteProduitPP()}" class="ms-2"></span></td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                        <td>
+                                            <table class="table mb-2 mt-0" id="secondTable2" style="margin: 0px">
+                                                <tbody>
+                                                <tr th:each="prix:${prixProduitList}" style="border-color: transparent;border-bottom-width: 0px;height: 25px">
+                                                    <td style="padding-top: 1px;padding-bottom: 1px"><span th:text="${prix.getPrixVentePP()}" class="ms-2"></span></td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                        <td>
+                                            <table class="table mb-2 mt-0" id="secondTable1" style="margin: 0px">
+                                                <tbody>
+                                                <tr th:each="prix:${prixProduitList}" style="border-color: transparent;border-bottom-width: 0px;height: 25px">
+                                                    <td style="padding-top: 1px;padding-bottom: 1px"><span th:text="${prix.getDatePP()}" class="ms-2"></span></td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 offset-lg-3 col-md-8 offset-md-2 col-sm-12">
+                                    <div class="modal-content modal-content1">
+                                    <div class="row" style="">
+                                        <div class="col-12">
+                                            <div class="containerModal">
+                                                <form method="post" th:action="@{/Filtrer}">
+                                                    <input type="hidden" name="nomProduit" th:value="${nomProduit}">
+                                                    <input type="hidden" name="unite" th:value="${unite}">
+                                                    <label id="label-historique" class="form-label me-1" style="color: #eef">Historique</label>
+                                                    <input type="date" id="dateDebut" name="dateDebut" th:value="${dateDebut}" class="form-control">&nbsp;
+                                                    <label id="label-a" class="form-label me-1" style="color: #eef">à</label>
+                                                    <input type="date" id="dateFin" name="dateFin" th:value="${dateFin}" class="form-control">&nbsp;
+                                                    <button type="submit" id="btnValiderFiltre" role="button" class="btn btn-sm btn-success info-prix modalBtn0" style="width: 24px;height: 24px;padding: 0px;min-height: 24px"><i style="color: whitesmoke" class="bi bi-check"></i></button>
+                                                    <hr class="hr" style="position: absolute;width: 320px;left: 15px;top: 46px">
+                                                    <div class="cont">
+                                                        <table class="table" id="tableHistoriquePrix">
+                                                            <thead>
+                                                            <tr>
+                                                                <th style="color: #114;font-weight: 550">Date</th>
+                                                                <th style="color: #114;font-weight: 550">Prix</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            <tr th:each="prixVente:${prixVenteList2}">
+                                                                <td th:text="${prixVente.getDatePV()}"></td>
+                                                                <td th:text="${prixVente.getPrixVente()}"></td>
+                                                            </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </form>
+                                                <form method="post" th:action="@{/ValiderModifierPrix}">
+                                                    <input type="hidden" name="nomProduit" th:value="${nomProduit}">
+                                                    <input type="hidden" name="unite" th:value="${unite}">
+                                                    <label id="label-prixActuel" for="input-prixActuel" class="form-label me-1" style="color: #eef">Prix Actuel</label>
+                                                    <input type="text" id="input-prixActuel" name="prixActuel" class="form-control disabled" disabled th:value="${prixActuel}">
+                                                    <label id="label-prixNouveau" for="input-prixNouveau" class="form-label me-1" style="color: #eef">Nouveau Prix</label>
+                                                    <input type="text" id="input-prixNouveau" name="prixNouveau" class="form-control">
+                                                    <button type="submit" id="btnValiderValider" role="button" class="btn btn-sm btn-success info-prix modalBtn0" style="height: 24px;min-height: 24px;width: auto;padding: 0px 5px;font-family: Calibri, sans-serif;font-weight: 500;">valider</i></button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-------------------------------------------------------------------- script ------------------------------->
+<script src="../liens/js/jquery-3.5.1.min.js"></script>
+<script src="../js/table2excel.js"></script>
+<script src="../js/print.min.js"></script>
+<script src="../js/simplebar.min.js"></script>
+<script src="../js/main.js"></script>
+
+<script>
+    /* ---------------------- debut de date de la caisse ------------------------- */
+    var d = new Date();
+    var year = d.getFullYear();
+    var month = d.getMonth() + 1;
+
+    if (month<10){
+        month = '0'+month;
+    }
+    var date0 = d.getDate();
+    if (date0<10){
+        date0 = '0'+date0;
+    }
+
+    var c_date = year+'-'+month+'-'+date0;
+    document.getElementById("dateDebut").value = c_date;
+    document.getElementById("dateFin").value = c_date;
+
+    /* ------------------- fin de la date de la caisse ----------------------- */
+</script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+
+
+
+body{
+  background: #555;
+  color: #fff;
+  display: grid;
+  grid-template-columns: 80% auto;
+  margin: 0;
+
+  main{
+    height: 380px;
+    overflow-y: auto;
+  }
+
+  main p{
+    margin: 1em;
+    padding: 1em;
+    background: #999;
+    border-radius: 10px;
+    opacity: 0.4%;
+    font-size: .9em;
+  }
+  .simplebar-scrollbar::before{
+    background-color: red;
+  }
+  .simplebar-scrollbar{
+    margin-right: 10px;
+  }
+}

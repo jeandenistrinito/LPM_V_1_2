@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>lpm.v.0</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+
+    <link rel="stylesheet" href="/webjars/bootstrap/5.1.3/css/bootstrap.min.css">
+    <script rel="stylesheet" src="/webjars/bootstrap/5.1.3/js/bootstrap.bundle.js"></script>
+
+    <link href="../liens/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="../liens/remixicon/remixicon.css" rel="stylesheet">
+    <link href="../assets3/css/icons.min.css" rel="stylesheet" >
+
+    <link href="../js/print.min.css" rel="stylesheet">
+    <link href="../js/simplebar.css" rel="stylesheet">
+    <link href="../css/styles.css" rel="stylesheet">
+
+</head>
+<body style="background-color: transparent">
+
+<!-- ********************************************** main content ******************************************* -->
+
+    <div class="container-fluid" style="height: 100vh;padding-top: 20px" data-simplebar>
+        <div class="row">
+            <div class="boutons_modals head" style="margin-left: 18px;width: calc(100% - 36px)">
+                <ul class="ul-nav">
+                    <li>
+                        <h4 style="color: #bbb">Factures</h4>
+                    </li>
+                </ul>
+                <ul class="ul-nav" style="margin-right: 0">
+                    <li class="ul-li-nav" style="margin-right: 0">
+                        <a class="btn btn-primary ms-2" id="btnExportExcelFacture"><img src="../images/excel1_24px.png" style="height: 20px;width: 16px;min-height: 20px;min-width: 16px;max-height: 20px;max-width: 16px;box-shadow: none"></a>
+                    </li>
+                    <li class="ul-li-nav" style="margin-right: 0">
+                        <a class="btn btn-primary ms-2" id="btnPrintFacture"><img src="../images/print1_24px.png" style="height: 20px;width: 16px;min-height: 20px;min-width: 16px;max-height: 20px;max-width: 16px;box-shadow: none"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <hr>
+        <div class="produitDetails br" style="height: 100vh;margin: 10px 5px 10px 5px;">
+            <div class="mb-3 produitContents produitContentPages">
+                <div class="row">
+                    <div class="col-12">
+                        <div id="factureListePage" class="card receptionContent active" style="display: block" >
+                            <div class="card-body" style="height: 90vh">
+                                <div class="row mb-4">
+                                    <div class="col-12">
+                                        <div class="d-inline-flex mt-2 ps-2 pe-2 me-2" id="inputDate2">
+                                            <a type="button" id="btn-tous2" class="btn btn-success me-1">Tous</a>
+                                            <input type="date" id="input-date-debut2" class="form-control" style="width: 130px;background: transparent;color: #ccc;border-color: #888;">&nbsp;
+                                            <input type="date" id="input-date-fin2" class="form-control" style="width: 130px;background: transparent;color: #ccc;border-color: #888;">&nbsp;
+                                            <a type="button" id="btn-facture-filter2" class="btn btn-success me-1">Valider</a>
+                                            <a type="button" id="btn-facture-avoir" class="btn btn-warning me-1" style="padding: 5px 2px">Tous les avoir</a>
+                                        </div>
+                                        <div class="d-inline-flex float-end mt-2 ps-2 pe-2 me-0">
+                                            <div class="input-group inputSearchStock" id="inputSearch">
+                                                <input type="text" required class="form-control dropdown-toggle" placeholder="Search..." id="input-search-stock" style="width: 180px">
+                                                <button id="btn-search-stick" class="input-group-text btn-primary" type="submit"><i class="uil-search"></i></button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="card" style="background: transparent;">
+                                    <div class="card-body p-0 mt-4" style="background: transparent;height: 68vh" id="scroll" data-simplebar>
+                                    <table class="table dt-responsive nowrap w-100 table-hover text-dark" id="tableFacture">
+                                        <thead>
+                                        <tr>
+                                            <th>Facture numéro</th>
+                                            <th>Date</th>
+                                            <th>Client</th>
+                                            <th>Montant</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="facture:${facVenteList}">
+                                            <td th:text="${facture.getFacVente()+'-'+facture.getId_FacVente()}"></td>
+                                            <td th:text="${facture.getDateFacVente()}"></td>
+                                            <td th:text="${facture.getNomClient()}"></td>
+                                            <td th:text="${facture.getMontant()}"></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="factureAvoirPage" class="card receptionContent active" style="display: none">
+                            <div class="card-body">
+                                <div class="row mb-2">
+                                    <div class="col-12">
+                                        <div class="d-inline-flex ps-2 pe-2 me-2">
+                                            <label style="color: #eee">Facture numéro : <span id="facNum" style="margin-left: 15px"><strong>FAC-002</strong></span></label>
+                                        </div>
+                                        <div class="d-inline-flex float-end ps-2 pe-2 me-0">
+                                            <a id="btnCloseAvoir" class="btn"></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row mb-1">
+                                    <div class="col-12">
+                                        <div class="float-start ps-2">
+                                            <label style="color: #eee;display: table">Date : <span id="facDate" style="margin-left: 15px"><strong>FAC-002</strong></span></label>
+                                            <label style="color: #eee;display: table">Client : <span id="facClient" style="margin-left: 15px"><strong>FAC-002</strong></span></label>
+                                        </div>
+                                        <div class="d-inline-flex justify-content-center ps-2 pe-2 me-2" id="inputDate2Avoir" style="margin-left: calc(40% - 150px)">
+                                            <a type="button" id="btnCreerAvoir" class="btn btn-danger me-1">Créer avoir</a>
+                                        </div>
+                                        <div class="d-inline-flex float-end ps-2 pe-2 me-0">
+                                            <div class="input-group inputSearchStock" id="inputSearch" style="display: none">
+                                                <input type="text" required class="form-control dropdown-toggle" placeholder="Search..." id="input-search-avoir" style="height: 35px;width: 180px">
+                                                <button id="btn-search-stickAvoir" class="input-group-text btn-primary" type="submit" style="height: 35px"><i
+                                                        class="uil-search"></i></button>
+                                            </div>
+                                            <a class="btn btn-success btn-export-to-excel bg-forest ms-2"><i class="ri ri-file-excel-2-fill"></i> </a>
+                                            <a class="btn btn-success btn-export-to-excel bg-forest ms-2"><i class="ri ri-printer-fill"></i> </a>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="card" style="background: transparent;">
+                                    <div class="card-body bodyAvoir p-0 mt-2" style="background: transparent;height: 50vh" id="scroll" data-simplebar>
+                                        <table class="table dt-responsive nowrap w-100" id="tableFactureDetail">
+                                            <thead>
+                                            <tr>
+                                                <th>Désignation</th>
+                                                <th>Quantité</th>
+                                                <th>Unité</th>
+                                                <th>Prix</th>
+                                                <th>Montant</th>
+                                                <th id="checkBoxT" style="min-width: 16px;width: 16px;max-width: 16px;display: none"></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr th:each="venteF:${venteList}">
+                                                <!--<td><img src="../images/print1_24px.png" style="height: 16px;width: 14px;min-height: 16px;min-width: 14px;max-height: 16px;max-width: 14px;box-shadow: none;padding: 0"></td>-->
+                                                <td class="ps-2" th:text="${venteF.getNomArticle()}"></td>
+                                                <td class="ps-2" th:text="${venteF.getQuantiteProduit()}"></td>
+                                                <td class="ps-2" th:text="${venteF.getUniteProduit()}"></td>
+                                                <td class="ps-2" th:text="${venteF.getPrixVenteProduit()}"></td>
+                                                <td class="ps-2" th:text="${venteF.getMontant()}"></td>
+                                                <td class="ps-2"  id="checkBoxT" style="min-width: 14px;14px;max-width: 14px;display: none"><input id="checkBoxT" type="radio" name="check" value="2" style="float: right;margin-right: 10px"></td>
+                                                <td th:text="${venteF.getFacVente()}" style="display: none">
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <hr id="hrBtnSaveAvoir" style="display:none;">
+                                <div class="row" id="rowBtnSaveAvoir" style="display:none;">
+                                    <div class="col-12">
+                                        <div class="container-fluid">
+                                            <div class="d-flex" style="justify-content: center">
+                                                <button type="button" class="btn btn-danger" id="annulerAvoir" style="min-height: 32px;height: 32px;width: auto;margin-right: 5px">Annuler</button>
+                                                <button type="button" class="btn btn-success" onclick="check();" style="height: 33px;min-height: 32px;height: 32px;width: auto;" id="validerAvoir">Valider</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="factureAvoirListePage" class="card receptionContent active" style="display: none" >
+                            <div class="card-body" style="height: 90vh">
+                                <div class="row mb-4">
+                                    <div class="col-12">
+                                        <div class="d-inline-flex mt-2 ps-2 pe-2 me-2">
+                                            <a type="button" id="btn-retourAvoir" class="btn btn-primary me-2"><i class="bi bi-arrow-left"></i> </a>
+                                            <a type="button" id="btn-tousAvoir" class="btn btn-success me-1" disabled>Tous les avoir</a>
+                                        </div>
+                                        <div class="d-inline-flex float-end mt-2 ps-2 pe-2 me-0">
+                                            <div class="input-group inputSearchStock" id="inputSearch">
+                                                <input type="text" required class="form-control dropdown-toggle" placeholder="Search..." id="input-search-avoirListe" style="width: 180px">
+                                                <button id="btn-search-avoir" class="input-group-text btn-primary" type="button"><i class="uil-search"></i></button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="card" style="background: transparent;">
+                                    <div class="card-body p-0 mt-4" style="background: transparent;height: 68vh" id="scroll" data-simplebar>
+                                        <table class="table dt-responsive nowrap w-100 table-hover text-dark" id="tableFactureAvoir">
+                                            <thead>
+                                            <tr>
+                                                <th>Avoir N°</th>
+                                                <th>Référence</th>
+                                                <th>Date</th>
+                                                <th>Client</th>
+                                                <th>Produit</th>
+                                                <th>Quantité</th>
+                                                <th>Unité</th>
+                                                <th>P.U</th>
+                                                <th>Montant</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td style="padding-left: 10px">Avoir n° 1</td>
+                                                <td style="padding-left: 10px">FAC-5</td>
+                                                <td style="padding-left: 10px">date1</td>
+                                                <td style="padding-left: 10px">Jean Denis Trinito</td>
+                                                <td style="padding-left: 10px">Girofle</td>
+                                                <td style="padding-left: 10px">2</td>
+                                                <td style="padding-left: 10px">kg</td>
+                                                <td style="padding-left: 10px">25000</td>
+                                                <td style="padding-left: 10px">50000</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- -------------------------- modal print facture --------------------------------- -->
+            <div id="tableCleintImprimer" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-contentClient">
+                        <div class="modal-body"  id="tableFacturePrint">
+                            <h4 align="center" style="alignment: center;height: 40px;width: 100%;font-weight: 700;font-size: 16px;color: #223">LISTE DES FACTURES ENREGISTRES</h4>
+                            <table class="table dt-responsive nowrap w-100" id="tableFacturePrint0">
+                                <thead style="background-color: #aaa">
+                                <tr>
+                                    <th style="border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;color: #333">Facture numéro</th>
+                                    <th style="border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;color: #333">Date</th>
+                                    <th style="border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;color: #333">Client</th>
+                                    <th style="border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;color: #333">Montant</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="facture:${facVenteList}">
+                                    <td th:text="${facture.getFacVente()+'-'+facture.getId_FacVente()}" style="border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;color: #333"></td>
+                                    <td th:text="${facture.getDateFacVente()}" style="border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;color: #333"></td>
+                                    <td th:text="${facture.getNomClient()}" style="border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;color: #333"></td>
+                                    <td th:text="${facture.getMontant()}" style="border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;color: #333"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- --------------------------- modal avoir ------------------------------------------------------- -->
+    <div id="modalAvoir" class="modal modalEnc" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content modal-contentEnc" style="width: 400px;height: 400px;margin-top: 50px;background: rgb(24,35,50);box-shadow: 0 0 10px rgba(200,200,200,0.9)">
+            <div class="container corpsprixSpecial" style="margin: 0">
+                <form class="modal-content" style="background: none;border: none">
+                    <div class="modal-header" style="height: 50px">
+                        <h6 class="modal-title" id="standard-modalLabel" style="font-weight: 500">FACTURE D'AVOIR</h6>
+                        <button type="button" id="btnCloseModalAvoir" class="btn-close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-0">
+                            <label id="labFac" class="form-label"></label>
+                            <label id="labClient" class="form-label"></label>
+                        </div>
+                        <hr>
+                        <div class="mb-3">
+                            <input id="inputDesi" type="text" class="form-control" disabled/>
+                            <input id="inputQte" type="text" class="form-control" />
+                            <input id="inputUte" type="text" class="form-control" disabled/>
+                            <input id="inputPu" type="text" class="form-control" disabled/>
+                            <input id="inputSomme" type="text" class="form-control" disabled/>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="justify-content: center">
+                        <button id="btnAnnulerAvoirModal" type="button" class="btn btn-danger" >Annuler</button>
+                        <button id="btnAccorderAvoirModal" type="button" class="btn btn-primary btn-enregistrer">Accorder</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+<!-------------------------------------------------------------------- script ------------------------------->
+
+<script src="../liens/js/jquery-3.5.1.min.js"></script>
+<script src="../js/table2excel.js"></script>
+<script src="../js/print.min.js"></script>
+<script src="../js/simplebar.min.js"></script>
+<script src="../js/main.js"></script>
+
+<script>
+
+    var d = new Date();
+    var year = d.getFullYear();
+    var month = d.getMonth() + 1;
+
+    if (month<10){
+        month = '0'+month;
+    }
+    var date0 = d.getDate();
+    if (date0<10){
+        date0 = '0'+date0;
+    }
+
+    var c_date = year+'-'+month+'-'+date0;
+    document.getElementById("input-date-debut2").value = c_date;
+    document.getElementById("input-date-fin2").value = c_date;
+
+    /* *************************** filtrage du tableau par mot date ************************************ */
+    document.getElementById("btn-facture-filter2").addEventListener('click',function () {
+
+        var formDataFilterDate = {
+            dateDebut: $("#input-date-debut2").val(),
+            dateFin: $("#input-date-fin2").val()
+        }
+        $.ajax({
+            type: "POST",
+            contentType: "application/json",
+            url: "/FiltrerDateFacture",
+            data: JSON.stringify(formDataFilterDate),
+            dataType: 'json',
+            success: function (result) {
+                console.log("reussi")
+                if (result.status === 'success') {
+                    //alert("nomby");
+                    var tableFac = document.getElementById("tableFacture");
+                    var tbodyFac = tableFac.querySelector("tbody");
+                    var rowsFac = tbodyFac.querySelectorAll("tr");
+                    tableFac.removeChild(tbodyFac);
+                    var nouveauTbody = document.createElement("tbody");
+                    tableFac.appendChild(nouveauTbody);
+                    $.each(result.data, function (i, facture) {
+                        var nouvelleLigne = nouveauTbody.insertRow(-1);
+
+                        var nouvelleCellule = nouvelleLigne.insertCell(0);
+                        var nouveauTexte = document.createTextNode(facture.facVente+"-"+facture.id_FacVente);
+                        nouvelleCellule.appendChild(nouveauTexte);
+
+                        /*------------ convert date to normale ---------------- */
+                        var date0000 = facture.dateFacVente.toString();
+                        var da = date0000.substring(0,date0000.indexOf('.'));
+                        var date3 = new Date(da+"-03:00")
+                        var date4 = date3.toISOString();
+                        var date5 = date4.substring(0,date4.indexOf("."));
+                        var date6 = date5.replace("T"," ")
+                        /*--------- fin convert date to normale ---------------- */
+
+                        var nouvelleCellule1 = nouvelleLigne.insertCell(1);
+                        var nouveauTexte1 = document.createTextNode(date6);
+                        nouvelleCellule1.appendChild(nouveauTexte1);
+
+                        var nouvelleCellule2 = nouvelleLigne.insertCell(2);
+                        var nouveauTexte2 = document.createTextNode(facture.nomClient);
+                        nouvelleCellule2.appendChild(nouveauTexte2);
+
+                        var nouvelleCellule3 = nouvelleLigne.insertCell(3);
+                        var nouveauTexte3 = document.createTextNode(facture.montant);
+                        nouvelleCellule3.appendChild(nouveauTexte3);
+
+                       // console.log("date : "+facture.dateFacVente);
+                    });
+                }
+            },
+            error: function (e){
+                alert("erreur : "+e);
+            }
+        });
+    });
+
+    /* *************************** filtrage du tableau par mot cle ************************************ */
+    var inputSearch = document.getElementById("input-search-stock");
+    inputSearch.addEventListener("keyup",function(){
+        var keyword = this.value;
+        keyword = keyword.toUpperCase();
+        var table_3 = document.getElementById("tableFacture");
+        var all_tr = table_3.getElementsByTagName("tr");
+        for(var i=0; i<all_tr.length; i++){
+            var all_columns = all_tr[i].getElementsByTagName("td");
+            for(j=0;j<all_columns.length; j++){
+                if(all_columns[j]){
+                    var column_value = all_columns[j].textContent || all_columns[j].innerText;
+                    column_value = column_value.toUpperCase();
+                    if(column_value.indexOf(keyword) > -1){
+                        all_tr[i].style.display = ""; // show
+                        break;
+                    }else{
+                        all_tr[i].style.display = "none"; // hide
+                    }
+                }
+            }
+        }
+    })
+
+
+
+    /* *************** action double click sur des lignes ******************* */
+    let tableF = document.getElementById("tableFacture");
+    let tabLignes = tableF.getElementsByTagName("tr");
+    function doubleClick(nombre) {
+        console.log(nombre);
+        /*for (var i = 0; i < tabLignes.length; i++) {
+            var tabCol = tabLignes[nombre].getElementsByTagName("td");
+            for(j=0;j<tabCol.length; j++){
+                document.getElementById("input-search-stock").value = tabCol[0].innerText;
+            }
+        }*/
+    }
+
+
+    var pageFacListe = document.getElementById("factureListePage");
+    var pageFacAvoir = document.getElementById("factureAvoirPage");
+    var pageFacAvoirListe = document.getElementById("factureAvoirListePage");
+    var btnCloseAvoir = document.getElementById("btnCloseAvoir");
+    var btnFactureAvoir = document.getElementById("btn-facture-avoir");
+    var btnFactureAvoirRetour = document.getElementById("btn-retourAvoir");
+
+    $('#tableFacture tbody').on('dblclick','tr',function (){
+        var currow = $(this).closest('tr');
+        var col1 = currow.find('td:eq(0)').text();
+        var col2 = currow.find('td:eq(1)').text();
+        var col3 = currow.find('td:eq(2)').text();
+        document.getElementById("input-search-avoir").value = col1;
+        pageFacListe.style.display='none';
+        pageFacAvoirListe.style.display='none';
+        pageFacAvoir.style.display='block';
+
+        document.getElementById("facNum").innerText = col1;
+        document.getElementById("facDate").innerText = col2;
+        document.getElementById("facClient").innerText = col3;
+
+
+        /* --------------------- table fac Details ---------------------- */
+        var tableFD = document.getElementById("tableFactureDetail");
+        //var tableBody = tableFD.getElementsByTagName("tbody");
+        var ligneFDB = tableFD.getElementsByTagName("tr");
+
+        for (var i=0;i<ligneFDB.length;i++){
+            var colFDB = ligneFDB[i].getElementsByTagName("td")[6];
+            if (colFDB) {
+                if (colFDB.innerText === document.getElementById("input-search-avoir").value) {
+                    ligneFDB[i].style.display = '';
+                    console.log("Egale");
+                } else {
+                    ligneFDB[i].style.display = 'none';
+                    console.log("different");
+                }
+            }
+        }
+    })
+
+    btnFactureAvoir.addEventListener('click',function (){
+        pageFacListe.style.display='none';
+        pageFacAvoirListe.style.display='block';
+        pageFacAvoir.style.display='none';
+
+        $.ajax({
+            type: "GET",
+            url: "/GetAllAvoir",
+            success: function (result) {
+                if (result.status === "success") {
+                    var tableFacAvoir = document.getElementById("tableFactureAvoir");
+                    var tbodyFacA = tableFacAvoir.querySelector("tbody");
+                    tableFacAvoir.removeChild(tbodyFacA);
+                    var nouveauTbodyA = document.createElement("tbody");
+                    tableFacAvoir.appendChild(nouveauTbodyA);
+                    $.each(result.data, function (i, avoir) {
+
+                        /*------------ convert date to normale ---------------- */
+                        let date0000 = avoir.dateFacAvoire.toString();
+                        let da = date0000.substring(0,date0000.indexOf('.'));
+                        let date3 = new Date(da+"-03:00")
+                        let date4 = date3.toISOString();
+                        let date5 = date4.substring(0,date4.indexOf("."));
+                        let date6 = date5.replace("T"," ")
+                        /*--------- fin convert date to normale ---------------- */
+
+                        var nouvelleLigneA = nouveauTbodyA.insertRow(-1);
+
+                        var nouvelleCelluleA = nouvelleLigneA.insertCell(0);
+                        var nouveauTexteA = document.createTextNode(avoir.facAvoir+" "+avoir.idFacAvoir);
+                        nouvelleCelluleA.appendChild(nouveauTexteA);
+
+                        var nouvelleCelluleA1 = nouvelleLigneA.insertCell(1);
+                        var nouveauTexteA1 = document.createTextNode(avoir.refFacture);
+                        nouvelleCelluleA1.appendChild(nouveauTexteA1);
+
+                        var nouvelleCelluleA2 = nouvelleLigneA.insertCell(2);
+                        var nouveauTexteA2 = document.createTextNode(date6);
+                        nouvelleCelluleA2.appendChild(nouveauTexteA2);
+
+                        var nouvelleCelluleA3 = nouvelleLigneA.insertCell(3);
+                        var nouveauTexteA3 = document.createTextNode(avoir.nomClient);
+                        nouvelleCelluleA3.appendChild(nouveauTexteA3);
+
+                        var nouvelleCelluleA4 = nouvelleLigneA.insertCell(4);
+                        var nouveauTexteA4 = document.createTextNode(avoir.nomProduit);
+                        nouvelleCelluleA4.appendChild(nouveauTexteA4);
+
+                        var nouvelleCelluleA5 = nouvelleLigneA.insertCell(5);
+                        var nouveauTexteA5 = document.createTextNode(avoir.quantiteProduit);
+                        nouvelleCelluleA5.appendChild(nouveauTexteA5);
+
+                        var nouvelleCelluleA6 = nouvelleLigneA.insertCell(6);
+                        var nouveauTexteA6 = document.createTextNode(avoir.uniteProduit);
+                        nouvelleCelluleA6.appendChild(nouveauTexteA6);
+
+                        var nouvelleCelluleA7 = nouvelleLigneA.insertCell(7);
+                        var nouveauTexteA7 = document.createTextNode(avoir.prixUnitaireProduit);
+                        nouvelleCelluleA7.appendChild(nouveauTexteA7);
+
+                        var nouvelleCelluleA8 = nouvelleLigneA.insertCell(8);
+                        var nouveauTexteA8 = document.createTextNode(avoir.montantFacVente);
+                        nouvelleCelluleA8.appendChild(nouveauTexteA8);
+                    });
+                }
+            },
+            error: function (e){
+                alert("erreur liste avoir : "+e);
+            }
+        });
+    });
+
+
+    btnFactureAvoirRetour.addEventListener('click',function (){
+        pageFacListe.style.display='block';
+        pageFacAvoirListe.style.display='none';
+        pageFacAvoir.style.display='none';
+    });
+
+    var btnAnnulerAvoir = document.getElementById("annulerAvoir");
+    var btnCreerAvoir = document.getElementById("btnCreerAvoir");
+    btnCreerAvoir.addEventListener('click',creerAvoirFacture);
+    function creerAvoirFacture(){
+        var idCheckBox = document.querySelectorAll("#checkBoxT");
+        for (var i=0;i<idCheckBox.length;i++){
+            idCheckBox[i].style.display='';
+        }
+
+        document.getElementById("hrBtnSaveAvoir").style.display='';
+        document.getElementById("rowBtnSaveAvoir").style.display='';
+        document.querySelector(".bodyAvoir").style.height='43vh';
+    }
+
+    btnAnnulerAvoir.addEventListener('click',annulerAvoir);
+    function annulerAvoir(){
+        var idCheckBox = document.querySelectorAll("#checkBoxT");
+        for (var i=0;i<idCheckBox.length;i++){
+            idCheckBox[i].style.display='none';
+        }
+        document.getElementById("hrBtnSaveAvoir").style.display='none';
+        document.getElementById("rowBtnSaveAvoir").style.display='none';
+        document.querySelector(".bodyAvoir").style.height='50vh';
+
+        var inputs = document.querySelectorAll('#checkBoxT'),
+            inputsLength = inputs.length;
+        for (var i = 0 ; i < inputsLength ; i++) {
+            if (inputs[i].type == 'radio') {
+                inputs[i].checked = false;
+            }
+        }
+    }
+
+    btnCloseAvoir.addEventListener('click',closeAvoir);
+    function closeAvoir(){
+        pageFacAvoir.style.display='none';
+        pageFacAvoirListe.style.display='none';
+        pageFacListe.style.display='block';
+
+        /* --------------------- table fac Details ---------------------- */
+        var tableFD = document.getElementById("tableFactureDetail");
+        //var tableBody = tableFD.getElementsByTagName("tbody");
+        var ligneFDB = tableFD.getElementsByTagName("tr");
+
+        for (var i=0;i<ligneFDB.length;i++){
+            ligneFDB[i].style.display = '';
+        }
+
+        annulerAvoir();
+    }
+
+    /*--------------------- radios avoir -------------------------------------------- */
+    function check() {
+        var inputs = document.querySelectorAll('#checkBoxT'),
+            inputsLength = inputs.length;
+        var labFac = document.getElementById("labFac");
+        var labClient = document.getElementById("labClient");
+        var inputDesi = document.getElementById("inputDesi");
+        var inputQte = document.getElementById("inputQte");
+        var inputUte = document.getElementById("inputUte");
+        var inputPu = document.getElementById("inputPu");
+        var inputSomme = document.getElementById("inputSomme");
+        for (var i = 0 ; i < inputsLength ; i++) {
+            if (inputs[i].type == 'radio' && inputs[i].checked) {
+
+                document.getElementById("modalAvoir").style.display = "block";
+
+                let nomClientFac = document.getElementById("facClient").innerText;
+                var rowCol = inputs[i].parentNode.parentNode;
+                let desi = rowCol.querySelector('td:nth-child(1)')
+                let qte = rowCol.querySelector('td:nth-child(2)')
+                let ute = rowCol.querySelector('td:nth-child(3)')
+                let pu = rowCol.querySelector('td:nth-child(4)')
+                let somme = rowCol.querySelector('td:nth-child(5)')
+                let refFact = rowCol.querySelector('td:nth-child(7)')
+
+
+                labFac.innerText = refFact.textContent;
+                labClient.innerText = nomClientFac;
+                inputDesi.value = desi.textContent;
+                inputQte.value = qte.textContent;
+                inputUte.value = ute.textContent;
+                inputPu.value = pu.textContent;
+                inputSomme.value = somme.textContent;
+
+                inputQte.addEventListener('keyup',function (){
+                   inputSomme.value = ((inputQte.value) * (inputPu.value)) ;
+                });
+
+                let btnCloseModal = document.getElementById("btnCloseModalAvoir");
+                btnCloseModal.addEventListener('click',function (){
+                    document.getElementById("modalAvoir").style.display = "none";
+                })
+                let btnAnnulerAvoir = document.getElementById("btnAnnulerAvoirModal");
+                btnAnnulerAvoir.addEventListener('click',function (){
+                    document.getElementById("modalAvoir").style.display = "none";
+                })
+
+            }
+
+
+        }
+        let btnAccorderAvoir = document.getElementById("btnAccorderAvoirModal");
+        btnAccorderAvoir.addEventListener('click',function (){
+            var formData = {
+                facAvoir: "Avoir n° ",
+                refFacture: labFac.innerText,
+                dateFacAvoire: new Date(),
+                nomClient: labClient.innerText,
+                nomProduit: inputDesi.value,
+                quantiteProduit: inputQte.value,
+                uniteProduit: inputUte.value,
+                prixUnitaireProduit: inputPu.value,
+                montantFacVente: inputSomme.value
+            }
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: "/SaveFacAvoir",
+                data: JSON.stringify(formData),
+                dataType: 'json',
+                success: function (result) {
+                    console.log("reussi")
+                    if (result.status === 'success') {
+                        //alert(result.data);
+                        document.getElementById("modalAvoir").style.display = "none";
+                    }
+                },
+                error: function (e) {
+                    alert("Erreur avoir : " + e);
+                }
+
+            });
+        });
+    }
+
+
+
+    function ajaxPostFactureAvoir() {
+        var formData = {
+            refMagasin: "",
+            nomMagasin: $("#nomMagasin").val(),
+            adresseMagasin: $("#adresseMagasin").val(),
+            capaciteMagasin: $("#capaciteMagasin").val(),
+            dateCreationMagasin: new Date()
+        }
+        $.ajax({
+            type: "POST",
+            contentType: "application/json",
+            url: "/SaveMagasin",
+            data: JSON.stringify(formData),
+            dataType: 'json',
+            success: function (result) {
+                console.log("reussi")
+                if (result.status === 'success') {
+                    $.each(result.data, function (i, magasin) {
+
+                    });
+                }
+            },
+            error: function (e) {
+                alert("Erreur avoir : " + e);
+            }
+
+        });
+    }
+
+    /* *************************** separateur de milieux ***************************** */
+    function numStr(a, b) {
+        a = '' + a;
+        b = b || ' ';
+        var c = '', d = 0;
+        while (a.match(/^0[0-9]/)) {
+            a = a.substr(1);
+        }
+        if (/./.test(a)){
+            var nouvA = a.substr(0,a.indexOf('.'));
+            var lastA = a.substring(a.lastIndexOf('.') + 1);
+            for (var i = nouvA.length-1; i >= 0; i--) {
+                c = (d != 0 && d % 3 == 0) ? nouvA[i] + b + c : nouvA[i] + c;
+                d++;
+            }
+            return c = c + '.' + lastA;
+        }
+        else {
+            for (var j = a.length-1; j >= 0; j--) {
+                c = (d != 0 && d % 3 == 0) ? a[j] + b + c : a[j] + c;
+                d++;
+            }
+            return c;
+        }
+
+        return c;
+    }
+
+    /* --------------------- table fac Details ---------------------- */
+    var tableFac = document.getElementById("tableFacture");
+    var ligneFacB = tableFac.getElementsByTagName("tr");
+    for (var i=1;i<ligneFacB.length;i++){
+        var colFacB = ligneFacB[i].getElementsByTagName("td")[3];
+        console.log(colFacB.innerText);
+
+        colFacB.innerText = numStr(colFacB.innerText);
+    }
+
+    var myString = '150000.1515';
+    var nick_1 = myString.substring(0, myString.indexOf('.'));
+    console.log("myString : "+myString)
+    console.log("Nouv myString : "+nick_1)
+
+    /* ****************** print pageListe facture *************************************** */
+
+    var boutonImprimerFacture = document.getElementById("btnPrintFacture");
+    boutonImprimerFacture.addEventListener('click',printFactureAction);
+    function printFactureAction() {
+        printJS({
+            printable: 'tableFacturePrint',
+            type: 'html',
+            targetStyles: ['*']
+        });
+    }
+
+    /* ********************** exporter tableClient vers excel ******************************** */
+
+    var boutonExcelFacture = document.getElementById("btnExportExcelFacture");
+    boutonExcelFacture.addEventListener('click',Export);
+    function Export() {
+        $("#tableFacturePrint").table2excel({
+            filename: "Liste_Facture "+new Date().getFullYear()+"-"+new Date().getMonth()+"-"+new Date().getDate()+" "+new Date().getHours()+"h"+new Date().getMinutes()+"min .xls"
+        });
+    }
+
+</script>
+
+</body>
+</html>

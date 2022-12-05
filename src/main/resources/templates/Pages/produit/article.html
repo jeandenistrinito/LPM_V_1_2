@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>lpm.v.0</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+
+    <link rel="stylesheet" href="/webjars/bootstrap/5.1.3/css/bootstrap.min.css">
+    <script rel="stylesheet" src="/webjars/bootstrap/5.1.3/js/bootstrap.bundle.js"></script>
+
+
+    <link href="../liens/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="../liens/remixicon/remixicon.css" rel="stylesheet">
+    <link href="../assets3/css/icons.min.css" rel="stylesheet" >
+
+    <link href="../js/print.min.css" rel="stylesheet">
+    <link href="../js/simplebar.css" rel="stylesheet">
+    <link href="../css/styles.css" rel="stylesheet">
+
+</head>
+<body style="background-color: transparent">
+
+    <!-- *********************************************** content *********************************** -->
+
+    <div class="produitActionContainer" style="height: 100vh" data-simplebar>
+        <!--<div class="tousProduits active">-->
+            <div class="row" id="utilisateur">
+                <div class="col-lg-3 col-xl-3 col-md-4 col-sm-12">
+                    <div class="row mb-2">
+                        <div class="col-12">
+                            <div class="card" style="height: 71vh">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="boutons_modals" style="margin-left: 0">
+                                                <ul class="ul-nav" style="margin-left: -5px">
+                                                    <li class="ul-li-nav">
+                                                        <a class="btn btn-primary" id="btnCategorieModalProduit">Nouveau catégorie</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <table class="table dt-responsive nowrap w-100" id="tableFonction">
+                                            <thead>
+                                            <tr>
+                                                <th>Code</th>
+                                                <th>Catégorie</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr th:each="cat:${categorieList}">
+                                                <td th:text="${cat.getCodeCategorie()}"></td>
+                                                <td th:text="${cat.getNomCategorie()}"></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div> <!-- end card body-->
+                            </div> <!-- end card -->
+                        </div><!-- end col-->
+                    </div>
+                </div>
+                <div class="col-lg-9 col-xl-9 col-md-8 col-sm-12">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="container-fluid" style="height: 71vh;width: 100%;padding: 0px;background: rgba(17,19,33,0.8);border-radius: 4px" data-simplebar>
+                                <div class="card" >
+                                    <div class="card-body produitL">
+                                        <table class="table" id="tableProduitArt">
+                                            <thead>
+                                            <tr>
+                                                <th>Image</th>
+                                                <th>Code</th>
+                                                <th>Désignation</th>
+                                                <th>Niveau</th>
+                                                <th>Unité</th>
+                                                <th>Quantité</th>
+                                                <th>Poids</th>
+                                                <th>Action</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <!--<tr th:each="prod:${produitList0}">
+                                                <td>
+                                                    <div id="imgP" class="egale" style="border-color: transparent;height: 40px;width: 40px;">
+                                                        <img alt="" th:src="*{'data:image/jpeg;base64,'+{prod.getPhotoProduit()}}" style="max-height: 40px;min-height: 40px;max-width: 40px;border-radius: 3px">
+                                                    </div>
+                                                </td>
+                                                <td th:text="${prod.getCodeProduit()}"></td>
+                                                <td th:text="${prod.getNomProduit()}"></td>
+                                                <td th:text="${prod.getNiveauProduit()}"></td>
+                                                <td th:text="${prod.getUniteProduit()}"></td>
+                                                <td th:text="${prod.getQuantiteProduit()}"></td>
+                                                <td th:text="${prod.getPoidsProduit()}"></td>
+                                                <td style="padding-right: 0px">
+                                                    <div class="actionEditSupp" style="right: 0px;align-content: end">
+                                                        <a class="btn modifierVente" style="padding: 0;width: 20px;height: 20px;border-radius: 3px;background-color: olivedrab;color: white;"><i class="bi bi-pencil-fill" style="font-size: 11px;vertical-align: top"></i></a>
+                                                        <a class="btn supprimerVente" style="padding: 0;width: 20px;height: 20px;border-radius: 3px;background-color: orangered;color: white;"><i class="bi bi-cart-x" style="font-size: 12px;vertical-align: top"></i></a>
+                                                    </div>
+                                                </td>
+                                            </tr>-->
+                                            <tr th:each="plp:${produitPlusProduits}">
+                                                <td style="border: 1px solid #666;border-right-color: transparent;">
+                                                    <div id="imgP" th:each="produit0:${produitList0}" th:class="${plp.getNomProduit()==produit0.getNomProduit()?'egale':'different'}" style="border-color: transparent;height: 40px;width: 40px;">
+                                                        <img alt="" th:src="*{'data:image/jpeg;base64,'+{produit0.getPhotoProduit()}}" style="max-height: 40px;min-height: 40px;max-width: 40px;min-width: 40px;border-radius: 3px">
+                                                        <!--<img alt="" th:src="*{produit0.getPhotoProduit()}" style="max-height: 40px;min-height: 40px;max-width: 40px;min-width: 40px;border-radius: 3px">-->
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div id="codeP" th:each="produit0:${produitList0}" th:class="${plp.getNomProduit()==produit0.getNomProduit()?'egale':'different'}" style="border-color: transparent;height: 40px;width: 40px;">
+                                                        <span th:text="${produit0.getCodeProduit()}"></span>
+                                                    </div>
+                                                </td>
+                                                <td id="pnom" th:text="${plp.getNomProduit()}" style="padding-top: 10px;border: 1px solid #666;border-left-color: transparent;"></td>
+                                                <td>
+                                                    <table class="table" id="secondTable5" style="margin: 0">
+                                                        <tbody>
+                                                        <tr th:each="produit0:${produitList0}" th:class="${plp.getNomProduit()==produit0.getNomProduit()?'egale':'different'}" style="height: 25px">
+                                                            <td th:text="${produit0.getNiveauProduit()}"></td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                                <td>
+                                                    <table class="table table-hover text-dark" id="secondTable2" style="margin: 0">
+                                                        <tbody>
+                                                        <tr th:each="produit0:${produitList0}" th:class="${plp.getNomProduit()==produit0.getNomProduit()?'egale':'different'}" style="height: 25px">
+                                                            <td th:text="${produit0.getUniteProduit()}"></td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                                <td>
+                                                    <table class="table table-hover text-dark" id="secondTable3" style="margin: 0">
+                                                        <tbody>
+                                                        <tr th:each="produit0:${produitList0}" th:class="${plp.getNomProduit()==produit0.getNomProduit()?'egale':'different'}" style="height: 25px">
+                                                            <td th:text="${produit0.getQuantiteProduit()}"></td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                                <td>
+                                                    <table class="table table-hover text-dark" id="secondTable4" style="margin: 0">
+                                                        <tbody>
+                                                        <tr th:each="produit0:${produitList0}" th:class="${plp.getNomProduit()==produit0.getNomProduit()?'egale':'different'}" style="height: 25px">
+                                                            <td th:text="${produit0.getPoidsProduit()}"></td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                                <td style="border: 1px solid #666;padding-right: 0">
+                                                    <div class="actionEditSupp" style="margin-left: 10px;right: 0px;align-content: end">
+                                                        <a class="btn modifierVente" id="btnModifierProduit" style="padding: 0;width: 20px;height: 20px;border-radius: 3px;background-color: olivedrab;color: white;"><i class="bi bi-pencil-fill" style="font-size: 11px;vertical-align: top"></i></a>
+                                                        <a onclick="confirm('Etes-vous sure de supprimer ce produit ?')" th:href="@{DeleteProduit(nomP=${plp.getNomProduit()})}" class="btn supprimerVente" id="btnDeleteProduit" style="padding: 0;width: 20px;height: 20px;border-radius: 3px;background-color: orangered;color: white;"><img src="../images/delete_16px.png" style="min-height: 12px;max-height: 14px;height: 14px;vertical-align: top;margin: 2px"> </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <!--<tr th:each="plp:${produitPlusProduits}">
+                                            <td>
+                                                <div id="imgP" th:each="produit0:${produitList0}" th:style="${plp.getNomProduit()==produit0.getNomProduit()?'display: block;border-bottom-width: 1px;padding-left: 10px;':'display: none'}">
+                                                    <img alt="" th:src="*{'data:image/jpeg;base64,'+{produit0.getPhotoProduit()}}" style="max-height: 40px;min-height: 40px;max-width: 40px;border-radius: 3px">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div id="codeP" th:each="produit0:${produitList0}" th:style="${plp.getNomProduit()==produit0.getNomProduit()?'display: block;border-bottom-width: 1px;padding-left: 10px;':'display: none'}">
+                                                    <span th:text="${produit0.getCodeProduit()}"></span>
+                                                </div>
+                                            </td>
+                                            <td th:text="${plp.getNomProduit()}" style="padding-top: 10px"></td>
+                                            <td>
+                                                <table class="table" id="secondTable1">
+                                                    <tbody>
+                                                    <tr th:each="produit0:${produitList0}" th:style="${plp.getNomProduit()==produit0.getNomProduit()?'display: block;border-bottom-width: 1px;padding-left: 10px;':'display: none'}">
+                                                        <td th:text="${produit0.getNiveauProduit()}"></td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                            <td>
+                                                <table class="table" id="secondTable2">
+                                                    <tbody>
+                                                    <tr th:each="produit0:${produitList0}" th:style="${plp.getNomProduit()==produit0.getNomProduit()?'display: block;border-bottom-width: 1px;padding-left: 10px;':'display: none'}">
+                                                        <td th:text="${produit0.getUniteProduit()}"></td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                            <td>
+                                                <table class="table" id="secondTable3">
+                                                    <tbody>
+                                                    <tr th:each="produit0:${produitList0}" th:style="${plp.getNomProduit()==produit0.getNomProduit()?'display: block;border-bottom-width: 1px;padding-left: 10px;':'display: none'}">
+                                                        <td th:text="${produit0.getQuantiteProduit()}"></td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                            <td>
+                                                <table class="table" id="secondTable4">
+                                                    <tbody>
+                                                    <tr th:each="produit0:${produitList0}" th:style="${plp.getNomProduit()==produit0.getNomProduit()?'display: block;border-bottom-width: 1px;padding-left: 10px;':'display: none'}">
+                                                        <td th:text="${produit0.getPoidsProduit()}"></td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                            <td style="padding-right: 0px">
+                                                <div class="actionEditSupp" style="right: 0px;align-content: end">
+                                                    <a class="btn modifierVente" style="padding: 0;width: 20px;height: 20px;border-radius: 3px;background-color: olivedrab;color: white;"><i class="bi bi-pencil-fill" style="font-size: 11px;vertical-align: top"></i></a>
+                                                    <a class="btn supprimerVente" style="padding: 0;width: 20px;height: 20px;border-radius: 3px;background-color: orangered;color: white;"><i class="bi bi-cart-x" style="font-size: 12px;vertical-align: top"></i></a>
+                                                </div>
+                                            </td>
+                                            </tr>-->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <!--</div>-->
+
+        <!-- modal print -->
+        <div id="tableArt-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div id="tableParentModal">
+                            <!--<table id="tableProduitArtPrint">
+                                <thead>
+                                <tr>
+                                    <th>Code</th>
+                                    <th>Désignation</th>
+                                    <th>Niveau</th>
+                                    <th>Unité</th>
+                                    <th>Quantité</th>
+                                    <th>Poids</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="prod:${produitList0}">
+                                    <td th:text="${prod.getCodeProduit()}"></td>
+                                    <td th:text="${prod.getNomProduit()}"></td>
+                                    <td th:text="${prod.getNiveauProduit()}"></td>
+                                    <td th:text="${prod.getUniteProduit()}"></td>
+                                    <td th:text="${prod.getQuantiteProduit()}"></td>
+                                    <td th:text="${prod.getPoidsProduit()}"></td>
+                                </tr>
+                                </tbody>
+                            </table>-->
+                            <h4 align="center" style="alignment: center;height: 40px;width: 100%;font-weight: 700;font-size: 16px;color: #223">LISTE DES PRODUITS ENREGISTRES</h4>
+                            <table class="table" id="tableProduitArtPrint">
+                                <thead  style="background-color: #aaa;border: 1px solid #333">
+                                <tr>
+                                    <th style="color: #333">Code</th>
+                                    <th style="color: #333">Désignation</th>
+                                    <th style="color: #333">Niveau</th>
+                                    <th style="color: #333">Unité</th>
+                                    <th style="color: #333">Quantité</th>
+                                    <th style="color: #333">Poids</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="plp:${produitPlusProduits}">
+                                    <td style="border: 1px solid #333;border-right-color: transparent">
+                                        <div id="codeP" th:each="produit0:${produitList0}" th:class="${plp.getNomProduit()==produit0.getNomProduit()?'egale':'different'}" style="border-color: transparent;height: 40px;width: 40px;">
+                                            <span th:text="${produit0.getCodeProduit()}" style="color: #333"></span>
+                                        </div>
+                                    </td>
+                                    <td id="pnom" th:text="${plp.getNomProduit()}" style="padding-top: 10px;border: 1px solid #666;border-left-color: transparent;color: #333"></td>
+                                    <td style="padding: 0">
+                                        <table class="table" id="secondTable5" style="margin: 0">
+                                            <tbody>
+                                            <tr th:each="produit0:${produitList0}" th:class="${plp.getNomProduit()==produit0.getNomProduit()?'egale':'different'}" style="height: 25px">
+                                                <td th:text="${produit0.getNiveauProduit()}" style="color: #333"></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                    <td style="padding: 0">
+                                        <table class="table table-hover text-dark" id="secondTable2" style="margin: 0">
+                                            <tbody>
+                                            <tr th:each="produit0:${produitList0}" th:class="${plp.getNomProduit()==produit0.getNomProduit()?'egale':'different'}" style="height: 25px">
+                                                <td th:text="${produit0.getUniteProduit()}"></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                    <td style="padding: 0">
+                                        <table class="table table-hover text-dark" id="secondTable3" style="margin: 0">
+                                            <tbody>
+                                            <tr th:each="produit0:${produitList0}" th:class="${plp.getNomProduit()==produit0.getNomProduit()?'egale':'different'}" style="height: 25px">
+                                                <td th:text="${produit0.getQuantiteProduit()}"></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                    <td style="padding: 0;border: 1px solid #333;border-left-color: transparent">
+                                        <table class="table table-hover text-dark" id="secondTable4" style="margin: 0">
+                                            <tbody>
+                                            <tr th:each="produit0:${produitList0}" th:class="${plp.getNomProduit()==produit0.getNomProduit()?'egale':'different'}" style="height: 25px">
+                                                <td th:text="${produit0.getPoidsProduit()}"></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <!--<tr th:each="prod:${produitList0}">
+                                    <td th:text="${prod.getCodeProduit()}" style="border: 1px solid #333;border-right-color: transparent;color: #333"></td>
+                                    <td th:text="${prod.getNomProduit()}" style="color: #333"></td>
+                                    <td th:text="${prod.getNiveauProduit()}" style="color: #333"></td>
+                                    <td th:text="${prod.getUniteProduit()}" style="color: #333"></td>
+                                    <td th:text="${prod.getQuantiteProduit()}" style="color: #333"></td>
+                                    <td th:text="${prod.getPoidsProduit()}" style="border: 1px solid #333;border-left-color: transparent;color: #333"></td>
+                                </tr>-->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="tableParentModal2">
+                            <!--<table id="tableProduitArtPrint">
+                                <thead>
+                                <tr>
+                                    <th>Code</th>
+                                    <th>Désignation</th>
+                                    <th>Niveau</th>
+                                    <th>Unité</th>
+                                    <th>Quantité</th>
+                                    <th>Poids</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="prod:${produitList0}">
+                                    <td th:text="${prod.getCodeProduit()}"></td>
+                                    <td th:text="${prod.getNomProduit()}"></td>
+                                    <td th:text="${prod.getNiveauProduit()}"></td>
+                                    <td th:text="${prod.getUniteProduit()}"></td>
+                                    <td th:text="${prod.getQuantiteProduit()}"></td>
+                                    <td th:text="${prod.getPoidsProduit()}"></td>
+                                </tr>
+                                </tbody>
+                            </table>-->
+                            <h4 align="center" style="alignment: center;height: 40px;width: 100%;font-weight: 700;font-size: 16px;color: #223">LISTE DES PRODUITS ENREGISTRES</h4>
+                            <table class="table" id="tableProduitArtPrint2">
+                                <thead  style="background-color: #aaa;border: 1px solid #333">
+                                <tr>
+                                    <th style="color: #333">Code</th>
+                                    <th style="color: #333">Désignation</th>
+                                    <th style="color: #333">Niveau</th>
+                                    <th style="color: #333">Unité</th>
+                                    <th style="color: #333">Quantité</th>
+                                    <th style="color: #333">Poids</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="prod:${produitList0}">
+                                    <td th:text="${prod.getCodeProduit()}" style="border: 1px solid #333;border-right-color: transparent;color: #333"></td>
+                                    <td th:text="${prod.getNomProduit()}" style="color: #333"></td>
+                                    <td th:text="${prod.getNiveauProduit()}" style="color: #333"></td>
+                                    <td th:text="${prod.getUniteProduit()}" style="color: #333"></td>
+                                    <td th:text="${prod.getQuantiteProduit()}" style="color: #333"></td>
+                                    <td th:text="${prod.getPoidsProduit()}" style="border: 1px solid #333;border-left-color: transparent;color: #333"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Standard modal -->
+
+        <div id="categorie-modalProduit" class="modal modalEnc" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-content modal-contentEnc" style="width: 400px;height: 280px;margin-top: 50px;background: rgb(24,35,50);box-shadow: 0 0 10px rgba(200,200,200,0.9)">
+                <div class="container corpsprixSpecial" style="margin: 0">
+                    <form class="modal-content" method="post" th:action="@{/saveCategorie}" style="background: none;border: none">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="standard-modalLabel" style="font-weight: 500">CATEGORIE</h4>
+                            <button type="button" id="btnCloseModalCategorie" class="btn-close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label id="labelDesignation" for="libelle-fonction" class="form-label">Désignation</label>
+                                <input name="nomCategorie" th:value="${categorie.nomCategorie}" type="text" required id="libelle-fonction" class="form-control">
+                            </div>
+                        </div>
+                        <div class="modal-footer" style="justify-content: center">
+                            <button id="annulerCategorie" type="button" class="btn btn-danger" >Annuler</button>
+                            <button id="btn-enregistrer-categorie" type="submit" class="btn btn-primary btn-enregistrer">Enregistrer</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-------------------------------------------------------------------- script ------------------------------->
+
+    <script src="../liens/js/jquery-3.5.1.min.js"></script>
+    <script src="../js/table2excel.js"></script>
+    <script src="../js/print.min.js"></script>
+    <script src="../js/simplebar.min.js"></script>
+    <script src="../js/main.js"></script>
+
+    <script>
+
+        var btnModalCategorie = document.getElementById("btnCategorieModalProduit");
+        var modalEnc = document.getElementById("categorie-modalProduit");
+        var btnAnnulEnc = document.getElementById("annulerCategorie");
+        var btnCloseModalCategorie = document.getElementById("btnCloseModalCategorie");
+
+        btnModalCategorie.addEventListener('click',openModalEnc);
+        function openModalEnc(){
+            modalEnc.style.display='block';
+        }
+        btnCloseModalCategorie.addEventListener('click',closeModalEnc);
+        btnAnnulEnc.addEventListener('click',closeModalEnc);
+        function closeModalEnc(){
+            modalEnc.style.display='none';
+        }
+
+
+        /* --------------------- recuperer la ligne du tableau ---------------------------------- */
+        var tableProduit = document.getElementById("tableProduitArt");
+        var btnModifierProduit = document.querySelectorAll("#btnModifierProduit");
+        var i=0;
+
+        /*while (tableProduit.getElementsByTagName('td')[i]){
+            tableProduit.getElementsByTagName('td')[i].onclick=function(){
+                alert("ligne "+ this.parentNode.rowIndex)
+            };
+            i++;
+        }*/
+        var a = 0;
+        while (btnModifierProduit[i]){
+            btnModifierProduit[i].onclick=function(){
+                var divBtn = this.parentNode;
+                var colBtn = divBtn.parentNode;
+                var rowBtn = colBtn.parentNode;
+
+                var colT = rowBtn.querySelector('td:nth-child(3)');
+                //var divC = colT.firstElementChild;
+                //var spanD = divC.firstElementChild;
+
+                alert("Ligne numero : "+rowBtn.rowIndex+" , valeur colNom : "+colT.textContent);
+            };
+            i++;
+        }
+
+        /*btnModifierProduit.addEventListener('click',function (){
+            alert("ligne du td "+ this.parentNode.rowIndex);
+        });*/
+
+        /*var tousBtnDelProduit = document.querySelectorAll("#btnDeleteProduit");
+        for (var i=0;i<tousBtnDelProduit.length;i++){
+            tousBtnDelProduit[i].addEventListener('click',function (){
+                var currow = $("#tableProduitArt").closest('tr');
+                var col1 = currow.find('td:eq(1)').text();
+                console.log("col1 : "+col1);
+                confirm("Confirmation !");
+            });
+        }*/
+
+        /*function deleteProduit(){
+            var nomProduit = {
+                bookId: $("#bookId").val()
+            }
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url : "/saveBook",
+                data : JSON.stringify(formData),
+                dataType : 'json',
+                success : function (result) {
+                    if (result.status === "success"){
+                        $("#getResultDiv ul").empty()
+                        var custList = "";
+                        $.each(result.data, function (i,book){
+                            var user = "Book Name : "+book.bookName +", author : "+book.author+"<br/>";
+                            $("#getResultDiv .list-group").append(user);
+                        })
+                        console.log("Success : "+result);
+                    }
+                    else {
+                        $("#getResultDiv").html("<strong>Errors...</strong>");
+                        console.log("Fail : "+result);
+                    }
+                },
+                error : function (e) {
+                    alert("Error...");
+                    console.log("Error : "+e);
+                }
+            });
+        }*/
+
+        /* ****************** print pageListe facture *************************************** */
+
+        /*var boutonImprimerProduit = document.getElementById("btnPrintStock");
+        boutonImprimerProduit.addEventListener('click',printProduitAction);
+        function printProduitAction() {
+            printJS({
+                printable: 'tableMargePrint',
+                type: 'html',
+                targetStyles: ['*']
+            });
+        }*/
+
+        /* ********************** exporter tableClient vers excel ******************************** */
+
+        /*var boutonExcelStock = document.getElementById("btnExportExcelStock");
+        boutonExcelStock.addEventListener('click',Export);
+        function Export() {
+            $("#tableMargePrint").table2excel({
+                filename: "Liste_Marge "+new Date().getFullYear()+"-"+new Date().getMonth()+"-"+new Date().getDate()+" "+new Date().getHours()+"h"+new Date().getMinutes()+"min .xls"
+            });
+        }*/
+    </script>
+
+</body>
+</html>

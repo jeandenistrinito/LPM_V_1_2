@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>lpm.v.0</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+
+    <link rel="stylesheet" href="/webjars/bootstrap/5.1.3/css/bootstrap.min.css">
+    <script rel="stylesheet" src="/webjars/bootstrap/5.1.3/js/bootstrap.bundle.js"></script>
+
+    <link href="../liens/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="../liens/remixicon/remixicon.css" rel="stylesheet">
+    <link href="../assets3/css/icons.min.css" rel="stylesheet" >
+
+    <link href="../js/print.min.css" rel="stylesheet">
+    <link href="../js/simplebar.css" rel="stylesheet">
+    <link href="../css/styles.css" rel="stylesheet">
+
+    <script src="../js/main.js"></script>
+
+</head>
+<body>
+
+    <!-- ********************************************** header ******************************************* -->
+    <header id="header" class="header active fixed-top d-flex align-items-center">
+    <div class="logo_content btnMenu">
+        <i class="ri ri-menu-fill" id="btn"></i>
+    </div>
+    <div class="search-bar">
+        <form class="search-form d-flex align-items-center" method="POST" action="#">
+            <input type="text" name="query" placeholder="Search" title="Enter search keyword">
+            <button type="submit" title="Search"><i class="bi bi-search"></i></button>
+        </form>
+    </div><!-- End Search Bar -->
+    <nav class="header-nav ms-auto">
+        <ul class="d-flex align-items-center">
+            <li class="nav-item d-block d-lg-none">
+                <a class="nav-link nav-icon search-bar-toggle " href="#">
+                    <i class="bi bi-search"></i>
+                </a>
+            </li><!-- End Search Icon-->
+            <li class="nav-item">
+                <a class="btn" id="btnFullScreen" style="color: whitesmoke">
+                    <i class="bi bi-arrows-fullscreen"></i>
+                </a>
+            </li>
+            <li class="nav-item dropdown">
+                <div class="darklight-searchbox">
+                    <div class="darklight">
+                        <i class="bi bi-sun sun"></i>
+                        <i class="bi bi-moon moon"></i>
+                    </div>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+                    <i class="bi bi-bell" style="width: 35px"></i>
+                    <span class="badge bg-primary badge-number">4</span>
+                </a><!-- End Notification Icon -->
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
+                    <li class="dropdown-header">
+                        On a 4 nouvelles notifications
+                        <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">Voir tous</span></a>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li class="notification-item">
+                        <i class="bi bi-exclamation-circle text-warning"></i>
+                        <div>
+                            <h4>Fampitandremana</h4>
+                            <p>Fampitandremana mahakasika ny Produit efa holany</p>
+                            <p>Ny fotonany(12:54)</p>
+                        </div>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li class="notification-item">
+                        <i class="bi bi-x-circle text-danger"></i>
+                        <div>
+                            <h4>Fambara taintaina</h4>
+                            <p>Produit efa tsisy</p>
+                            <p>Ny fotonany(12:54)</p>
+                        </div>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li class="notification-item">
+                        <i class="bi bi-check-circle text-success"></i>
+                        <div>
+                            <h4>Fambara milamina</h4>
+                            <p>Fanambarana ireo Produit voaray ao @ Stock</p>
+                            <p>Ny fotonany(12:54)</p>
+                        </div>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li class="notification-item">
+                        <i class="bi bi-info-circle text-primary"></i>
+                        <div>
+                            <h4>Fanambarana tsotra</h4>
+                            <p>Vaovao mahakasika ny Produit</p>
+                            <p>Ny fotonany(12:54)</p>
+                        </div>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link nav-icon btn" href="#">
+                    <i class="bi bi-gear-fill" style="width: 35px"></i>
+                </a>
+            </li>
+            <li class="nav-item dropdown pe-3 pt-3" style="background-color: rgba(12,1,15,0.3);height: 80px">
+                <a class="nav-link nav-profile align-items-center pe-0" href="#" data-bs-toggle="dropdown" style="padding: 0 10px;width: 120px">
+                    <img src="/images/profile1.jpg" alt="Profile" class="rounded-circle" style="margin-left: calc((100% - 36px)/2)">
+                    <label id="labelNomUserRecup" class="labelNomUser d-none d-md-block dropdown-toggle" style="padding-left: 5px">Trinito</label>
+                </a><!-- End Profile Iamge Icon -->
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+                    <li class="dropdown-header">
+                        <h6>JDT. Trinito</h6>
+                        <span>Software Developer</span>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+                            <i class="bi bi-person"></i>
+                            <span>My Profile</span>
+                        </a>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+                            <i class="bi bi-gear"></i>
+                            <span>Account Settings</span>
+                        </a>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center" href="pages-faq.html">
+                            <i class="bi bi-question-circle"></i>
+                            <span>Need Help?</span>
+                        </a>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li>
+                        <a id="btnLogOut" class="dropdown-item d-flex align-items-center">
+                            <i class="bi bi-box-arrow-right"></i>
+                            <span>Sign Out</span>
+                        </a>
+                    </li>
+                </ul><!-- End Profile Dropdown Items -->
+            </li><!-- End Profile Nav -->
+        </ul>
+    </nav><!-- End Icons Navigation -->
+</header><!-- End Header -->
+
+    <!-- ********************************************** sidebar ******************************************* -->
+    <div class="sidebar active">
+        <div class="logo_content">
+            <div class="logo">
+                <img src="/images/vanille.PNG" alt="Profile" class="rounded-circle">
+                <div class="logo_name">LPM</div>
+            </div>
+            <!--<i class="ri ri-menu-fill" id="btn"></i>-->
+        </div>
+        <ul class="nav_list " style="padding-bottom: 0;margin-bottom: 0">
+            <li>
+                <div class="links_name menu">MENU DE NAVIGATION</div>
+            </li>
+        </ul>
+        <div class="sidebar-inner mt-0" style="height: 75%" id="scroll" data-simplebar>
+            <div class="mt-0" style="height: 100%" >
+                <ul class="nav_list " style="margin-top: 0">
+                    <li id="dash" class="li active">
+                        <a onclick="fragmentFrame('TableBord')">
+                            <i class="ri ri-layout-masonry-fill"></i>
+                            <span class="links_name active">Tableau de bord</span>
+                        </a>
+                        <span class="tooltip">Tableau de bord</span>
+                    </li>
+                    <li id="produit" class="li">
+                        <a onclick="fragmentFrame('ProduitListe')">
+                            <i class="ri ri-app-store-fill"></i>
+                            <span class="links_name">Produit</span>
+                        </a>
+                        <span class="tooltip">Produit</span>
+                    </li>
+                    <li id="vente" class="li">
+                        <a onclick="fragmentFrame('Vente')">
+                            <i class="ri ri-shopping-cart-fill"></i>
+                            <span class="links_name">Vente</span>
+                        </a>
+                        <span class="tooltip">Vente</span>
+                    </li>
+                    <li id="detailVente" class="li">
+                        <a onclick="fragmentFrame('DetailsVente')">
+                            <i class="ri ri-briefcase-fill"></i>
+                            <span class="links_name">Details de vente</span>
+                        </a>
+                        <span class="tooltip">Details de vente</span>
+                    </li>
+                    <li id="stock" class="li">
+                        <a onclick="fragmentFrame('Stock')">
+                            <i class="ri ri-database-fill"></i>
+                            <span class="links_name">Stock</span>
+                        </a>
+                        <span class="tooltip">Stock</span>
+                    </li>
+                    <li id="caisse" class="li">
+                        <a onclick="fragmentFrame('Caisse')">
+                            <i class="ri ri-money-dollar-circle-fill"></i>
+                            <span class="links_name">Caisse</span>
+                        </a>
+                        <span class="tooltip">Caisse</span>
+                    </li>
+                    <li id="prix" class="li">
+                        <a onclick="fragmentFrame('Prix')">
+                            <i class="ri ri-money-dollar-circle-fill"></i>
+                            <span class="links_name">Prix</span>
+                        </a>
+                        <span class="tooltip">Prix</span>
+                    </li>
+                    <li id="client" class="li">
+                        <a onclick="fragmentFrame('Clients')">
+                            <i class="ri ri-user-6-fill"></i>
+                            <span class="links_name">Client</span>
+                        </a>
+                        <span class="tooltip">Client</span>
+                    </li>
+                    <li id="frs" class="li">
+                        <a onclick="fragmentFrame('Fournisseur')">
+                            <i class="ri ri-user-2-fill"></i>
+                            <span class="links_name">Fournisseur</span>
+                        </a>
+                        <span class="tooltip">Fournisseur</span>
+                    </li>
+                    <li id="utilisateur" class="li">
+                        <a onclick="fragmentFrame('Utilisateur4')">
+                            <i class="ri ri-user-2-fill"></i>
+                            <span class="links_name">Utilisateur</span>
+                        </a>
+                        <span class="tooltip">Utilisateur</span>
+                    </li>
+                    <li id="magasin" class="li">
+                        <a onclick="fragmentFrame('Magasin')">
+                            <i class="ri ri-building-4-fill"></i>
+                            <span class="links_name">Magasin</span>
+                        </a>
+                        <span class="tooltip">Magasin</span>
+                    </li>
+                    <li id="brLiens" class="li">
+                        <a onclick="fragmentFrame('Br')">
+                            <i class="ri ri-coupon-5-fill"></i>
+                            <span class="links_name">Bon de Réception</span>
+                        </a>
+                        <span class="tooltip">Bon de Réception</span>
+                    </li>
+                    <li id="facture" class="li">
+                        <a onclick="fragmentFrame('Factures')">
+                            <i class="ri ri-file-list-3-fill"></i>
+                            <span class="links_name">Facture</span>
+                        </a>
+                        <span class="tooltip">Facture</span>
+                    </li>
+                    <li id="factureP" class="li">
+                        <a>
+                            <i class="ri ri-file-list-3-fill"></i>
+                            <span class="links_name">Facture Proforma</span>
+                        </a>
+                        <span class="tooltip">Facture Proforma</span>
+                    </li>
+                    <li id="credit" class="li">
+                        <a onclick="fragmentFrame('Credit')">
+                            <i class="ri ri-creative-commons-nc-fill"></i>
+                            <span class="links_name">Credit</span>
+                        </a>
+                        <span class="tooltip">Credit</span>
+                    </li>
+                    <li id="dette" class="li">
+                        <a onclick="fragmentFrame('Dette')">
+                            <i class="ri ri-creative-commons-nc-fill"></i>
+                            <span class="links_name">Dettes</span>
+                        </a>
+                        <span class="tooltip">Dettes</span>
+                    </li>
+                    <li id="autorisationBtn" class="li">
+                        <a id="btnAutorisation">
+                            <i class="ri ri-key-fill"></i>
+                            <span class="links_name">Autorisation</span>
+                        </a>
+                        <span class="tooltip">Autorisation</span>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+        <ul class="nav_list " style="height: 100px;padding-bottom: 0;margin-top: 0px;margin-left: -15px;padding-left: 15px;border: 1px dashed;border-color: #222 transparent;background: rgba(130,130,130,0.05);">
+            <li id="infos-societe">
+                <a id="btnInfosSociete" style="border: none;box-shadow: none">
+                    <i class="bi bi-info-circle" id="info" style="text-shadow: 0px 0px 20px rgba(200,200,220,0.9);font-size: 20px;color: darkcyan"></i>
+                    <span class="links_name">Info société</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- ********************************************** main content ******************************************* -->
+
+    <div class="home_content active">
+        <div class="content-page">
+            <div class="content">
+                <!-- Start Content-->
+
+                <iframe src="TableBord" name="myFrame" id="myFrame" style="background-color: transparent;width: 100%;height: 100vh"></iframe>
+
+                <!-- End Content -->
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Standard modal -->
+    <div id="modalAutorisation" class="modal modalEnc" tabindex="-1" role="dialog" aria-hidden="true" style="height: calc(100vh - 80px);width: calc(100% - 240px);padding-top: 0px;margin-top: 80px;margin-left: 240px;border: 1px solid #666;border-radius: 4px;">
+        <div class="modal-content modal-contentEnc" style="width: 100%;height: 90vh;margin-left: 0;margin-top: 0px;background: rgb(24,35,50);box-shadow: 0 0 10px rgba(200,200,200,0.9)">
+            <div class="container corpsprixSpecial" style="margin: 0;padding: 0">
+                <form style="border: none;background: transparent;width: 100%;height: 85vh">
+                    <div class="modal-header">
+                        <h6 class="modal-title" style="font-weight: 600;color: #bbb">Autorisation des utilisateurs</h6>
+                        <button type="button" class="btn" id="btnCloseAvoir"></button>
+                    </div>
+                    <div class="modal-body" style="padding: 10px 0">
+                        <section class="section profile">
+                            <div class="container-fluid" style="margin: 0;padding: 5px">
+                                <div class="row" style="margin: 1px" id="utilisateur">
+                                    <div class="col-lg-3 col-xl-3 col-md-4 col-sm-12">
+                                        <div class="row" style="margin: 0 -17px">
+                                            <div class="col-12">
+                                                <div class="card mb-2" style="height: 75vh">
+                                                    <div class="card-body">
+                                                        <table class="table dt-responsive nowrap w-100 table-hover text-dark" id="tableFonction">
+                                                            <thead>
+                                                            <tr>
+                                                                <th>Fonction</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            <tr th:each="fonction:${fonctionList}">
+                                                                <td th:text="${fonction.getNomFonction()}"></td>
+                                                            </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div> <!-- end card body-->
+                                                </div> <!-- end card -->
+                                            </div><!-- end col-->
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-9 col-xl-9 col-md-8 col-sm-12">
+                                        <div class="row" style="margin: 0 -17px">
+                                            <div class="col-12">
+                                                <div class="card" style="height: 75vh">
+                                                    <div class="card-body">
+                                                        <div class="row" style="display: flex;justify-content: left">
+                                                            <div class="d-flex" style="display: flex;justify-content: left">
+                                                                <a id="btnAccueil" type="button" class="btn" style="border: 1px solid #bbb;color: #bbb">Accueil</a>
+                                                                <a id="btnMenu" type="button" class="btn" style="border: 1px solid #bbb;color: #bbb">Menu</a>
+                                                                <a id="btnCreation" type="button" class="btn" style="border: 1px solid #bbb;color: #bbb">Création</a>
+                                                                <a id="btnModification" type="button" class="btn" style="border: 1px solid #bbb;color: #bbb">Modification</a>
+                                                                <a id="btnImpression" type="button" class="btn" style="border: 1px solid #bbb;color: #bbb">Impression</a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="container-fluid" style="margin: 0 12px;background: rgba(24,35,50,0.5);border-radius: 4px;width: calc(100% - 24px);height: 65vh"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalNouveauInfos" class="modal modalEnc" tabindex="-1" role="dialog" aria-hidden="true" style="justify-content: center">
+        <div class="modal-content modal-contentEnc" style="width: 500px;height: 595px; margin-left: 0;margin-top: 25px;background: rgb(24,35,50);box-shadow: 0 0 10px rgba(200,200,200,0.9)">
+            <div class="container corpsprixSpecial" style="margin: 0;padding: 0">
+                <form class="modal-content" style="background: transparent;border: none">
+                    <div class="modal-header" style="height: 20px">
+                        <i class="bi bi-info-circle" style="font-size: 18px;font-weight: 600;color: white"></i>
+                        <a type="button" id="btnCloseModalAvoir" class="btn"></a>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <div class="row">
+                                <div class="col-5">
+                                    <div class="d-flex">
+                                        <label for="nomSociete" class="form-label" style="height: 80px;width: 90px;background: transparent;border-radius: 5px;font-size: 55px;border: 1px solid #aaa"><i class="bi bi-image-fill" style="width: 100%;height: 100%"></i> </label>
+                                        <div class="d-table">
+                                            <div class="inputfile-box" style="height: 35px;width: 45px;margin-top: 5px;">
+                                                <input type="file" id="file" name="photoProduit" class="inputfile" onchange='uploadFile(this)'>
+                                                <label for="file" style="background: rgba(24,26,30,0.4);width: 40px;height: 35px;">
+                                                    <span id="file-name" class="file-box" style="visibility: hidden"></span>
+                                                    <span class="btn btn-primary file-button" style="border: none;border-radius: 4px;width: 40px"><i class="bi bi-download" aria-hidden="true" style="font-size: 16px;font-weight: bold;color: #ddd"></i></span>
+                                                </label>
+                                            </div>
+                                            <a class="btn btn-danger" style="margin: 2px 5px"><i class="bi bi-trash"></i> </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6 offset-1">
+                                    <h6 class="modal-title" id="standard-modalLabel" style="font-weight: 700;color: #ddd">INFORMATION SOCIETE</h6>
+                                    <!--<img alt="" th:src="*{'data:image/jpeg;base64,'+{produit.getPhotoProduit()}}">-->
+                                    <img id="logoInfos" alt="" src="" style="height: 60px;width: 60px">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-1">
+                            <div class="row">
+                                <div class="col-4">
+                                    <label for="nomSociete" class="form-label">NOM</label>
+                                </div>
+                                <div class="col-8">
+                                    <input name="nomSociete" type="text" id="nomSociete" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-1">
+                            <div class="row">
+                                <div class="col-4">
+                                    <label for="adresseSociete" class="form-label">ADRESSE</label>
+                                </div>
+                                <div class="col-8">
+                                    <input name="adresseSociete" type="text" id="adresseSociete" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-1">
+                            <div class="row">
+                                <div class="col-4">
+                                    <label for="villeSociete" class="form-label">VILLE</label>
+                                </div>
+                                <div class="col-8">
+                                    <input name="villeSociete" type="text" id="villeSociete" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-1">
+                            <div class="row">
+                                <div class="col-4">
+                                    <label for="contactSociete" class="form-label">CONTACT</label>
+                                </div>
+                                <div class="col-8">
+                                    <input name="contactSociete" type="text" id="contactSociete" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-1">
+                            <div class="row">
+                                <div class="col-4">
+                                    <label for="mailSociete" class="form-label">EMAIL</label>
+                                </div>
+                                <div class="col-8">
+                                    <input name="mailSociete" type="text" id="mailSociete" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-1">
+                            <div class="row">
+                                <div class="col-4">
+                                    <label for="nifSociete" class="form-label">NIF</label>
+                                </div>
+                                <div class="col-8">
+                                    <input name="nifSociete" type="text" id="nifSociete" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-1">
+                            <div class="row">
+                                <div class="col-4">
+                                    <label for="statSociete" class="form-label">STAT</label>
+                                </div>
+                                <div class="col-8">
+                                    <input name="statSociete" type="text" id="statSociete" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-1">
+                            <div class="row">
+                                <div class="col-4">
+                                    <label for="cifSociete" class="form-label">CIF</label>
+                                </div>
+                                <div class="col-8">
+                                    <input name="cifSociete" type="text" id="cifSociete" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-1">
+                            <div class="row">
+                                <div class="col-4">
+                                    <label for="sloganSociete" class="form-label">SLOGAN</label>
+                                </div>
+                                <div class="col-8">
+                                    <input name="sloganSociete" type="text" id="sloganSociete" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="display: flex;justify-content: center">
+                        <button id="btn-enregistrer-utilisateur" type="submit" class="btn btn-primary" style="width: 100%">METTRE A JOUR</button>
+                    </div>
+                </form><!-- /.modal-content -->
+            </div>
+        </div>
+    </div>
+    <!-- -------------------- confirmation modal --------------- -->
+    <div id="confirmModal" class="modal modalConfirm" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content modal-contentEnc" style="width: 400px;height: 280px;">
+            <div class="container corpsprixSpecial">
+                <form style="margin-top: 50px">
+                    <label id="prixLabel" style="width: 397px;background: linear-gradient(45deg, #066a1b, transparent);">CONFIRMATION</label>
+                    <hr id="hr1Prix" style="width: 335px">
+                    <button type="button" class="btn btn-danger" id="annulerEncaissement" style="position: absolute;bottom: 25px;min-height: 32px;height: 32px;width: 160px;">Annuler</button>
+                    <button type="button" class="btn btn-primary" style="position: absolute;bottom: 25px;left: 201px;height: 33px;min-height: 32px;height: 32px;width: 165px;" id="accorderEncaissement">Oui</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ---------------------------- modal-busy ------------------------------------------------------------ -->
+
+    <div class="modal-busy" style="display: none">
+        <div class="center-busy">
+            <img alt="" src="../images/Spinner-3.gif">
+        </div>
+    </div>
+
+    <!-------------------------------------------------------------------- script ------------------------------->
+
+    <!-- end demo js-->
+    <script src="../liens/js/jquery-3.5.1.min.js"></script>
+    <script src="../js/table2excel.js"></script>
+    <script src="../js/print.min.js"></script>
+    <script src="../js/simplebar.min.js"></script>
+    <script src="../js/main.js"></script>
+
+    <script>
+        /*------------------------------ input image logo infos --------------------------------- */
+
+        function uploadFile(target) {
+            document.getElementById("file-name").innerHTML = target.files[0].name;
+
+            $.ajax({
+                type: "GET",
+                url: "/GetImageTeste",
+                success: function (result) {
+                    if (result.status === "success") {
+                        //alert(result.data.produit)
+                        //document.getElementById("logoInfos").src = target.files[0].name;
+                        document.getElementById("logoInfos").src="data:image/jpeg;base64,"+result.data.produit;
+                        //document.getElementById("logoInfos").setAttribute("th:src","*{'data:image/jpeg;base64,"+result.data.produit+"}")
+                    }
+                },
+                error: function (e){
+                    alert("erreur de logo : "+e);
+                }
+            })
+        }
+
+        /* ------------------------------ fin image logo infos --------------------------------- */
+
+        document.getElementById("btnAutorisation").addEventListener('click',function (){
+            document.getElementById("modalAutorisation").style.display="flex";
+        });
+        document.getElementById("btnCloseAvoir").addEventListener('click',function (){
+            document.getElementById("modalAutorisation").style.display="none";
+        });
+/* ============================================= corps_page ======================================================= */
+
+        document.getElementById("btnInfosSociete").addEventListener('click',function (){
+            document.getElementById("modalNouveauInfos").style.display="flex";
+        });
+        document.getElementById("btnCloseModalAvoir").addEventListener('click',function (){
+            document.getElementById("modalNouveauInfos").style.display="none";
+        });
+
+
+        /* -------------------- fin plein ecran ------------------------- */
+        window.onload = () => {
+            console.log("plein")
+        }
+        /* -------------------- fin plein ecran ------------------------- */
+
+        var nomUtilisateurSession = sessionStorage.getItem("nomUtilisateur");
+        var labelUserRecup = document.getElementById("labelNomUserRecup");
+        labelUserRecup.innerText = nomUtilisateurSession;
+
+        var btnLogOutU = document.getElementById("btnLogOut");
+        btnLogOutU.addEventListener('click',function (){
+            window.open("Identifier", "teste");
+            sessionStorage.removeItem("nomUtilisateur");
+            createSession("nomUtilisateur","");
+
+        });
+        /* ------------------------- session ---------------------------------------------- */
+        function createSession(key,value){
+            var formData = {
+                session : key,
+                sessionValue : value
+            }
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url : "/CreateSession",
+                data : JSON.stringify(formData),
+                dataType : 'json',
+                success : function (result) {console.log("ok")},
+                error : function (e) {console.log("pas ok")}
+            });
+        }
+        console.log("Nom utilisateur est : "+sessionStorage.getItem("nomUtilisateur"));
+        /* ------------- toggle btn menu -------------------------------------------------- */
+        let btn = document.querySelector("#btn");
+        let header = document.querySelector("#header")
+        let sidebar = document.querySelector(".sidebar");
+        let homeContent = document.querySelector(".home_content");
+
+        //sidebar.classList.toggle("active");
+        //header.classList.toggle("active");
+        //homeContent.classList.toggle("active");
+
+        btn.onclick = function (){
+            sidebar.classList.toggle("active");
+            header.classList.toggle("active");
+            homeContent.classList.toggle("active");
+        }
+
+        /* --------------- iframe ------------------------------------------------------------ */
+        function fragmentFrame($liens){
+            document.getElementById("myFrame").src = $liens;
+        }
+
+        /* ------------------------- plein ecran ----------------------------------------------- */
+        document.getElementById("btnFullScreen").addEventListener('click',toggleFullScreen);
+        function toggleFullScreen() {
+            var a = $(window).height() - 10;
+
+            if (!document.fullscreenElement && // alternative standard method
+                !document.mozFullScreenElement && !document.webkitFullscreenElement) { // current working methods
+                if (document.documentElement.requestFullscreen) {
+                    document.documentElement.requestFullscreen();
+                } else if (document.documentElement.mozRequestFullScreen) {
+                    document.documentElement.mozRequestFullScreen();
+                } else if (document.documentElement.webkitRequestFullscreen) {
+                    document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+                }
+            } else {
+                if (document.cancelFullScreen) {
+                    document.cancelFullScreen();
+                } else if (document.mozCancelFullScreen) {
+                    document.mozCancelFullScreen();
+                } else if (document.webkitCancelFullScreen) {
+                    document.webkitCancelFullScreen();
+                }
+            }
+        }
+        /* ---------------------- fin plein ecran ---------------------------------------------- */
+
+        /* ******************************* listes des utilisateurs **************************** */
+        document.getElementById("autorisationBtn").addEventListener('click',getAllUtilisateurs);
+        getAllUtilisateurs();
+        function getAllUtilisateurs(){
+            $.ajax({
+                type : "GET",
+                url : "/SelectAllUsers",
+                success : function (result) {
+                    if (result.status === "success"){
+                        var refTable = document.getElementById("tbodyTUA").innerHTML='';
+                        $.each(result.data, function (i,user){
+                            var refTable = document.getElementById("tbodyTUA");
+                            var nouvelleLigne = refTable.insertRow(-1);
+                            //nouvelleLigne.rowIndex
+
+                            var nouvelleCellule = nouvelleLigne.insertCell(0);
+                            nouvelleCellule.className = "td";
+                            var nouveauTexte = document.createTextNode(user.nomPrenomUtilisateur);
+                            nouvelleCellule.appendChild(nouveauTexte);
+
+                            var nouvelleCellule1 = nouvelleLigne.insertCell(1);
+                            nouvelleCellule1.className = "td";
+                            var nouveauTexte1 = document.createTextNode(user.fonction);
+                            nouvelleCellule1.appendChild(nouveauTexte1);
+
+                            var nouvelleCellule2 = nouvelleLigne.insertCell(2);
+                            nouvelleCellule2.className = "tdI";
+                            nouvelleCellule2.style.minWidth = "150px";
+                            nouvelleCellule2.style.maxWidth = "150px";
+                            nouvelleCellule2.style.fontSize = "15px";
+                            nouvelleCellule2.style.fontFamily = "Cursive";
+                            nouvelleCellule2.style.fontWeight = "700";
+                            var nouveauTexte2 = document.createTextNode(user.droitAccess);
+                            if (user.droitAccess === "Lire seulement"){
+                                nouvelleCellule2.style.color = "rgb(255,16,0)";
+                            }
+                            else if (user.droitAccess === "Simple utilisateur"){
+                                nouvelleCellule2.style.color = "rgb(190,136,0)";
+                            }
+                            else if (user.droitAccess === "Accès à tous"){
+                                nouvelleCellule2.style.color = "rgb(0,180,0)";
+                            }
+                            nouvelleCellule2.appendChild(nouveauTexte2);
+
+                            var nouvelleCellule3 = nouvelleLigne.insertCell(3);
+                            nouvelleCellule3.style.border = "1px solid #666";
+                            var nouveauTexte3 = document.createTextNode("");
+                            nouvelleCellule3.appendChild(nouveauTexte3);
+
+                            var div1 = document.createElement("div");
+                            var btn1 = document.createElement("button");
+                            btn1.type = "button";
+                            btn1.className = "btn btn-danger";
+                            btn1.innerText = "Lire seulement";
+                            btn1.id = "Lire_seulement";
+                            btn1.addEventListener('click',function (e){
+
+                                if (sessionStorage.getItem("droitAcces") === "Accès à tous") {
+                                    var ligneTUA = this.parentNode.parentNode.parentNode;
+                                    var colsTUA = ligneTUA.querySelectorAll("td");
+                                    let te1 = this.id;
+                                    let text1 = te1.replaceAll("_", " ");
+
+                                    /* ************ nouv modif **************** */
+                                    var idU = nouveauTexte5.textContent;
+                                    var nomUtU = nouveauTexte.textContent;
+                                    var fonU = nouveauTexte1.textContent;
+                                    var daU = text1;
+                                    var adU = nouveauTexte6.textContent;
+                                    var coU = nouveauTexte7.textContent;
+                                    var phoU = nouveauTexte8.textContent;
+                                    var nomUsU = nouveauTexte9.textContent;
+                                    var mdpU = nouveauTexte10.textContent;
+                                    var magU = nouveauTexte11.textContent;
+                                    var res = confirm("Vous-êtes sûre ?");
+                                    console.log(res.toString().toLowerCase());
+                                    if (res) {
+                                        saveEditAccess(idU, nomUtU, adU, coU, phoU, nomUsU, mdpU, daU, fonU, magU)
+                                        colsTUA[2].innerText = text1;
+                                        colsTUA[2].style.color = "rgb(255,16,0)";
+                                    }
+                                }
+                                else {
+                                    alert("Vous n'avez pas le droit à cette action. \n Veuillez contacter l'admin s'il vous plaît !");
+                                }
+                            });
+                            div1.appendChild(btn1);
+
+                            var div2 = document.createElement("div");
+                            div2.className = "mt-1 mb-1";
+                            var btn2 = document.createElement("button");
+                            btn2.type = "button";
+                            btn2.className = "btn btn-warning";
+                            btn2.innerText = "Simple utilisateur";
+                            btn2.id = "Simple_utilisateur";
+                            btn2.addEventListener('click',function (e){
+                                if (sessionStorage.getItem("droitAcces") === "Accès à tous") {
+                                    var ligneTUA = this.parentNode.parentNode.parentNode;
+                                    var colsTUA = ligneTUA.querySelectorAll("td");
+                                    let te2 = this.id;
+                                    let text2 = te2.replaceAll("_"," ");
+
+                                    /* ************ nouv modif **************** */
+                                    var idU = nouveauTexte5.textContent;
+                                    var nomUtU = nouveauTexte.textContent;
+                                    var fonU = nouveauTexte1.textContent;
+                                    var daU = text2;
+                                    var adU = nouveauTexte6.textContent;
+                                    var coU = nouveauTexte7.textContent;
+                                    var phoU = nouveauTexte8.textContent;
+                                    var nomUsU = nouveauTexte9.textContent;
+                                    var mdpU = nouveauTexte10.textContent;
+                                    var magU = nouveauTexte11.textContent;
+                                    var res = confirm("Vous-êtes sûre ?");
+                                    console.log(res.toString().toLowerCase());
+                                    if (res){
+                                        saveEditAccess(idU,nomUtU,adU,coU,phoU,nomUsU,mdpU,daU,fonU,magU)
+                                        colsTUA[2].innerText = text2;
+                                        colsTUA[2].style.color = "rgb(190,136,0)";
+                                    }
+                                }
+                                else {
+                                    alert("Vous n'avez pas le droit à cette action. \n Veuillez contacter l'admin s'il vous plaît !");
+                                }
+                            });
+                            div2.appendChild(btn2);
+
+                            var div3 = document.createElement("div");
+                            var btn3 = document.createElement("button");
+                            btn3.type = "button";
+                            btn3.className = "btn btn-success";
+                            btn3.innerText = "Accès à tous";
+                            btn3.id = "Accès_à_tous";
+                            btn3.addEventListener('click',function (e){
+                                if (sessionStorage.getItem("droitAcces") === "Accès à tous") {
+                                    var ligneTUA = this.parentNode.parentNode.parentNode;
+                                    var colsTUA = ligneTUA.querySelectorAll("td");
+                                    let te3 = this.id;
+                                    let text3 = te3.replaceAll("_"," ");
+
+                                    /* ************ nouv modif **************** */
+                                    var idU = nouveauTexte5.textContent;
+                                    var nomUtU = nouveauTexte.textContent;
+                                    var fonU = nouveauTexte1.textContent;
+                                    var daU = text3;
+                                    var adU = nouveauTexte6.textContent;
+                                    var coU = nouveauTexte7.textContent;
+                                    var phoU = nouveauTexte8.textContent;
+                                    var nomUsU = nouveauTexte9.textContent;
+                                    var mdpU = nouveauTexte10.textContent;
+                                    var magU = nouveauTexte11.textContent;
+                                    var res = confirm("Vous-êtes sûre ?");
+                                    console.log(res.toString().toLowerCase());
+                                    if (res){
+                                        saveEditAccess(idU,nomUtU,adU,coU,phoU,nomUsU,mdpU,daU,fonU,magU)
+                                        colsTUA[2].innerText = text3;
+                                        colsTUA[2].style.color = "rgb(0,180,0)";
+                                    }
+                                }
+                                else {
+                                    alert("Vous n'avez pas le droit à cette action. \n Veuillez contacter l'admin s'il vous plaît !");
+                                }
+                            });
+                            div3.appendChild(btn3);
+
+                            var nouvelleCellule4 = nouvelleLigne.insertCell(4);
+                            nouvelleCellule4.appendChild(div1);
+                            nouvelleCellule4.appendChild(div2);
+                            nouvelleCellule4.appendChild(div3);
+
+                            var nouvelleCellule5 = nouvelleLigne.insertCell(5);
+                            nouvelleCellule5.style.display = "none";
+                            var nouveauTexte5 = document.createTextNode(user.id_Utilisateur);
+                            nouvelleCellule5.appendChild(nouveauTexte5);
+
+                            var nouvelleCellule6 = nouvelleLigne.insertCell(6);
+                            nouvelleCellule6.style.display = "none";
+                            var nouveauTexte6 = document.createTextNode(user.adresseUtilisateur);
+                            nouvelleCellule6.appendChild(nouveauTexte6);
+
+                            var nouvelleCellule7 = nouvelleLigne.insertCell(7);
+                            nouvelleCellule7.style.display = "none";
+                            var nouveauTexte7 = document.createTextNode(user.contactUtilisateur);
+                            nouvelleCellule7.appendChild(nouveauTexte7);
+
+                            var nouvelleCellule8 = nouvelleLigne.insertCell(8);
+                            nouvelleCellule8.style.display = "none";
+                            var nouveauTexte8 = document.createTextNode(user.photoUtilisateur);
+                            nouvelleCellule8.appendChild(nouveauTexte8);
+
+                            var nouvelleCellule9 = nouvelleLigne.insertCell(9);
+                            nouvelleCellule9.style.display = "none";
+                            var nouveauTexte9 = document.createTextNode(user.nomUtilisateur);
+                            nouvelleCellule9.appendChild(nouveauTexte9);
+
+                            var nouvelleCellule10 = nouvelleLigne.insertCell(10);
+                            nouvelleCellule10.style.display = "none";
+                            var nouveauTexte10 = document.createTextNode(user.motpassUtilisateur);
+                            nouvelleCellule10.appendChild(nouveauTexte10);
+
+                            var nouvelleCellule11 = nouvelleLigne.insertCell(11);
+                            nouvelleCellule11.style.display = "none";
+                            var nouveauTexte11 = document.createTextNode(user.magasin);
+                            nouvelleCellule11.appendChild(nouveauTexte11);
+                        })
+                    }
+                    else {
+                        $("#getResultDiv").html("<strong>Errors...</strong>");
+                        console.log("Fail : "+result);
+                    }
+                },
+                error : function (e) {
+                    alert("Error...");
+                    console.log("Error : "+e);
+                }
+            });
+        }
+        /* -------------       modifier droit d'acces d'utilisateur     ------------------ */
+        function saveEditAccess(id,nomUt,ad,co,pho,nomUs,mdp,da,fon,mag){
+            var formData = {
+                id_Utilisateur : id,
+                nomPrenomUtilisateur : nomUt,
+                adresseUtilisateur : ad,
+                contactUtilisateur : co,
+                photoUtilisateur : pho,
+                nomUtilisateur : nomUs,
+                motpassUtilisateur : mdp,
+                droitAccess : da,
+                fonction : fon,
+                magasin : mag
+            }
+
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url : "/SaveEditAccess",
+                data : JSON.stringify(formData),
+                dataType : 'json',
+                success : function (result) {
+                    if (result.status === "success"){
+                        alert(result.data);
+                    }
+                },
+                error : function (e) {
+                    alert("Error...");
+                    console.log("Error : "+e);
+                }
+            });
+        }
+
+        /* ************************ activite *********************** */
+        var liensDashboard = document.getElementById("dash");
+        var liensProduit = document.getElementById("produit");
+        var liensVente = document.getElementById("vente");
+        var liensDetailsVent = document.getElementById("detailVente");
+        var liensStock = document.getElementById("stock");
+        var liensCaisse = document.getElementById("caisse");
+        var liensPrix = document.getElementById("prix");
+        var liensClient = document.getElementById("client");
+        var liensFrs = document.getElementById("frs");
+        var liensUtilisateur = document.getElementById("utilisateur");
+        var liensMagasin = document.getElementById("magasin");
+        var liensBr = document.getElementById("brLiens");
+        var liensFacture = document.getElementById("facture");
+        var liensFactP = document.getElementById("factureP");
+        var liensCredit = document.getElementById("credit");
+        var liensDette = document.getElementById("dette");
+        var liensAutorisation = document.getElementById("autorisationBtn");
+
+        /* ------------------ actions ---------------------------------- */
+        liensDashboard.addEventListener('click',function (){
+            liensDashboard.classList.add('active');
+            liensProduit.classList.remove('active');
+            liensVente.classList.remove('active');
+            liensDetailsVent.classList.remove('active');
+            liensStock.classList.remove('active');
+            liensCaisse.classList.remove('active');
+            liensPrix.classList.remove('active');
+            liensClient.classList.remove('active');
+            liensFrs.classList.remove('active');
+            liensUtilisateur.classList.remove('active');
+            liensMagasin.classList.remove('active');
+            liensBr.classList.remove('active');
+            liensFacture.classList.remove('active');
+            liensFactP.classList.remove('active');
+            liensCredit.classList.remove('active');
+            liensDette.classList.remove('active');
+            liensAutorisation.classList.remove('active');
+        })
+        liensProduit.addEventListener('click',function (){
+            liensDashboard.classList.remove('active');
+            liensProduit.classList.add('active');
+            liensVente.classList.remove('active');
+            liensDetailsVent.classList.remove('active');
+            liensStock.classList.remove('active');
+            liensCaisse.classList.remove('active');
+            liensPrix.classList.remove('active');
+            liensClient.classList.remove('active');
+            liensFrs.classList.remove('active');
+            liensUtilisateur.classList.remove('active');
+            liensMagasin.classList.remove('active');
+            liensBr.classList.remove('active');
+            liensFacture.classList.remove('active');
+            liensFactP.classList.remove('active');
+            liensCredit.classList.remove('active');
+            liensDette.classList.remove('active');
+            liensAutorisation.classList.remove('active');
+        })
+        liensVente.addEventListener('click',function (){
+            liensDashboard.classList.remove('active');
+            liensProduit.classList.remove('active');
+            liensVente.classList.add('active');
+            liensDetailsVent.classList.remove('active');
+            liensStock.classList.remove('active');
+            liensCaisse.classList.remove('active');
+            liensPrix.classList.remove('active');
+            liensClient.classList.remove('active');
+            liensFrs.classList.remove('active');
+            liensUtilisateur.classList.remove('active');
+            liensMagasin.classList.remove('active');
+            liensBr.classList.remove('active');
+            liensFacture.classList.remove('active');
+            liensFactP.classList.remove('active');
+            liensCredit.classList.remove('active');
+            liensDette.classList.remove('active');
+            liensAutorisation.classList.remove('active');
+        })
+        liensDetailsVent.addEventListener('click',function (){
+            liensDashboard.classList.remove('active');
+            liensProduit.classList.remove('active');
+            liensVente.classList.remove('active');
+            liensDetailsVent.classList.add('active');
+            liensStock.classList.remove('active');
+            liensCaisse.classList.remove('active');
+            liensPrix.classList.remove('active');
+            liensClient.classList.remove('active');
+            liensFrs.classList.remove('active');
+            liensUtilisateur.classList.remove('active');
+            liensMagasin.classList.remove('active');
+            liensBr.classList.remove('active');
+            liensFacture.classList.remove('active');
+            liensFactP.classList.remove('active');
+            liensCredit.classList.remove('active');
+            liensDette.classList.remove('active');
+            liensAutorisation.classList.remove('active');
+        })
+        liensStock.addEventListener('click',function (){
+            liensDashboard.classList.remove('active');
+            liensProduit.classList.remove('active');
+            liensVente.classList.remove('active');
+            liensDetailsVent.classList.remove('active');
+            liensStock.classList.add('active');
+            liensCaisse.classList.remove('active');
+            liensPrix.classList.remove('active');
+            liensClient.classList.remove('active');
+            liensFrs.classList.remove('active');
+            liensUtilisateur.classList.remove('active');
+            liensMagasin.classList.remove('active');
+            liensBr.classList.remove('active');
+            liensFacture.classList.remove('active');
+            liensFactP.classList.remove('active');
+            liensCredit.classList.remove('active');
+            liensDette.classList.remove('active');
+            liensAutorisation.classList.remove('active');
+        })
+        liensCaisse.addEventListener('click',function (){
+            liensDashboard.classList.remove('active');
+            liensProduit.classList.remove('active');
+            liensVente.classList.remove('active');
+            liensDetailsVent.classList.remove('active');
+            liensStock.classList.remove('active');
+            liensCaisse.classList.add('active');
+            liensPrix.classList.remove('active');
+            liensClient.classList.remove('active');
+            liensFrs.classList.remove('active');
+            liensUtilisateur.classList.remove('active');
+            liensMagasin.classList.remove('active');
+            liensBr.classList.remove('active');
+            liensFacture.classList.remove('active');
+            liensFactP.classList.remove('active');
+            liensCredit.classList.remove('active');
+            liensDette.classList.remove('active');
+            liensAutorisation.classList.remove('active');
+        })
+        liensPrix.addEventListener('click',function (){
+            liensDashboard.classList.remove('active');
+            liensProduit.classList.remove('active');
+            liensVente.classList.remove('active');
+            liensDetailsVent.classList.remove('active');
+            liensStock.classList.remove('active');
+            liensCaisse.classList.remove('active');
+            liensPrix.classList.add('active');
+            liensClient.classList.remove('active');
+            liensFrs.classList.remove('active');
+            liensUtilisateur.classList.remove('active');
+            liensMagasin.classList.remove('active');
+            liensBr.classList.remove('active');
+            liensFacture.classList.remove('active');
+            liensFactP.classList.remove('active');
+            liensCredit.classList.remove('active');
+            liensDette.classList.remove('active');
+            liensAutorisation.classList.remove('active');
+        })
+        liensClient.addEventListener('click',function (){
+            liensDashboard.classList.remove('active');
+            liensProduit.classList.remove('active');
+            liensVente.classList.remove('active');
+            liensDetailsVent.classList.remove('active');
+            liensStock.classList.remove('active');
+            liensCaisse.classList.remove('active');
+            liensPrix.classList.remove('active');
+            liensClient.classList.add('active');
+            liensFrs.classList.remove('active');
+            liensUtilisateur.classList.remove('active');
+            liensMagasin.classList.remove('active');
+            liensBr.classList.remove('active');
+            liensFacture.classList.remove('active');
+            liensFactP.classList.remove('active');
+            liensCredit.classList.remove('active');
+            liensDette.classList.remove('active');
+            liensAutorisation.classList.remove('active');
+        })
+        liensFrs.addEventListener('click',function (){
+            liensDashboard.classList.remove('active');
+            liensProduit.classList.remove('active');
+            liensVente.classList.remove('active');
+            liensDetailsVent.classList.remove('active');
+            liensStock.classList.remove('active');
+            liensCaisse.classList.remove('active');
+            liensPrix.classList.remove('active');
+            liensClient.classList.remove('active');
+            liensFrs.classList.add('active');
+            liensUtilisateur.classList.remove('active');
+            liensMagasin.classList.remove('active');
+            liensBr.classList.remove('active');
+            liensFacture.classList.remove('active');
+            liensFactP.classList.remove('active');
+            liensCredit.classList.remove('active');
+            liensDette.classList.remove('active');
+            liensAutorisation.classList.remove('active');
+        })
+        liensUtilisateur.addEventListener('click',function (){
+            liensDashboard.classList.remove('active');
+            liensProduit.classList.remove('active');
+            liensVente.classList.remove('active');
+            liensDetailsVent.classList.remove('active');
+            liensStock.classList.remove('active');
+            liensCaisse.classList.remove('active');
+            liensPrix.classList.remove('active');
+            liensClient.classList.remove('active');
+            liensFrs.classList.remove('active');
+            liensUtilisateur.classList.add('active');
+            liensMagasin.classList.remove('active');
+            liensBr.classList.remove('active');
+            liensFacture.classList.remove('active');
+            liensFactP.classList.remove('active');
+            liensCredit.classList.remove('active');
+            liensDette.classList.remove('active');
+            liensAutorisation.classList.remove('active');
+        })
+        liensMagasin.addEventListener('click',function (){
+            liensDashboard.classList.remove('active');
+            liensProduit.classList.remove('active');
+            liensVente.classList.remove('active');
+            liensDetailsVent.classList.remove('active');
+            liensStock.classList.remove('active');
+            liensCaisse.classList.remove('active');
+            liensPrix.classList.remove('active');
+            liensClient.classList.remove('active');
+            liensFrs.classList.remove('active');
+            liensUtilisateur.classList.remove('active');
+            liensMagasin.classList.add('active');
+            liensBr.classList.remove('active');
+            liensFacture.classList.remove('active');
+            liensFactP.classList.remove('active');
+            liensCredit.classList.remove('active');
+            liensDette.classList.remove('active');
+            liensAutorisation.classList.remove('active');
+        })
+        liensBr.addEventListener('click',function (){
+            liensDashboard.classList.remove('active');
+            liensProduit.classList.remove('active');
+            liensVente.classList.remove('active');
+            liensDetailsVent.classList.remove('active');
+            liensStock.classList.remove('active');
+            liensCaisse.classList.remove('active');
+            liensPrix.classList.remove('active');
+            liensClient.classList.remove('active');
+            liensFrs.classList.remove('active');
+            liensUtilisateur.classList.remove('active');
+            liensMagasin.classList.remove('active');
+            liensBr.classList.add('active');
+            liensFacture.classList.remove('active');
+            liensFactP.classList.remove('active');
+            liensCredit.classList.remove('active');
+            liensDette.classList.remove('active');
+            liensAutorisation.classList.remove('active');
+        })
+        liensFacture.addEventListener('click',function (){
+            liensDashboard.classList.remove('active');
+            liensProduit.classList.remove('active');
+            liensVente.classList.remove('active');
+            liensDetailsVent.classList.remove('active');
+            liensStock.classList.remove('active');
+            liensCaisse.classList.remove('active');
+            liensPrix.classList.remove('active');
+            liensClient.classList.remove('active');
+            liensFrs.classList.remove('active');
+            liensUtilisateur.classList.remove('active');
+            liensMagasin.classList.remove('active');
+            liensBr.classList.remove('active');
+            liensFacture.classList.add('active');
+            liensFactP.classList.remove('active');
+            liensCredit.classList.remove('active');
+            liensDette.classList.remove('active');
+            liensAutorisation.classList.remove('active');
+        })
+        liensFactP.addEventListener('click',function (){
+            liensDashboard.classList.remove('active');
+            liensProduit.classList.remove('active');
+            liensVente.classList.remove('active');
+            liensDetailsVent.classList.remove('active');
+            liensStock.classList.remove('active');
+            liensCaisse.classList.remove('active');
+            liensPrix.classList.remove('active');
+            liensClient.classList.remove('active');
+            liensFrs.classList.remove('active');
+            liensUtilisateur.classList.remove('active');
+            liensMagasin.classList.remove('active');
+            liensBr.classList.remove('active');
+            liensFacture.classList.remove('active');
+            liensFactP.classList.add('active');
+            liensCredit.classList.remove('active');
+            liensDette.classList.remove('active');
+            liensAutorisation.classList.remove('active');
+        })
+        liensCredit.addEventListener('click',function (){
+            liensDashboard.classList.remove('active');
+            liensProduit.classList.remove('active');
+            liensVente.classList.remove('active');
+            liensDetailsVent.classList.remove('active');
+            liensStock.classList.remove('active');
+            liensCaisse.classList.remove('active');
+            liensPrix.classList.remove('active');
+            liensClient.classList.remove('active');
+            liensFrs.classList.remove('active');
+            liensUtilisateur.classList.remove('active');
+            liensMagasin.classList.remove('active');
+            liensBr.classList.remove('active');
+            liensFacture.classList.remove('active');
+            liensFactP.classList.remove('active');
+            liensCredit.classList.add('active');
+            liensDette.classList.remove('active');
+            liensAutorisation.classList.remove('active');
+        })
+        liensDette.addEventListener('click',function (){
+            liensDashboard.classList.remove('active');
+            liensProduit.classList.remove('active');
+            liensVente.classList.remove('active');
+            liensDetailsVent.classList.remove('active');
+            liensStock.classList.remove('active');
+            liensCaisse.classList.remove('active');
+            liensPrix.classList.remove('active');
+            liensClient.classList.remove('active');
+            liensFrs.classList.remove('active');
+            liensUtilisateur.classList.remove('active');
+            liensMagasin.classList.remove('active');
+            liensBr.classList.remove('active');
+            liensFacture.classList.remove('active');
+            liensFactP.classList.remove('active');
+            liensCredit.classList.remove('active');
+            liensDette.classList.add('active');
+            liensAutorisation.classList.remove('active');
+        })
+        liensAutorisation.addEventListener('click',function (){
+            liensDashboard.classList.remove('active');
+            liensProduit.classList.remove('active');
+            liensVente.classList.remove('active');
+            liensDetailsVent.classList.remove('active');
+            liensStock.classList.remove('active');
+            liensCaisse.classList.remove('active');
+            liensPrix.classList.remove('active');
+            liensClient.classList.remove('active');
+            liensFrs.classList.remove('active');
+            liensUtilisateur.classList.remove('active');
+            liensMagasin.classList.remove('active');
+            liensBr.classList.remove('active');
+            liensFacture.classList.remove('active');
+            liensFactP.classList.remove('active');
+            liensCredit.classList.remove('active');
+            liensDette.classList.remove('active');
+            liensAutorisation.classList.add('active');
+        })
+
+        /* ------------------------------ iframeIdentifier ------------------------------------- */
+        /*var contentIdentifier = document.getElementById("identifierIFrame").contentWindow.document;
+        var nomUtilRecup = contentIdentifier.getElementById("nomUtilisateurRecuperable");
+        //$("#labelNomUserRecup").innerText = nomUtilRecup.value;
+        var labelNomUserRecup = document.getElementById("labelNomUserRecup");
+        labelNomUserRecup.innerText = "ghgh";*/
+
+    </script>
+
+</body>
+</html>

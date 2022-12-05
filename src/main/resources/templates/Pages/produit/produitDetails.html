@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>lpm.v.0</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+
+    <link rel="stylesheet" href="/webjars/bootstrap/5.1.3/css/bootstrap.min.css">
+    <script rel="stylesheet" src="/webjars/bootstrap/5.1.3/js/bootstrap.bundle.js"></script>
+
+
+    <link href="../liens/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="../liens/remixicon/remixicon.css" rel="stylesheet">
+    <link href="../assets3/css/icons.min.css" rel="stylesheet" >
+
+    <link href="../js/print.min.css" rel="stylesheet">
+    <link href="../js/simplebar.css" rel="stylesheet">
+    <link href="../css/styles.css" rel="stylesheet">
+
+</head>
+<body style="background-color: transparent">
+
+<!-- ********************************************** main content ******************************************* -->
+
+    <div class="produitDetails non" style="margin-top: 20px" data-simplebar>
+        <div class="mb-3 produitContents produitDetailsAffichage" style="display: block">
+            <div class="row" style="margin-top: 10px;margin-bottom: 25px">
+                <div class="d-flex" style="display: flex;justify-content: space-between;width: 100%">
+                    <label style="color: whitesmoke;font-weight: 600" th:text="${nomProduit}"></label>
+                    <a class="btn" th:href="@{/TableBord}" style="color: #bbb"><i class="bi bi-arrow-left-square"></i> </a>
+                </div>
+            </div>
+            <div>
+                <div class="row mb-4">
+                    <div class="col-lg-5 col-md-12 col-sm-12 mb-4">
+                        <!--<img src="/images/vanille.PNG" alt="vanille">-->
+                        <img alt="" th:src="*{'data:image/jpeg;base64,'+{image}}">
+                    </div>
+                    <div class="col-lg-7 col-md-12 col-sm-12">
+                        <div class="prDetails">
+
+                            <div class="row mb-0 ms-1 me-1">
+                                <div class="col-lg-4 col-md-4 col-sm-4 mb-0 p-1">
+                                    <div class="card cardStock">
+                                        <div class="card-body">
+                                            <div class="row m-0 p-0" style="height: 65%;width: 100%">
+                                                <div class="col-4" style="border: 1px solid transparent;border-right-color: #aaa;margin-top: 3px;margin-bottom: 1px;padding-left: 5px;">
+                                                    <i class="ri ri-database-fill"></i>
+                                                </div>
+                                                <div class="col-8" style="font-size: 14px;margin-top: 5px;padding-left: 5px;padding-right: 0px;">
+                                                    Stock
+                                                </div>
+                                            </div>
+                                            <div class="row m-0 p-0" style="background-color: #90caf9;">
+                                                <label th:text="${valeurStock+' Ar'}" style="text-align: center"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 mb-0 p-1">
+                                    <div class="card cardVente">
+                                        <div class="card-body">
+                                            <div class="row m-0 p-0" style="height: 65%;width: 100%">
+                                                <div class="col-4" style="border: 1px solid transparent;border-right-color: #aaa;margin-top: 3px;margin-bottom: 1px;padding-left: 5px;">
+                                                    <i class="ri ri-database-fill"></i>
+                                                </div>
+                                                <div class="col-8" style="font-size: 14px;margin-top: 5px;padding-left: 5px;padding-right: 0px;">
+                                                    Vente
+                                                </div>
+                                            </div>
+                                            <div class="row m-0 p-0" style="background-color: #b095a9;">
+                                                <label th:text="${valeurVente+' Ar'}" style="text-align: center"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 mb-0 p-1">
+                                    <div class="card cardAchat">
+                                        <div class="card-body">
+                                            <div class="row m-0 p-0" style="height: 65%;width: 100%">
+                                                <div class="col-4" style="border: 1px solid transparent;border-right-color: #aaa;margin-top: 3px;margin-bottom: 1px;padding-left: 5px;">
+                                                    <i class="ri ri-database-fill"></i>
+                                                </div>
+                                                <div class="col-8" style="font-size: 14px;margin-top: 5px;padding-left: 5px;padding-right: 0px;">
+                                                    Achat
+                                                </div>
+                                            </div>
+                                            <div class="row m-0 p-0" style="background-color: #9089f9;">
+                                                <label th:text="${valeurAchat+' Ar'}" style="text-align: center"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-2 ms-1 me-1">
+                                <div class="col-lg-4 col-md-4 col-sm-4 mb-0 p-1">
+                                    <div class="card cardCredit">
+                                        <div class="card-body">
+                                            <div class="row m-0 p-0" style="height: 65%;width: 100%">
+                                                <div class="col-4" style="border: 1px solid transparent;border-right-color: #aaa;margin-top: 3px;margin-bottom: 1px;padding-left: 5px;">
+                                                    <i class="ri ri-database-fill"></i>
+                                                </div>
+                                                <div class="col-8" style="font-size: 14px;margin-top: 5px;padding-left: 5px;padding-right: 0px;">
+                                                    Crédit
+                                                </div>
+                                            </div>
+                                            <div class="row m-0 p-0" style="background-color: #90ca7b;">
+                                                <label style="text-align: center">750000 Ar</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 mb-0 p-1">
+                                    <div class="card cardDette">
+                                        <div class="card-body">
+                                            <div class="row m-0 p-0" style="height: 65%;width: 100%">
+                                                <div class="col-4" style="border: 1px solid transparent;border-right-color: #aaa;margin-top: 3px;margin-bottom: 1px;padding-left: 5px;">
+                                                    <i class="ri ri-database-fill"></i>
+                                                </div>
+                                                <div class="col-8" style="font-size: 14px;margin-top: 5px;padding-left: 5px;padding-right: 0px;">
+                                                    Dètte
+                                                </div>
+                                            </div>
+                                            <div class="row m-0 p-0" style="background-color: #89eff0;">
+                                                <label style="text-align: center">750000 Ar</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 mb-0 p-1">
+                                    <div class="card cardFacture">
+                                        <div class="card-body">
+                                            <div class="row m-0 p-0" style="height: 65%;width: 100%">
+                                                <div class="col-4" style="border: 1px solid transparent;border-right-color: #aaa;margin-top: 3px;margin-bottom: 1px;padding-left: 5px;">
+                                                    <i class="ri ri-database-fill"></i>
+                                                </div>
+                                                <div class="col-8" style="font-size: 14px;margin-top: 5px;padding-left: 5px;padding-right: 0px;">
+                                                    Facture
+                                                </div>
+                                            </div>
+                                            <div class="row m-0 p-0" style="background-color: #de9ff9;">
+                                                <label style="text-align: center">750000 Ar</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row mb-2" style="margin-left: 0px;margin-right: 0px">
+                                <div class="col-lg-8 col-md-8 col-sm-12 mb-1">
+                                    <div th:each="prix:${prixProduitList}" class="d-flex">
+                                        <label th:text="${'Prix en '+prix.getUniteProduitPP()+' :'}" class="me-0 prix" ></label>
+                                        <label class="me-0" th:text="${prix.getPrixVentePP()+' Ar'}"></label>
+                                        <button class="btn modifier" ><a th:href="@{ModifierPrix(nomProduit=${prix.getNomProduitPP()},unite=${prix.getUniteProduitPP()})}"><i class="bi bi-pencil-fill"></i></a></button>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-12 mb-1">
+                                    <div class="row mb-2">
+                                        <a type="button" th:href="@{Vente(nomProduit=${nomProduit})}" class="btn btn-primary" style="width: 90%;font-size: 14px;text-align: end;">
+                                            <i class="bi bi-cart3" style="margin-right: 15px"></i>
+                                            Nouveau Vente
+                                        </a>
+                                    </div>
+                                    <div class="row mb-1">
+                                        <!--<form method="get" th:action="@{/AjoutArticle(nomProduit=${nomProduit})}">-->
+                                        <a type="button" th:href="@{AjoutArticle(nomProduit=${nomProduit})}" class="btn btn-success" style="width: 90%;font-size: 14px;text-align: end;">
+                                            <i class="bi bi-cart-plus" style="margin-right: 15px;"></i>
+                                            Nouvelle Reception
+                                        </a>
+                                        <!--</form>-->
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                        </div> <!-- ---------- fin de produit details --------- -->
+                    </div>
+                </div>
+            </div>
+            <!--<div class="row mb-2 prDetailsBouton">
+                <div class="col-lg-4 col-md-4 col-sm-12 mb-1">
+                    <a id="boutonStock" type="button" class="btn active" style="width: 100%">Stock</a>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-12 mb-1">
+                    <a id="boutonVente" type="button" class="btn" style="width: 100%">Vente</a>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-12 mb-1">
+                    <a id="boutonReception" type="button" class="btn" style="width: 100%">Reception</a>
+                </div>
+            </div>-->
+        </div>
+        <div class="mb-3 produitContents produitContentPages" style="display: none">
+            <div class="row" style="margin-top: 10px;margin-bottom: 15px">
+                <div class="d-flex" style="display: flex;justify-content: space-between;width: 100%">
+                    <div class="d-flex" style="display: flex;justify-content: left">
+                        <label style="color: whitesmoke;font-weight: 600" th:text="${nomProduit}"> </label>
+                        <label class="ms-4 me-4" style="font-weight: 600;color: whitesmoke">/</label>
+                        <label id="titrePD" style="color: #bbb;font-weight: 600"></label>
+                    </div>
+                    <a class="btn btnRetourProduitDetails" style="color: #bbb"><i class="bi bi-arrow-left-square"></i> </a>
+                </div>
+            </div>
+            <hr style="margin-bottom: 20px">
+            <div class="row mb-2" >
+                <div class="col-12">
+                    <div class="card stockContent hide">
+                        <div class="card-body">
+                            <table class="table dt-responsive nowrap w-100" id="tableStock">
+                                <thead>
+                                <tr>
+                                    <th>Designation</th>
+                                    <th>Unité</th>
+                                    <th>Stock</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td th:text="${plp.getNomProduit()}"></td>
+                                    <td>
+                                        <table class="table" id="secondTable3" style="margin: 0px">
+                                            <tbody>
+                                            <tr th:each="stock:${stockList}" th:class="${stock.getNomProduit()==plp.getNomProduit()?'egale':'different'}" style="border-color: transparent;border-bottom-width: 0px;height: 25px">
+                                                <td><span th:text="${stock.getUniteProduit()}" class="ms-3"></span></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table class="table" id="secondTable4" style="margin: 0px">
+                                            <tbody>
+                                            <tr th:each="stock:${stockList}" th:class="${stock.getNomProduit()==plp.getNomProduit()?'egale':'different'}" style="border-color: transparent;border-bottom-width: 0px;height: 25px">
+                                                <td><span th:text="${stock.getQuantiteStock()}" class="ms-3"></span></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="card venteContent hide">
+                        <div class="card-body">
+                            <div class="row mb-4">
+                                <div class="col-12">
+                                    <div class="d-inline-flex mt-2 ps-2 pe-2 me-2" id="inputDate">
+                                        <a type="button" id="btn-tous" class="btn btn-success me-1">Tous</a>
+                                        <input type="date" id="input-date-debut" class="form-control" style="background: transparent;color: #ccc;border-color: #888;">&nbsp;
+                                        <input type="date" id="input-date-fin" class="form-control" style="background: transparent;color: #ccc;border-color: #888;">&nbsp;
+                                        <a type="button" id="btn-search-filter" class="btn btn-success me-1">Valider</a>
+                                    </div>
+                                    <a class="btn btn-success btn-export-to-excel bg-forest float-end mt-2 me-2"><i class="ri ri-file-excel-2-fill"></i> </a>
+                                </div>
+                            </div>
+                            <table class="table dt-responsive nowrap w-100" id="tableVente">
+                                <thead>
+                                <tr>
+                                    <th>Designation</th>
+                                    <th>Unite</th>
+                                    <th>Quantite</th>
+                                    <th>Prix de vente</th>
+                                    <th>Date</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="vented:${venteList}">
+                                    <td th:text="${vented.getNomArticle()}" style="padding-left: 15px"></td>
+                                    <td th:text="${vented.getUniteProduit()}" style="padding-left: 15px"></td>
+                                    <td th:text="${vented.getQuantiteProduit()}" style="padding-left: 15px"></td>
+                                    <td th:text="${vented.getPrixVenteProduit()}" style="padding-left: 15px"></td>
+                                    <td th:text="${vented.getDateVente()}" style="padding-left: 15px"></td>
+                                </tr>
+                                <!--<tr>
+                                    <td th:text="${plp.getNomProduit()}"></td>
+                                    <td>
+                                        <table class="table" id="secondTable4" style="margin: 0px">
+                                            <tbody>
+                                            <tr th:each="stock:${venteList}" th:class="${stock.getNomArticle()==plp.getNomProduit()?'egale':'different'}" style="height: 25px">
+                                                <td><span th:text="${stock.getUniteProduit()}" class="ms-3"></span></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table class="table" id="secondTable4" style="margin: 0px">
+                                            <tbody>
+                                            <tr th:each="stock:${venteList}" th:class="${stock.getNomArticle()==plp.getNomProduit()?'egale':'different'}" style="height: 25px">
+                                                <td><span th:text="${stock.getQuantiteProduit()}" class="ms-3"></span></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table class="table" id="secondTable4" style="margin: 0px">
+                                            <tbody>
+                                            <tr th:each="stock:${venteList}" th:class="${stock.getNomArticle()==plp.getNomProduit()?'egale':'different'}" style="height: 25px">
+                                                <td><span th:text="${stock.getPrixVenteProduit()}" class="ms-3"></span></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table class="table" id="secondTable4" style="margin: 0px">
+                                            <tbody>
+                                            <tr th:each="stock:${venteList}" th:class="${stock.getNomArticle()==plp.getNomProduit()?'egale':'different'}" style="height: 25px">
+                                                <td><span th:text="${stock.getDateVente()}" class="ms-3"></span></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>-->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="card receptionContent hide">
+                        <div class="card-body">
+                            <div class="row mb-4">
+                                <div class="col-12">
+                                    <div class="d-inline-flex mt-2 ps-2 pe-2 me-2" id="inputDate2">
+                                        <a type="button" id="btn-tous2" class="btn btn-success me-1">Tous</a>
+                                        <input type="date" id="input-date-debut2" class="form-control" style="background: transparent;color: #ccc;border-color: #888;">&nbsp;
+                                        <input type="date" id="input-date-fin2" class="form-control" style="background: transparent;color: #ccc;border-color: #888;">&nbsp;
+                                        <a type="button" id="btn-search-filter2" class="btn btn-success me-1">Valider</a>
+                                    </div>
+                                    <a class="btn btn-success btn-export-to-excel bg-forest float-end mt-2 me-2"><i class="ri ri-file-excel-2-fill"></i> </a>
+                                </div>
+                            </div>
+                            <table class="table dt-responsive nowrap w-100" id="tableReception">
+                                <thead>
+                                <tr>
+                                    <th>Designation</th>
+                                    <th>Unite</th>
+                                    <th>Quantite</th>
+                                    <th>Prix d'Achat</th>
+                                    <th>Date</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td th:text="${plp.getNomProduit()}"></td>
+                                    <td>
+                                        <table class="table" id="secondTable2" style="margin: 0px">
+                                            <tbody>
+                                            <tr th:each="stock:${achatList}" th:class="${stock.getNomArticle()==plp.getNomProduit()?'egale':'different'}" style="border-color: transparent;border-bottom-width: 0px;height: 25px">
+                                                <td><span th:text="${stock.getUniteProduit()}" class="ms-3"></span></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table class="table" id="secondTable1" style="margin: 0px">
+                                            <tbody>
+                                            <tr th:each="stock:${achatList}" th:class="${stock.getNomArticle()==plp.getNomProduit()?'egale':'different'}" style="border-color: transparent;border-bottom-width: 0px;height: 25px">
+                                                <td><span th:text="${stock.getQuantiteProduit()}" class="ms-3"></span></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table class="table" id="secondTable1" style="margin: 0px">
+                                            <tbody>
+                                            <tr th:each="stock:${achatList}" th:class="${stock.getNomArticle()==plp.getNomProduit()?'egale':'different'}" style="border-color: transparent;border-bottom-width: 0px;height: 25px">
+                                                <td><span th:text="${stock.getPrixAchatProduit()}" class="ms-3"></span></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table class="table" id="secondTable1" style="margin: 0px">
+                                            <tbody>
+                                            <tr th:each="stock:${achatList}" th:class="${stock.getNomArticle()==plp.getNomProduit()?'egale':'different'}" style="border-color: transparent;border-bottom-width: 0px;height: 25px">
+                                                <td><span th:text="${stock.getDateAchat()}" class="ms-3"></span></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ***************************************** modals ******************************************* -->
+
+<!-------------------------------------------------------------------- script ------------------------------->
+
+<script src="../liens/js/jquery-3.5.1.min.js"></script>
+<script src="../js/table2excel.js"></script>
+<script src="../js/print.min.js"></script>
+<script src="../js/simplebar.min.js"></script>
+<script src="../js/main.js"></script><!-- end demo js-->
+<script>
+
+    var d = new Date();
+    var year = d.getFullYear();
+    var month = d.getMonth() + 1;
+
+    if (month<10){
+        month = '0'+month;
+    }
+    var date0 = d.getDate();
+    if (date0<10){
+        date0 = '0'+date0;
+    }
+
+    var c_date = year+'-'+month+'-'+date0;
+    document.getElementById("input-date-debut").value = c_date;
+    document.getElementById("input-date-fin").value = c_date;
+    document.getElementById("input-date-debut2").value = c_date;
+    document.getElementById("input-date-fin2").value = c_date;
+    /*-------------------------------- fin date ------------------------------------- */
+
+    var cardAchat = document.querySelector(".cardAchat");
+    var produitDetailsAffichage = document.querySelector(".produitDetailsAffichage");
+    var produitContentP = document.querySelector(".produitContentPages");
+    var produitDetailsP = document.querySelector(".produitDetails");
+
+    var cardVente = document.querySelector(".cardVente");
+    var cardStock = document.querySelector(".cardStock");
+
+    var stockContent = document.querySelector(".stockContent");
+    var venteContent = document.querySelector(".venteContent");
+    var receptionContent = document.querySelector(".receptionContent");
+
+    cardAchat.addEventListener('click',affichePage);
+    function affichePage(){
+        produitDetailsP.classList.remove('non');
+        produitDetailsP.classList.add('oui');
+
+        produitDetailsAffichage.style.display = 'none';
+        produitContentP.style.display = 'block';
+
+        receptionContent.classList.add('active');
+        receptionContent.classList.remove('hide');
+        stockContent.classList.add('hide');
+        stockContent.classList.remove('active');
+        venteContent.classList.add('hide');
+        venteContent.classList.remove('active');
+
+        document.getElementById("titrePD").innerText='Réception'
+
+    }
+    cardStock.addEventListener('click',affichePage1);
+    function affichePage1(){
+        produitDetailsP.classList.remove('non');
+        produitDetailsP.classList.add('oui');
+
+        produitDetailsAffichage.style.display = 'none';
+        produitContentP.style.display = 'block';
+
+        receptionContent.classList.add('hide');
+        receptionContent.classList.remove('active');
+        stockContent.classList.add('active');
+        stockContent.classList.remove('hide');
+        venteContent.classList.add('hide');
+        venteContent.classList.remove('active');
+
+        document.getElementById("titrePD").innerText='Stock'
+
+    }
+    cardVente.addEventListener('click',affichePage2);
+    function affichePage2(){
+        produitDetailsP.classList.remove('non');
+        produitDetailsP.classList.add('oui');
+
+        produitDetailsAffichage.style.display = 'none';
+        produitContentP.style.display = 'block';
+
+        receptionContent.classList.add('hide');
+        receptionContent.classList.remove('active');
+        stockContent.classList.add('hide');
+        stockContent.classList.remove('active');
+        venteContent.classList.add('active');
+        venteContent.classList.remove('hide');
+
+        document.getElementById("titrePD").innerText='Vente'
+
+    }
+    var btnRetourP = document.querySelector(".btnRetourProduitDetails");
+    btnRetourP.addEventListener('click',retour1);
+    function retour1(){
+        produitDetailsAffichage.style.display = 'block';
+        produitContentP.style.display = 'none';
+
+        produitDetailsP.classList.remove('oui');
+        produitDetailsP.classList.add('non');
+    }
+</script>
+
+<script src="../js/main.js"></script>
+
+</body>
+</html>

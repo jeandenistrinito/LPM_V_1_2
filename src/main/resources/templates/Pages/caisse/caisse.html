@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>lpm.v.0</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+
+    <link rel="stylesheet" href="/webjars/bootstrap/5.1.3/css/bootstrap.min.css">
+    <script rel="stylesheet" src="/webjars/bootstrap/5.1.3/js/bootstrap.bundle.js"></script>
+
+    <link href="../liens/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="../liens/remixicon/remixicon.css" rel="stylesheet">
+    <link href="../assets3/css/icons.min.css" rel="stylesheet" >
+
+    <link href="../js/print.min.css" rel="stylesheet">
+    <link href="../js/simplebar.css" rel="stylesheet">
+    <link href="../css/styles.css" rel="stylesheet">
+
+</head>
+<body style="background-color: transparent">
+
+    <!-- *********************************************** content *********************************** -->
+
+    <div class="container-fluid" id="menu-caisse" style="height: 100vh;padding-top: 20px" data-simplebar>
+        <div class="row">
+            <div class="col-12 mt-1">
+                <div class="boutons_modals head">
+                    <ul class="ul-nav">
+                        <li class="ul-li-nav">
+                            <h4 class="page-title">Caisse</h4>
+                        </li>
+                    </ul>
+                    <ul class="ul-nav" style="margin-right: 0">
+                        <li class="ul-li-nav" style="margin-right: 0">
+                            <div class="input-group" id="inputSearch">
+                                <input type="text" required class="form-control dropdown-toggle" placeholder="Search..." id="input-search-operation">
+                                <button id="btn-search-operation" class="input-group-text btn-primary" type="submit"><i class="uil-search"></i></button>
+                            </div>
+                            <span id="span00" style="display: none"></span>
+                            <span id="span02" style="display: none"></span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="d-inline-flex mt-2 ps-2" id="inputDate">
+                    <input type="date" id="input-date-debut" class="form-control" th:value="${date}">&nbsp;
+                    <input type="date" id="input-date-fin" class="form-control">&nbsp;
+                    <select name="nomMagasin" th:value="${magasin.nomMagasin}" id="input-magasin" class="form-select">
+                        <option th:each="magasin:${magasinList}" th:value="${magasin.nomMagasin}" th:text="${magasin.nomMagasin}"></option>
+                    </select>
+                    <a type="button" id="btn-search-filter" class="btn btn-success me-1">Valider</a>
+                    </select>
+                    <a type="button" id="btnEncaissement" class="btn btn-outline-success me-1" >Encaissement</a>
+                    </select>
+                    <a type="button" id="btnDecaissement" class="btn btn-outline-danger me-1" >Decaissement</a>
+                </div>
+                <div class="d-inline-flex float-end mt-2 ps-2 pe-2 me-0">
+                    <a class="btn btn-primary mt-0 ms-2" id="btnCaisseExcel" style="height: 37px"><img src="../images/excel1_24px.png" style="height: 20px;width: 16px;min-height: 20px;min-width: 16px;max-height: 20px;max-width: 16px;box-shadow: none;padding: 0"></a>
+                    <a class="btn btn-primary mt-0 ms-2" id="btnCaissePrint" style="height: 37px"><img src="../images/print1_24px.png" style="height: 20px;width: 16px;min-height: 20px;min-width: 16px;max-height: 20px;max-width: 16px;box-shadow: none;padding: 0"></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="all-modal">
+        </div>
+        <!-- suite -->
+        <div class="container-fluid mt-3" id="container_casse" style="height: 100vh">
+            <div class="row me-0 pe-0" style="margin: 0px;display: grid;max-width: 100%;grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));gap: 1rem;">
+                <div class="type-caisse" id="caisse-facture" value-filter="facture">
+                    <div class="row">
+                        <div class="col-md-4 bg-primary icon d-flex justify-content-center align-content-center align-items-center text-center">
+                            <i class="uil-money-bill uil-size-10" style="font-size: 30px;color: white"></i>
+                        </div>
+                        <div class="col-md-8 p-2 card-caisse text-light">
+                            <span>Factures</span><br>
+                            <span class="label-montant">15</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="type-caisse" id="caisse-depense" value-filter="depense">
+                    <div class="row">
+                        <div class="col-md-4 bg-warning icon d-flex justify-content-center align-content-center align-items-center text-center">
+                            <i class="uil-money-bill uil-size-10" style="font-size: 30px;color: white"></i>
+                        </div>
+                        <div class="col-md-8 p-2 card-caisse text-light">
+                            <span>Depenses</span><br>
+                            <span class="label-montant">0 Ar</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="type-caisse" id="caisse-recette" value-filter="recette">
+                    <div class="row">
+                        <div class="col-md-4 bg-success icon d-flex justify-content-center align-content-center align-items-center text-center">
+                            <i class="uil-money-bill uil-size-10" style="font-size: 30px;color: white"></i>
+                        </div>
+                        <div class="col-md-8 p-2 card-caisse text-light">
+                            <span>Recette</span><br>
+                            <span class="label-montant">0 Ar</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="type-caisse" id="caisse-consommation" value-filter="consommation">
+                    <div class="row">
+                        <div class="col-md-4 bg-primary icon d-flex justify-content-center align-content-center align-items-center text-center">
+                            <i class="uil-money-bill uil-size-10" style="font-size: 30px;color: white"></i>
+                        </div>
+                        <div class="col-md-8 p-2 card-caisse text-light">
+                            <span>Consommation</span><br>
+                            <span class="label-montant">0 Ar</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="type-caisse" id="caisse-avoir" value-filter="avoir">
+                    <div class="row">
+                        <div class="col-md-4 bg-danger icon d-flex justify-content-center align-content-center align-items-center text-center">
+                            <i class="uil-money-bill uil-size-10" style="font-size: 30px;color: white"></i>
+                        </div>
+                        <div class="col-md-8 p-2 card-caisse text-light">
+                            <span>Avoir</span><br>
+                            <span class="label-montant" th:text="${espece + cheque + virement + autre +' Ar'}"> Ar</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="type-caisse" id="caisse-espece" value-filter="espece">
+                    <div class="row">
+                        <div class="col-md-4 bg-info icon d-flex justify-content-center align-content-center align-items-center text-center">
+                            <i class="uil-money-bill uil-size-10" style="font-size: 30px;color: white"></i>
+                        </div>
+                        <div class="col-md-8 p-2 card-caisse text-light">
+                            <span>Especes</span><br>
+                            <span class="label-montant" th:text="${espece+' Ar'}">Ar</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="type-caisse" id="caisse-cheque" value-filter="cheque">
+                    <div class="row">
+                        <div class="col-md-4 bg-success icon d-flex justify-content-center align-content-center align-items-center text-center">
+                            <i class="uil-money-bill uil-size-10" style="font-size: 30px;color: white"></i>
+                        </div>
+                        <div class="col-md-8 p-2 card-caisse text-light">
+                            <span>Cheque</span><br>
+                            <span class="label-montant" th:text="${cheque+' Ar'}">Ar</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="type-caisse" id="caisse-credit" value-filter="credit">
+                    <div class="row">
+                        <div class="col-md-4 bg-danger icon d-flex justify-content-center align-content-center align-items-center text-center">
+                            <i class="uil-money-bill uil-size-10" style="font-size: 30px;color: white"></i>
+                        </div>
+                        <div class="col-md-8 p-2 card-caisse text-light">
+                            <span>Credit</span><br>
+                            <span class="label-montant" th:text="${credit+' Ar'}"> Ar</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="type-caisse" id="caisse-virement" value-filter="virement">
+                    <div class="row">
+                        <div class="col-md-4 bg-warning icon d-flex justify-content-center align-content-center align-items-center text-center">
+                            <i class="uil-money-bill uil-size-10" style="font-size: 30px;color: white"></i>
+                        </div>
+                        <div class="col-md-8 p-2 card-caisse text-light">
+                            <span>Virement</span><br>
+                            <span class="label-montant"  th:text="${virement+' Ar'}"> Ar</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="type-caisse" id="caisse-infotres" value-filter="infotres">
+                    <div class="row">
+                        <div class="col-md-4 bg-success icon d-flex justify-content-center align-content-center align-items-center text-center">
+                            <i class="uil-money-bill uil-size-10" style="font-size: 30px;color: white"></i>
+                        </div>
+                        <div class="col-md-8 p-2 card-caisse text-light">
+                            <span>Autres</span><br>
+                            <span class="label-montant" th:text="${autre+' Ar'}"> Ar</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" id="utilisateur">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-body p-0 mt-4" style="background: transparent;height: 50vh" id="scroll" data-simplebar>
+                            <table id="tableCaisse" class="table-liste-operation-caisse table-special-form table table-sm dt-responsive nowrap table-hover text-dark">
+                                <thead style="background: transparent;">
+                                <tr>
+                                    <th>reference</th>
+                                    <th>Date</th>
+                                    <th>Operation</th>
+                                    <th>Montant(Ar) </th>
+                                    <th>Description</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="caisse:${caisseList}">
+                                    <td th:text="${caisse.getRefCaisse()+'-0'+caisse.getId_Caisse()}"></td>
+                                    <td th:text="${caisse.getDateCaisse()}"></td>
+                                    <td th:text="${caisse.getDesignationCaisse()}"></td>
+                                    <td th:text="${caisse.getMontantCaisse()}"></td>
+                                    <td th:text="${caisse.getDescription()}"></td>
+                                    <td><img src="../images/print1_24px.png" style="height: 16px;width: 14px;min-height: 16px;min-width: 14px;max-height: 16px;max-width: 14px;box-shadow: none;padding: 0"></td>
+                                    <!--<td>
+                                        <table class="table" id="secondTable3" style="margin: 0px">
+                                            <tbody>
+                                            <tr th:each="paye:${payementVenteList}" th:class="${caisse.getRefVente()==paye.getRefVente()?'egale':'different'}" style="border-color: transparent;border-bottom-width: 0px;height: 25px">
+                                                <td th:text="${paye.getMontantPayement()}"></td>
+                                                <td>par</td>
+                                                <td th:text="${paye.getTypePayement()}"></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>-->
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ------------------------------- modal -------------------------------- -->
+    <!-- -------------------- encaissementModal --------------- -->
+    <div id="encaisseModal" class="modal modalEnc" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content modal-contentEnc" style="width: 400px;height: 280px;">
+            <div class="container corpsprixSpecial">
+                <form method="post" th:action="@{/Encaissement}" style="margin-top: 50px">
+                    <label id="prixLabel" style="width: 397px;background: linear-gradient(45deg, #066a1b, transparent);">ENCAISSEMENT</label>
+                    <hr id="hr1Prix" style="width: 335px">
+                    <div class="mb-1">
+                        <label for="input-desc" class="form-label" style="color: #ddd">Description</label>
+                        <input type="text" id="input-desc" name="descriptionEncaisse" class="form-control" required style="width: 330px;height: 38px;background: rgba(90,90,90,0.8);color: #eee;border: 1px solid #bbb;border-radius: 4px;">
+                    </div>
+                    <div class="mb-1">
+                        <label for="input-mont" class="form-label" style="color: #ddd">Montant</label>
+                        <input type="text" id="input-mont" name="montantEncaisse" class="form-control" required style="width: 330px;height: 38px;background: rgba(90,90,90,0.8);color: #eee;border: 1px solid #bbb;border-radius: 4px;">
+                    </div>
+                    <hr id="hr2Prix" style="position: absolute;top: 205px;width: 335px">
+                    <button type="button" class="btn btn-danger" id="annulerEncaissement" style="position: absolute;bottom: 25px;min-height: 32px;height: 32px;width: 160px;">Annuler</button>
+                    <button type="submit" class="btn btn-primary" style="position: absolute;bottom: 25px;left: 201px;height: 33px;min-height: 32px;height: 32px;width: 165px;" id="accorderEncaissement">Accorder</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- -------------------- decaissementModal --------------- -->
+    <div id="decaisseModal" class="modal modalDec" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content modal-contentDec" style="width: 400px;height: 280px;">
+            <div class="container corpsprixSpecial">
+                <form method="post" th:action="@{/Decaissement}" style="margin-top: 50px">
+                    <label id="prixLabel" style="width: 397px;background: linear-gradient(45deg, #a10d0d, transparent);">DECAISSEMENT</label>
+                    <hr id="hr1Prix" style="width: 335px">
+                    <div class="mb-1">
+                        <label for="input-des" class="form-label" style="color: #ddd">Description</label>
+                        <input type="text" id="input-des" name="descriptionDecaisse" class="form-control" style="width: 330px;height: 38px;background: rgba(90,90,90,0.8);color: #eee;border: 1px solid #bbb;border-radius: 4px;">
+                    </div>
+                    <div class="mb-1">
+                        <label for="input-cin" class="form-label" style="color: #ddd">Montant</label>
+                        <input type="text" id="input-cin" name="montantDecaisse" class="form-control" style="width: 330px;height: 38px;background: rgba(90,90,90,0.8);color: #eee;border: 1px solid #bbb;border-radius: 4px;">
+                    </div>
+                    <hr id="hr2Prix" style="position: absolute;top: 205px;width: 335px">
+                    <button type="button" class="btn btn-danger" id="annulerDecaissement" style="position: absolute;bottom: 25px;min-height: 32px;height: 32px;width: 160px;">Annuler</button>
+                    <button type="submit" class="btn btn-primary" style="position: absolute;bottom: 25px;left: 201px;height: 33px;min-height: 32px;height: 32px;width: 165px;" id="accorderDecaissement">Accorder</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- -------------------------- modal print facture --------------------------------- -->
+    <div id="tableCleintImprimer" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-contentClient">
+                <div class="modal-body"  id="tableCaissePrint">
+                    <h4 align="center" style="alignment: center;height: 40px;width: 100%;font-weight: 700;font-size: 16px;color: #223">MOUVEMENTS DE CAISSE ENREGISTRES</h4>
+                    <table class="table">
+                        <thead style="background: #aaa;">
+                        <tr>
+                            <th style="border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;color: #333">reference</th>
+                            <th style="border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;color: #333">Date</th>
+                            <th style="border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;color: #333">Operation</th>
+                            <th style="border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;color: #333">Montant(Ar) </th>
+                            <th style="border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;color: #333">Description</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="caisse:${caisseList}">
+                            <td th:text="${caisse.getRefCaisse()+'-0'+caisse.getId_Caisse()}" style="border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;color: #333"></td>
+                            <td th:text="${caisse.getDateCaisse()}" style="border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;color: #333"></td>
+                            <td th:text="${caisse.getDesignationCaisse()}" style="border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;color: #333"></td>
+                            <td th:text="${caisse.getMontantCaisse()}" style="border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;color: #333"></td>
+                            <td th:text="${caisse.getDescription()}" style="border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;color: #333"></td>
+                            <!--<td>
+                                <table class="table" id="secondTable3" style="margin: 0px">
+                                    <tbody>
+                                    <tr th:each="paye:${payementVenteList}" th:class="${caisse.getRefVente()==paye.getRefVente()?'egale':'different'}" style="border-color: transparent;border-bottom-width: 0px;height: 25px">
+                                        <td th:text="${paye.getMontantPayement()}"></td>
+                                        <td>par</td>
+                                        <td th:text="${paye.getTypePayement()}"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </td>-->
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-------------------------------------------------------------------- script ------------------------------->
+    <link href="../assets3/css/icons.min.css" rel="stylesheet" >
+    <script src="../liens/js/jquery-3.5.1.min.js"></script>
+    <script src="../js/table2excel.js"></script>
+    <script src="../js/print.min.js"></script>
+    <script src="../js/simplebar.min.js"></script>
+    <script src="../js/main.js"></script>
+
+    <script>
+
+        /* ---------------------- debut de date de la caisse ------------------------- */
+        var d = new Date();
+        var year = d.getFullYear();
+        var month = d.getMonth() + 1;
+
+        if (month<10){
+            month = '0'+month;
+        }
+        var date0 = d.getDate();
+        if (date0<10){
+            date0 = '0'+date0;
+        }
+
+        var c_date = year+'-'+month+'-'+date0;
+        document.getElementById("input-date-debut").value = c_date;
+        document.getElementById("input-date-fin").value = c_date;
+
+        /* ------------------- fin de la date de la caisse ----------------------- */
+
+        var btnEnc = document.getElementById("btnEncaissement");
+        var btnDec = document.getElementById("btnDecaissement");
+        var modalEnc = document.getElementById("encaisseModal");
+        var modalDec = document.getElementById("decaisseModal");
+        var btnAnnulEnc = document.getElementById("annulerEncaissement");
+        var btnAnnulDec = document.getElementById("annulerDecaissement");
+
+        btnEnc.addEventListener('click',openModalEnc);
+        function openModalEnc(){
+            modalEnc.style.display='block';
+        }
+        btnAnnulEnc.addEventListener('click',closeModalEnc);
+        function closeModalEnc(){
+            modalEnc.style.display='none';
+        }
+
+        btnDec.addEventListener('click',openModalDec);
+        function openModalDec(){
+            modalDec.style.display='block';
+        }
+        btnAnnulDec.addEventListener('click',closeModalDec);
+        function closeModalDec(){
+            modalDec.style.display='none';
+        }
+
+
+        /* *************************** filtrage du tableau ************************************ */
+        var inputSearch = document.getElementById("input-search-operation");
+        inputSearch.addEventListener("keyup",function(){
+            var keyword = this.value;
+            keyword = keyword.toUpperCase();
+            var table_3 = document.getElementById("tableCaisse");
+            var all_tr = table_3.getElementsByTagName("tr");
+            for(var i=0; i<all_tr.length; i++){
+                var all_columns = all_tr[i].getElementsByTagName("td");
+                for(j=0;j<all_columns.length; j++){
+                    if(all_columns[j]){
+                        var column_value = all_columns[j].textContent || all_columns[j].innerText;
+                        column_value = column_value.toUpperCase();
+                        if(column_value.indexOf(keyword) > -1){
+                            all_tr[i].style.display = ""; // show
+                            break;
+                        }else{
+                            all_tr[i].style.display = "none"; // hide
+                        }
+                    }
+                }
+            }
+        })
+
+
+        /* ****************** print pageListe client *************************************** */
+
+        var boutonImprimerCaisse = document.getElementById("btnCaissePrint");
+        boutonImprimerCaisse.addEventListener('click',printCaisseAction);
+        function printCaisseAction() {
+            printJS({
+                printable: 'tableCaissePrint',
+                type: 'html',
+                targetStyles: ['*']
+            });
+        }
+
+        /* ********************** exporter tableClient vers excel ******************************** */
+
+        var boutonExcelCaisse = document.getElementById("btnCaisseExcel");
+        boutonExcelCaisse.addEventListener('click',Export);
+        function Export() {
+            $("#tableCaissePrint").table2excel({
+                filename: "Caisse_Mouvement "+new Date().getFullYear()+"-"+new Date().getMonth()+"-"+new Date().getDate()+" "+new Date().getHours()+"h"+new Date().getMinutes()+"min .xls"
+            });
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>lpm.v.0</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+
+    <link rel="stylesheet" href="/webjars/bootstrap/5.1.3/css/bootstrap.min.css">
+    <script rel="stylesheet" src="/webjars/bootstrap/5.1.3/js/bootstrap.bundle.js"></script>
+
+    <link href="../liens/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="../liens/remixicon/remixicon.css" rel="stylesheet">
+    <link href="../assets3/css/icons.min.css" rel="stylesheet" >
+
+    <link href="../js/print.min.css" rel="stylesheet">
+    <link href="../js/simplebar.css" rel="stylesheet">
+    <link href="../css/styles.css" rel="stylesheet">
+
+</head>
+<body style="background-color: transparent">
+
+    <!-- ********************************************** main content ******************************************* -->
+
+    <div id="produitAffichageListe" style="display: block;height: 100vh;padding-top: 20px" data-simplebar>
+        <div class="produitList" style="height: 80vh;display: grid" data-simplebar>
+            <a  th:each="produit:${produitList}" class="produits" style="text-decoration: none" th:href="@{/ProduitDetails(nomProduit=${produit.getNomProduit()})}"><!--  th:href="@{/ProduitDetails(nomProduit=${produit.getNomProduit()})}" -->
+                <img alt="" th:src="*{'data:image/jpeg;base64,'+{produit.getPhotoProduit()}}">
+                <div class="label mt-2 produitLien" th:id="${produit.getNomProduit()}" th:text="${produit.getNomProduit()}"></div>
+            </a>
+        </div>
+    </div>
+
+
+
+    <!-- ***************************************** modals ******************************************* -->
+    <!--<div id="produitModal" class="modal fade active" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="false">
+            <div class="modal-dialog" style="margin: 0px;padding: 20px;">
+                <div class="modal-body" style="background-color: #1c7430;width: 800px;height: 98%">
+                    <div class="mb-3">
+                        <div class="row">
+                            <div class="col-5">
+                                <img src="/images/vanille.PNG" alt="vanille" style="height: 100%;width: auto">
+                            </div>
+                            <div class="col-6 offset-1">
+                                <div class="prDetails" style="padding: 15px">
+                                    <p>paragraphe 1</p>
+                                    <p>paragraphe 1</p>
+                                    <p>paragraphe 1</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <button type="button" class="btn btn-primary me-4">Stock</button>
+                                <button type="button" class="btn btn-primary me-4">Vente</button>
+                                <button type="button" class="btn btn-primary">Reception</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="details" style="background-color: cadetblue;padding: 15px">
+                                    <div class="details-content" style="top: 15px;bottom: 15px;left: 15px;right: 15px;background-color: whitesmoke"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+
+    <!-------------------------------------------------------------------- script ------------------------------->
+
+    <script src="../liens/js/jquery-3.5.1.min.js"></script>
+    <script src="../js/table2excel.js"></script>
+    <script src="../js/print.min.js"></script>
+    <script src="../js/simplebar.min.js"></script>
+    <script src="../js/main.js"></script>
+
+    <script>
+        /*var produitList = document.querySelector(".produitList");
+        $('.produitList').on('click','a',function () {
+            var currA = $(this).closest('a');
+            var divA = currA.find('div:eq(0)').text();
+            alert(divA);
+        });*/
+
+    </script>
+
+</body>
+</html>

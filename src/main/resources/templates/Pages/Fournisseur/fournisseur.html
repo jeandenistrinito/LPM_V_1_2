@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>lpm.v.0</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+
+    <link rel="stylesheet" href="/webjars/bootstrap/5.1.3/css/bootstrap.min.css">
+    <script rel="stylesheet" src="/webjars/bootstrap/5.1.3/js/bootstrap.bundle.js"></script>
+
+    <link href="../liens/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="../liens/remixicon/remixicon.css" rel="stylesheet">
+    <link href="../assets3/css/icons.min.css" rel="stylesheet" >
+
+    <link href="../js/print.min.css" rel="stylesheet">
+    <link href="../js/simplebar.css" rel="stylesheet">
+    <link href="../css/styles.css" rel="stylesheet">
+
+</head>
+<body style="background-color: transparent">
+
+    <!-- ***************************************** homecontent *************************************************** -->
+    <div class="container-fluid" style="height: 100vh;padding-top: 20px" data-simplebar>
+
+        <div class="row">
+            <div class="col-12 mt-1">
+                <!--<img id="image" src="../images/produit1.jpg" alt="produit1" style="position: absolute;max-width: 300px;min-width: 300px;max-height: 80px;left: 35%;border-radius: 10px;opacity: 0.3;">-->
+                <div class="boutons_modals head">
+                    <ul class="ul-nav">
+                        <li class="d-flex" style="display: flex;justify-content: left">
+                            <h4 class="page-title">Fournisseur</h4>
+                        </li>
+                    </ul>
+                    <ul class="ul-nav" style="margin-right: 0">
+                        <li class="ul-li-nav" style="margin-right: 0">
+                            <div class="input-group inputSearchStock" id="inputSearch">
+                                <input type="text" required class="form-control dropdown-toggle" placeholder="Search..." id="input-search-stock">
+                                <button id="btn-search-stick" class="input-group-text btn-primary" type="submit"><i
+                                        class="uil-search"></i></button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="boutons_modals">
+                <ul class="ul-nav">
+                    <li class="ul-li-nav">
+                        <a class="btn btn-primary" id="btnNouveauFournisseur">Nouveau fournisseur</a>
+                    </li>
+                </ul>
+                <ul class="ul-nav">
+                    <li class="ul-li-nav">
+                        <a class="btn btn-primary" id="btnExcelFrs"><img src="../images/excel1_24px.png" style="height: 20px;width: 16px"></a>
+                    </li>
+                    <li class="ul-li-nav">
+                        <a class="btn btn-primary" id="btnPrintFrs"><img src="../images/print1_24px.png" style="height: 16px"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row" id="utilisateur">
+            <div class="col-12 p-2">
+                <div class="card" id="cardFrsList" style="margin: 0 12px;">
+                    <div class="card-body" style="padding: 0">
+                        <table id="datatable-buttons" class="table dt-responsive nowrap w-100 table-hover text-dark">
+                            <thead>
+                            <tr>
+                                <th style="padding-left: 12px">Nom & Prenom</th>
+                                <th style="padding-left: 12px">Adresse</th>
+                                <th style="padding-left: 12px">CIN</th>
+                                <th style="padding-left: 12px">Contact</th>
+                                <th style="padding-left: 12px">Nif</th>
+                                <th style="padding-left: 12px">Cif</th>
+                                <th style="padding-left: 12px">Statistique</th>
+                                <th style="padding-left: 12px;max-width: 46px;min-width: 46px"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="frs:${fournisseurList}">
+                                <td th:text="${frs.getNomFournisseur()}" style="padding-left: 12px"></td>
+                                <td th:text="${frs.getAdresseFournisseur()}" style="padding-left: 12px"></td>
+                                <td th:text="${frs.getCinFournisseur()}" style="padding-left: 12px"></td>
+                                <td th:text="${frs.getTelFournisseur()}" style="padding-left: 12px"></td>
+                                <td th:text="${frs.getNifFournisseur()}" style="padding-left: 12px"></td>
+                                <td th:text="${frs.getCifFournisseur()}" style="padding-left: 12px"></td>
+                                <td th:text="${frs.getStatistiqueFournisseur()}" style="padding-left: 12px"></td>
+                                <td style="padding-right: 0px;max-width: 46px;min-width: 46px;width: 46px">
+                                    <div class="actionEditSupp" style="margin: -1px 0 -3px 0;right: 0px;align-content: end">
+                                        <a class="btn modifierVente" style="padding: 3px;width: 20px;height: 20px;border-radius: 3px;background-color: olivedrab;color: white;margin-top: -2px"><img src="../images/edit_user1_24px.png" style="height: 12px;vertical-align: top"></img></a>
+                                        <a class="btn supprimerVente" style="padding: 3px;width: 20px;height: 20px;border-radius: 3px;background-color: orangered;color: white;margin-top: -2px"><img src="../images/remove_user1_24px.png" style="height: 12px;vertical-align: top"></img></a>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div> <!-- end card body-->
+                </div> <!-- end card -->
+                <div class="card" id="cardFrsDetail" style="display: none">
+                    <div class="card-body">
+                        <table id="datatable-buttonsDetailFrs" class="table dt-responsive nowrap w-100">
+                            <thead>
+                            <tr>
+                                <th style="padding-left: 22px;">Nom & Prenom</th>
+                                <th>Adresse</th>
+                                <th>Contact</th>
+                                <th>Dette</th>
+                                <th>Status</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td id="nomFrsTd" style="padding-left: 20px;padding-bottom: 6px">0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td id="totalDetteFrs">0.0</td>
+                                <td>Non livrée</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body" id="cardBodyDetailFrs">
+                                        <div class="row mb-2">
+                                            <div class="col-12">
+                                                <div class="d-inline-flex ps-2 pe-2 me-2">
+                                                    <label style="color: #eee;font-size: 14px;font-weight: 500">Information Fournisseur</label>
+                                                </div>
+                                                <div class="d-inline-flex float-end ps-2 pe-2 me-0">
+                                                    <a id="btnCloseDetailFrs" class="btn"></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row mb-1">
+                                            <div class="col-12">
+                                                <div class="float-start d-flex ps-0">
+                                                    <a type="button" id="btnNouvAvance" class="btn btn-outline-success me-1" style="min-height: 35px;height: 35px">Nouvelle Avance</a>
+                                                    <a type="button" id="btnSupprDette" class="btn btn-outline-danger me-1" style="min-height: 35px;height: 35px" >Règlement Dette</a>
+                                                </div>
+                                                <div class="d-inline-flex float-end ps-2 pe-0 me-0">
+                                                    <a class="btn btn-success btn-export-to-excel bg-forest ms-2"><i class="ri ri-file-excel-2-fill"></i> </a>
+                                                    <a class="btn btn-success btn-export-to-excel bg-forest ms-2"><i class="ri ri-printer-fill"></i> </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card" style="background: transparent;">
+                                            <div class="card-body bodyAvoir p-0 mt-2" style="background: transparent;height: 30vh" id="scroll" data-simplebar>
+                                                <table class="table table-bordered dt-responsive nowrap w-100" id="tableFrsAvanceDetail">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>Numéro</th>
+                                                        <th>Date</th>
+                                                        <th>Avance</th>
+                                                        <th>Livrer</th>
+                                                        <th>Reste</th>
+                                                        <th>Déscription</th>
+                                                        <th id="checkBoxT" style="min-width: 14px;width: 14px;max-width: 14px;display: none"></th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody id="tbodyDette">
+                                                    <tr>
+                                                        <td class="ps-2">D-001</td>
+                                                        <td class="ps-2">2022/10/13</td>
+                                                        <td class="ps-2">0 Ar</td>
+                                                        <td class="ps-2">0 Ar</td>
+                                                        <td class="ps-2">0 Ar</td>
+                                                        <td class="ps-2">null</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                                <hr>
+                                                <div class="row col-12" id="rowBtnValiderDette" style="display:none;margin: 20px">
+                                                    <div class="d-flex" style="justify-content: center">
+                                                        <button type="button" class="btn btn-danger" id="annulerPayeDette" style="min-height: 32px;height: 32px;width: auto;margin-right: 5px">Annuler</button>
+                                                        <button type="button" class="btn btn-success" onclick="checkDette();" style="height: 33px;min-height: 32px;height: 32px;width: auto;" id="validerPayeDette">Valider</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- end card body-->
+                </div> <!-- end card -->
+            </div><!-- end col-->
+        </div>
+
+        <!-- Standard modal -->
+        <div id="tableCleintImprimer" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-contentClient">
+                    <div class="modal-body"  id="datatable-frsImprimer2">
+                        <h4 align="center" style="alignment: center;height: 40px;width: 100%;font-weight: 700;font-size: 16px;color: #223">LISTE DES FOURNISSEURS ENREGISTRES</h4>
+                        <table class="table dt-responsive nowrap w-100 table-hover text-dark">
+                            <thead  style="background-color: #aaa">
+                            <tr>
+                                <th style="text-align: left;padding-left: 10px;padding-top: 5px;padding-bottom: 5px;border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;color: #333">Nom & Prenom</th>
+                                <th style="text-align: left;padding-left: 10px;padding-top: 5px;padding-bottom: 5px;border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;color: #333">Adresse</th>
+                                <th style="text-align: left;padding-left: 10px;padding-top: 5px;padding-bottom: 5px;border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;color: #333">CIN</th>
+                                <th style="text-align: left;padding-left: 10px;padding-top: 5px;padding-bottom: 5px;border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;color: #333">Contact</th>
+                                <th style="text-align: left;padding-left: 10px;padding-top: 5px;padding-bottom: 5px;border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;color: #333">Nif</th>
+                                <th style="text-align: left;padding-left: 10px;padding-top: 5px;padding-bottom: 5px;border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;color: #333">Cif</th>
+                                <th style="text-align: left;padding-left: 10px;padding-top: 5px;padding-bottom: 5px;border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;color: #333">Statistique</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="frs:${fournisseurList}">
+                                <td th:text="${frs.getNomFournisseur()}" style="border: 0.2px solid transparent;border-bottom-color: #eee;border-bottom-width: 2px;"></td>
+                                <td th:text="${frs.getAdresseFournisseur()}" style="border: 0.2px solid transparent;border-bottom-color: #eee;border-bottom-width: 2px;"></td>
+                                <td th:text="${frs.getCinFournisseur()}" style="border: 0.2px solid transparent;border-bottom-color: #eee;border-bottom-width: 2px;"></td>
+                                <td th:text="${frs.getTelFournisseur()}" style="border: 0.2px solid transparent;border-bottom-color: #eee;border-bottom-width: 2px;"></td>
+                                <td th:text="${frs.getNifFournisseur()}" style="border: 0.2px solid transparent;border-bottom-color: #eee;border-bottom-width: 2px;"></td>
+                                <td th:text="${frs.getCifFournisseur()}" style="border: 0.2px solid transparent;border-bottom-color: #eee;border-bottom-width: 2px;"></td>
+                                <td th:text="${frs.getStatistiqueFournisseur()}" style="border: 0.2px solid transparent;border-bottom-color: #eee;border-bottom-width: 2px;"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Standard modal -->
+        <div id="nouvelle-fonction" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <input type="hidden" id="filiale-id" value-id="${connectedUser.filiale.id}">
+                <form class="modal-content" method="post" th:action="@{/saveFournisseur}">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="standard-modalLabel">Nouvelle Fonction</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="libelle-fonction" class="form-label">Libelle</label>
+                            <input name="nomFonction" type="text" required id="libelle-fonction" class="form-control">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Annuler</button>
+                        <button id="btn-enregistrer-fonction" type="submit" class="btn btn-primary btn-enregistrer">Enregistrer</button>
+                    </div>
+                </form><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+
+        <!-- Standard modal -->
+        <div id="modalNouveauFournisseur" class="modal modalEnc" tabindex="-1" role="dialog" aria-hidden="true" style="justify-content: center">
+            <div class="modal-content modal-contentEnc" style="width: 400px;height: 530px;margin-left: 0;margin-top: -50px;background: rgb(24,35,50);box-shadow: 0 0 10px rgba(200,200,200,0.9)">
+                <div class="container corpsprixSpecial" style="margin: 0">
+                    <form class="modal-content" method="post" th:action="@{/saveFournisseur}" style="background: transparent;border: none">
+                        <div class="modal-header">
+                            <h4 class="modal-title" >Nouveau Fournisseur</h4>
+                            <a class="btn" id="btnCloseModalAvoir"></a>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-1">
+                                <label for="input-cin" class="form-label">Numero CIN</label>
+                                <input name="cinFournisseur" th:value="${fournisseur.cinFournisseur}" type="text" id="input-cin" class="form-control">
+                            </div>
+                            <div class="mb-1">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label for="input-nom" class="form-label">Nom du fournisseur</label>
+                                        <input name="nomFournisseur" th:value="${fournisseur.nomFournisseur}" type="text" id="input-nom" class="form-control">
+                                    </div>
+                                </div>
+                                <input type="hidden">
+                            </div>
+                            <div class="mb-1">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <label for="input-adresse" class="form-label">Adresse</label>
+                                        <input name="adresseFournisseur" th:value="${fournisseur.adresseFournisseur}" type="text" id="input-adresse" class="form-control">
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="input-contact" class="form-label">Contact</label>
+                                        <input name="telFournisseur" th:value="${fournisseur.telFournisseur}" type="text" id="input-contact" class="form-control">
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="mb-1">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <label for="input-nif" class="form-label">NIF</label>
+                                        <input name="nifFournisseur" th:value="${fournisseur.nifFournisseur}" id="input-nif" class="form-control">
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="input-stat" class="form-label">STAT</label>
+                                        <input name="statistiqueFournisseur" th:value="${fournisseur.statistiqueFournisseur}" id="input-stat" class="form-control">
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="mb-1">
+                                <label for="input-cif" class="form-label">CIF</label>
+                                <input name="cifFournisseur" th:value="${fournisseur.cifFournisseur}" id="input-cif" class="form-control">
+                            </div>
+
+                        </div>
+                        <div class="modal-footer" style="display: flex;justify-content: center">
+                            <button type="button" class="btn btn-danger" id="btnAnnulerFournisseur">Annuler</button>
+                            <button id="btn-enregistrer-utilisateur" type="submit" class="btn btn-primary">Enregistrer</button>
+                        </div>
+                    </form><!-- /.modal-content -->
+                </div>
+            </div>
+        </div>
+
+        <div id="modalNouvelleAvance" class="modal modalEnc" tabindex="-1" role="dialog" aria-hidden="true" style="justify-content: center">
+            <div class="modal-content modal-contentEnc" style="width: 400px;height: 410px;margin-left: 0;margin-top: -50px;background: rgb(24,35,50);box-shadow: 0 0 10px rgba(200,200,200,0.9)">
+                <div class="container corpsprixSpecial" style="margin: 0">
+                    <form class="modal-content" method="post" style="background: transparent;border: none">
+                        <div class="modal-header">
+                            <h6 class="modal-title" >Nouvelle avance</h6>
+                            <a class="btn" id="btnCloseModalAvance"></a>
+                        </div>
+                        <div class="modal-body">
+                            <input type="text" id="inputFrsDette" name="inputFrsDette" class="form-control" disabled>
+                            <div class="mb-1">
+                                <label for="inputMontantDette" class="form-label">Montant</label>
+                                <input name="inputMontantDette" type="text" id="inputMontantDette" class="form-control">
+                            </div>
+                            <div class="mb-1">
+                                <label for="inputProduitEndette" class="form-label">Produit endetté</label>
+                                <select name="inputProduitEndette" th:value="${plproduit.nomProduit}" id="inputProduitEndette" class="form-select">
+                                    <option th:each="p:${plp}" th:value="${p.getNomProduit()}" th:text="${p.getNomProduit()}"></option>
+                                </select>
+                            </div>
+                            <div class="mb-1">
+                                <label for="inputDescriptionDette" class="form-label">Déscription</label>
+                                <input name="inputDescriptionDette" type="text" id="inputDescriptionDette" class="form-control">
+                            </div>
+                        </div>
+                        <div class="modal-footer" style="display: flex;justify-content: center">
+                            <button type="button" class="btn btn-danger" id="btnAnnulerAvance">Annuler</button>
+                            <button id="btnEnregistrerAvance" type="button" class="btn btn-primary">Accorder</button>
+                        </div>
+                    </form><!-- /.modal-content -->
+                </div>
+            </div>
+        </div>
+
+        <div id="modalPayeDetteFrs" class="modal modalEnc" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-content modal-contentEnc" style="width: 400px;height: 400px;margin-top: 80px;background: rgb(24,35,50);box-shadow: 0 0 10px rgba(200,200,200,0.9)">
+                <div class="container corpsprixSpecial" style="margin: 0">
+                    <form class="modal-content" style="background: none;border: none">
+                        <div class="modal-header" style="height: 50px">
+                            <h6 class="modal-title" id="standard-modalLabel" style="font-weight: 700;font-size: 14px;color: #aaa">REGLEMENT DU CREDIT</h6>
+                            <button type="button" id="btnCloseModalDette" class="btn-close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-0">
+                                <label id="labFrs" class="form-label"></label><br/>
+                                <label id="labNumAvance" class="form-label" ></label><br/>
+                                <label id="labDateAvance" class="form-label"></label>
+                            </div>
+                            <hr>
+                            <div class="mb-3">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <label for="inputTotalDette" class="form-label">TOTAL : </label>
+                                        </div>
+                                        <div class="col-8">
+                                            <input id="inputTotalDette" type="text" class="form-control" disabled/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <label for="inputResteDette" class="form-label">RESTE : </label>
+                                        </div>
+                                        <div class="col-8">
+                                            <input id="inputResteDette" type="text" class="form-control" disabled/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <label for="inputLivre" class="form-label">LIVRER : </label>
+                                        </div>
+                                        <div class="col-8">
+                                            <input id="inputLivre" type="text" class="form-control"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer" style="justify-content: center">
+                            <button id="btnAnnulerDetteModal" type="button" class="btn btn-danger" >Annuler</button>
+                            <button id="btnAccorderDetteModal" type="button" class="btn btn-primary btn-enregistrer">Accorder</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- /.modal -->
+
+    </div> <!-- container -->
+    <!-------------------------------------------------------------------- script ------------------------------->
+
+
+    <script src="../liens/js/jquery-3.5.1.min.js"></script>
+    <script src="../js/table2excel.js"></script>
+    <script src="../js/print.min.js"></script>
+    <script src="../js/simplebar.min.js"></script>
+    <script src="../js/main.js"></script>
+
+    <script>
+
+        /* -------------------- action sur les avances ---------------------------------- */
+        document.getElementById("btnNouvAvance").addEventListener('click',function (){
+            document.getElementById('modalNouvelleAvance').style.display="flex";
+
+        })
+        document.getElementById("btnCloseModalAvance").addEventListener('click',function (){
+            document.getElementById('modalNouvelleAvance').style.display="none";
+        })
+        document.getElementById("btnAnnulerAvance").addEventListener('click',function (){
+            document.getElementById('modalNouvelleAvance').style.display="none";
+        })
+        document.getElementById("btnEnregistrerAvance").addEventListener('click',function (){
+
+            var formData = {
+                detteDesignation : "avance n° ",
+                detteFournisseur : $("#inputFrsDette").val(),
+                detteDate : new Date(),
+                montantDette : $("#inputMontantDette").val(),
+                montantPayDette : 0.0,
+                produitEndette : $("#inputProduitEndette").val(),
+                descriptionDette : $("#inputDescriptionDette").val()
+            }
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url : "/SaveDetteFrs",
+                data : JSON.stringify(formData),
+                dataType : 'json',
+                success : function (result) {
+                    console.log("reussi")
+                    if (result.status === 'success') {
+                        var tableFacAvoir = document.getElementById("tableFrsAvanceDetail");
+                        var tbodyFacA = tableFacAvoir.querySelector("tbody");
+                        tableFacAvoir.removeChild(tbodyFacA);
+                        var nouveauTbodyA = document.createElement("tbody");
+                        tableFacAvoir.appendChild(nouveauTbodyA);
+                        $.each(result.data, function (i, dette) {
+
+                            var nouvelleLigne = nouveauTbodyA.insertRow(-1);
+
+                            var nouvelleCellule = nouvelleLigne.insertCell(0);
+                            var nouveauTexte = document.createTextNode(dette.detteDesignation+""+dette.idDette);
+                            nouvelleCellule.appendChild(nouveauTexte);
+
+                            /*------------ convert date to normale ---------------- */
+                            let date0000 = dette.detteDate.toString();
+                            let da = date0000.substring(0, date0000.indexOf('.'));
+                            let date3 = new Date(da + "-03:00")
+                            let date4 = date3.toISOString();
+                            let date5 = date4.substring(0, date4.indexOf("."));
+                            let date6 = date5.replace("T", " ")
+                            /*--------- fin convert date to normale ---------------- */
+
+                            var nouvelleCellule1 = nouvelleLigne.insertCell(1);
+                            var nouveauTexte1 = document.createTextNode(date6);
+                            nouvelleCellule1.appendChild(nouveauTexte1);
+
+                            var nouvelleCellule2 = nouvelleLigne.insertCell(2);
+                            var nouveauTexte2 = document.createTextNode(dette.montantDette);
+                            nouvelleCellule2.appendChild(nouveauTexte2);
+
+                            var nouvelleCellule3 = nouvelleLigne.insertCell(3);
+                            var nouveauTexte3 = document.createTextNode(dette.montantPayDette);
+                            nouvelleCellule3.appendChild(nouveauTexte3);
+
+                            var nouvelleCellule4 = nouvelleLigne.insertCell(4);
+                            var nouveauTexte4 = document.createTextNode((dette.montantDette) - (dette.montantPayDette));
+                            nouvelleCellule4.appendChild(nouveauTexte4);
+
+                            var nouvelleCellule5 = nouvelleLigne.insertCell(5);
+                            var nouveauTexte5 = document.createTextNode("Avance de "+dette.produitEndette);
+                            nouvelleCellule5.appendChild(nouveauTexte5);
+
+                            var nouvelleCelluleA6 = nouvelleLigne.insertCell(6);
+                            nouvelleCelluleA6.classList.add('ps-2');
+                            nouvelleCelluleA6.id = "checkBoxT";
+                            nouvelleCelluleA6.style.display="none";
+                            nouvelleCelluleA6.style.minWidth="14px";
+                            nouvelleCelluleA6.style.maxWidth="14px";
+                            var inputCredit = document.createElement("input");
+                            inputCredit.id="checkBoxT";
+                            inputCredit.type="radio";
+                            inputCredit.name="check";
+                            inputCredit.value="1";
+                            inputCredit.style.float="right";
+                            inputCredit.style.marginRight="10px";
+                            nouvelleCelluleA6.appendChild(inputCredit);
+
+                            var nouvelleCelluleA7 = nouvelleLigne.insertCell(7);
+                            nouvelleCelluleA7.style.paddingLeft = "10px";
+                            nouvelleCelluleA7.style.display = "none";
+                            var nouveauTexteA7 = document.createTextNode(dette.idDette);
+                            nouvelleCelluleA7.appendChild(nouveauTexteA7);
+
+                            totalDette += ((dette.montantDette) - (dette.montantPayDette));
+
+
+                        });
+                        document.getElementById("totalDetteFrs").innerText = totalDette;
+                    }
+                    else {
+                        console.log("Fail : "+result);
+                    }
+
+                },
+                error : function (e) {
+                    alert("Error...");
+                    console.log("Error : "+e);
+                }
+            });
+
+            document.getElementById('modalNouvelleAvance').style.display="none";
+        })
+
+        document.getElementById("btnAccorderDetteModal").addEventListener('click',function (){
+            var totalCredit1 = 0;
+            var formDataCredit = {
+                idDette : idDettePaye,
+                montantDette : $("#inputTotalDette").val(),
+                montantPayeDette : $("#inputLivre").val(),
+            }
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url : "/SavePayeDette",
+                data : JSON.stringify(formDataCredit),
+                dataType : 'json',
+                success: function (result) {
+                    if (result.status === "success") {
+
+                        /*$.ajax({
+                            type: "GET",
+                            url: "/GetCreditClient?nomClient="+document.getElementById("nomClientDetail").textContent,
+                            success: function (result) {
+                                if (result.status === "success") {
+                                    var tableFacAvoir = document.getElementById("tableClientDetail");
+                                    var tbodyFacA = tableFacAvoir.querySelector("tbody");
+                                    tableFacAvoir.removeChild(tbodyFacA);
+                                    var nouveauTbodyA = document.createElement("tbody");
+                                    tableFacAvoir.appendChild(nouveauTbodyA);
+                                    $.each(result.data, function (i, credit) {
+
+                                        let date0000 = credit.dateCredit.toString();
+                                        let da = date0000.substring(0, date0000.indexOf('.'));
+                                        let date3 = new Date(da + "-03:00")
+                                        let date4 = date3.toISOString();
+                                        let date5 = date4.substring(0, date4.indexOf("."));
+                                        let date6 = date5.replace("T", " ")
+
+                                        var nouvelleLigneA = nouveauTbodyA.insertRow(-1);
+
+                                        var nouvelleCelluleA = nouvelleLigneA.insertCell(0);
+                                        nouvelleCelluleA.style.paddingLeft = "10px";
+                                        var nouveauTexteA = document.createTextNode(credit.facVenteCredit);
+                                        nouvelleCelluleA.appendChild(nouveauTexteA);
+
+                                        var nouvelleCelluleA1 = nouvelleLigneA.insertCell(1);
+                                        nouvelleCelluleA1.style.paddingLeft = "10px";
+                                        var nouveauTexteA1 = document.createTextNode(date6);
+                                        nouvelleCelluleA1.appendChild(nouveauTexteA1);
+
+                                        var nouvelleCelluleA2 = nouvelleLigneA.insertCell(2);
+                                        nouvelleCelluleA2.style.paddingLeft = "10px";
+                                        var nouveauTexteA2 = document.createTextNode(credit.montantCredit);
+                                        nouvelleCelluleA2.appendChild(nouveauTexteA2);
+
+                                        var nouvelleCelluleA3 = nouvelleLigneA.insertCell(3);
+                                        nouvelleCelluleA3.style.paddingLeft = "10px";
+                                        var nouveauTexteA3 = document.createTextNode(credit.montantPayeCredit);
+                                        nouvelleCelluleA3.appendChild(nouveauTexteA3);
+
+                                        var nouvelleCelluleA4 = nouvelleLigneA.insertCell(4);
+                                        nouvelleCelluleA4.style.paddingLeft = "10px";
+                                        var nouveauTexteA4 = document.createTextNode((credit.montantCredit) - (credit.montantPayeCredit));
+                                        nouvelleCelluleA4.appendChild(nouveauTexteA4);
+
+                                        var nouvelleCelluleA5 = nouvelleLigneA.insertCell(5);
+                                        nouvelleCelluleA5.style.paddingLeft = "10px";
+                                        var nouveauTexteA5 = document.createTextNode("indéfini...");
+                                        nouvelleCelluleA5.appendChild(nouveauTexteA5);
+
+                                        var nouvelleCelluleA6 = nouvelleLigneA.insertCell(6);
+                                        nouvelleCelluleA6.classList.add('ps-2');
+                                        nouvelleCelluleA6.id = "checkBoxT";
+                                        nouvelleCelluleA6.style.display="none";
+                                        nouvelleCelluleA6.style.minWidth="14px";
+                                        nouvelleCelluleA6.style.maxWidth="14px";
+                                        var inputCredit = document.createElement("input");
+                                        inputCredit.id="checkBoxT";
+                                        inputCredit.type="radio";
+                                        inputCredit.name="check";
+                                        inputCredit.value="1";
+                                        inputCredit.style.float="right";
+                                        inputCredit.style.marginRight="10px";
+                                        nouvelleCelluleA6.appendChild(inputCredit);
+
+                                        var nouvelleCelluleA7 = nouvelleLigneA.insertCell(7);
+                                        nouvelleCelluleA7.style.paddingLeft = "10px";
+                                        nouvelleCelluleA7.style.display = "none";
+                                        var nouveauTexteA7 = document.createTextNode(credit.idCredit);
+                                        nouvelleCelluleA7.appendChild(nouveauTexteA7);
+                                        console.log("id0 : "+nouvelleCelluleA7.textContent)
+
+                                        totalCredit1 += (credit.montantCredit) - (credit.montantPayeCredit);
+                                        console.log("totalCredit : "+totalCredit1);
+
+                                    });
+                                    document.getElementById("totalCreditClient").innerText = totalCredit1;
+                                }
+                            },
+                            error: function (e) {
+                                alert("erreur getCredit : " + e);
+                            }
+                        })*/
+
+                        $.ajax({
+                            type: "GET",
+                            url: "/GetDetteFrs?nomFrs="+result.data,
+                            success: function (result) {
+                                if (result.status === "success") {
+                                    var tableFacAvoir = document.getElementById("tableFrsAvanceDetail");
+                                    var tbodyFacA = tableFacAvoir.querySelector("tbody");
+                                    tableFacAvoir.removeChild(tbodyFacA);
+                                    var nouveauTbodyA = document.createElement("tbody");
+                                    tableFacAvoir.appendChild(nouveauTbodyA);
+                                    $.each(result.data, function (i, dette) {
+
+                                        var nouvelleLigne = nouveauTbodyA.insertRow(-1);
+
+                                        var nouvelleCellule = nouvelleLigne.insertCell(0);
+                                        var nouveauTexte = document.createTextNode(dette.detteDesignation+""+dette.idDette);
+                                        nouvelleCellule.appendChild(nouveauTexte);
+
+                                        /*------------ convert date to normale ---------------- */
+                                        let date0000 = dette.detteDate.toString();
+                                        let da = date0000.substring(0, date0000.indexOf('.'));
+                                        let date3 = new Date(da + "-03:00")
+                                        let date4 = date3.toISOString();
+                                        let date5 = date4.substring(0, date4.indexOf("."));
+                                        let date6 = date5.replace("T", " ")
+                                        /*--------- fin convert date to normale ---------------- */
+
+                                        var nouvelleCellule1 = nouvelleLigne.insertCell(1);
+                                        var nouveauTexte1 = document.createTextNode(date6);
+                                        nouvelleCellule1.appendChild(nouveauTexte1);
+
+                                        var nouvelleCellule2 = nouvelleLigne.insertCell(2);
+                                        var nouveauTexte2 = document.createTextNode(dette.montantDette);
+                                        nouvelleCellule2.appendChild(nouveauTexte2);
+
+                                        var nouvelleCellule3 = nouvelleLigne.insertCell(3);
+                                        var nouveauTexte3 = document.createTextNode(dette.montantPayDette);
+                                        nouvelleCellule3.appendChild(nouveauTexte3);
+
+                                        var nouvelleCellule4 = nouvelleLigne.insertCell(4);
+                                        var nouveauTexte4 = document.createTextNode((dette.montantDette) - (dette.montantPayDette));
+                                        nouvelleCellule4.appendChild(nouveauTexte4);
+
+                                        var nouvelleCellule5 = nouvelleLigne.insertCell(5);
+                                        var nouveauTexte5 = document.createTextNode("Avance de "+dette.produitEndette);
+                                        nouvelleCellule5.appendChild(nouveauTexte5);
+
+                                        var nouvelleCelluleA6 = nouvelleLigne.insertCell(6);
+                                        nouvelleCelluleA6.classList.add('ps-2');
+                                        nouvelleCelluleA6.id = "checkBoxT";
+                                        nouvelleCelluleA6.style.display="none";
+                                        nouvelleCelluleA6.style.minWidth="14px";
+                                        nouvelleCelluleA6.style.maxWidth="14px";
+                                        var inputCredit = document.createElement("input");
+                                        inputCredit.id="checkBoxT";
+                                        inputCredit.type="radio";
+                                        inputCredit.name="check";
+                                        inputCredit.value="1";
+                                        inputCredit.style.float="right";
+                                        inputCredit.style.marginRight="10px";
+                                        nouvelleCelluleA6.appendChild(inputCredit);
+
+                                        var nouvelleCelluleA7 = nouvelleLigne.insertCell(7);
+                                        nouvelleCelluleA7.style.paddingLeft = "10px";
+                                        nouvelleCelluleA7.style.display = "none";
+                                        var nouveauTexteA7 = document.createTextNode(dette.idDette);
+                                        nouvelleCelluleA7.appendChild(nouveauTexteA7);
+
+                                        totalDette += ((dette.montantDette) - (dette.montantPayDette));
+
+
+                                    });
+                                    document.getElementById("totalDetteFrs").innerText = totalDette;
+                                }
+                            },
+                            error: function (e) {
+                                alert("erreur getCredit interne : " + e);
+                            }
+                        })
+
+                        console.log("id : "+result.data.idDette);
+                        console.log("montant : "+result.data.montantDette);
+                        console.log("payer : "+result.data.montantPayDette);
+                        document.getElementById("modalPayeDetteFrs").style.display = "none";
+                    }
+                },
+                error: function (e) {
+                    alert("erreur getCredit externe : " + e);
+                }
+            })
+        });
+        /*-------------------- fin des actions sur avance --------------------------------- */
+
+        document.getElementById("btnNouveauFournisseur").addEventListener('click',function (){
+            document.getElementById("modalNouveauFournisseur").style.display="flex";
+        });
+        document.getElementById("btnCloseModalAvoir").addEventListener('click',function (){
+            document.getElementById("modalNouveauFournisseur").style.display="none";
+        });
+        document.getElementById("btnAnnulerFournisseur").addEventListener('click',function (){
+            document.getElementById("modalNouveauFournisseur").style.display="none";
+        });
+
+
+        /* ------------------------ reglement dette ------------------------------------------ */
+        document.getElementById("btnSupprDette").addEventListener('click',function (){
+            var idCheckBox = document.querySelectorAll("#checkBoxT");
+            for (var i=0;i<idCheckBox.length;i++){
+                idCheckBox[i].style.display='';
+            }
+            document.getElementById("rowBtnValiderDette").style.display="block";
+        });
+        document.getElementById("annulerPayeDette").addEventListener('click',function (){
+            var idCheckBox = document.querySelectorAll("#checkBoxT");
+            for (var i=0;i<idCheckBox.length;i++){
+                idCheckBox[i].style.display='none';
+            }
+            document.getElementById("rowBtnValiderDette").style.display="none";
+        })
+
+        var labNomFrs = document.getElementById("labFrs");
+        var labNumAvance = document.getElementById("labNumAvance");
+        var labDateAvance = document.getElementById("labDateAvance");
+        var inputTotalDette = document.getElementById("inputTotalDette");
+        var inputResteDette = document.getElementById("inputResteDette");
+        var inputLivrer = document.getElementById("inputLivre");
+        var idDettePaye = 0;
+        function checkDette(){
+            document.getElementById("modalPayeDetteFrs").style.display="block";
+
+            var inputs = document.querySelectorAll('#checkBoxT'),
+                inputsLength = inputs.length;
+            for (var i = 0 ; i < inputsLength ; i++) {
+                if (inputs[i].type == 'radio' && inputs[i].checked) {
+
+                    var rowCol = inputs[i].parentNode.parentNode;
+                    let numDette = rowCol.querySelector('td:nth-child(1)')
+                    let dateDette = rowCol.querySelector('td:nth-child(2)')
+                    let avance = rowCol.querySelector('td:nth-child(3)')
+                    let livrer = rowCol.querySelector('td:nth-child(4)')
+                    let reste = rowCol.querySelector('td:nth-child(5)')
+                    let idDette = rowCol.querySelector('td:nth-child(8)')
+
+                    labDateAvance.innerText = "Avance le : "+dateDette.textContent;
+                    labNomFrs.innerText = "Fournisseur : "+document.getElementById("nomFrsTd").textContent
+                    labNumAvance.innerText = "Numéro : "+numDette.textContent;
+                    inputTotalDette.value = avance.textContent;
+                    inputResteDette.value = reste.textContent;
+
+                    idDettePaye = idDette.textContent;
+                }
+            }
+        }
+        document.getElementById("btnAnnulerDetteModal").addEventListener('click',function (){
+            document.getElementById("modalPayeDetteFrs").style.display="none";
+        })
+        document.getElementById("btnCloseModalDette").addEventListener('click',function (){
+            document.getElementById("modalPayeDetteFrs").style.display="none";
+        })
+
+        /* *************************** filtrage du tableau ************************************ */
+        var inputSearch = document.getElementById("input-search-stock");
+        inputSearch.addEventListener("keyup",function(){
+            var keyword = this.value;
+            keyword = keyword.toUpperCase();
+            var table_3 = document.getElementById("datatable-buttons");
+            var all_tr = table_3.getElementsByTagName("tr");
+            for(var i=0; i<all_tr.length; i++){
+                var all_columns = all_tr[i].getElementsByTagName("td");
+                for(j=0;j<all_columns.length; j++){
+                    if(all_columns[j]){
+                        var column_value = all_columns[j].textContent || all_columns[j].innerText;
+                        column_value = column_value.toUpperCase();
+                        if(column_value.indexOf(keyword) > -1){
+                            all_tr[i].style.display = ""; // show
+                            break;
+                        }else{
+                            all_tr[i].style.display = "none"; // hide
+                        }
+                    }
+                }
+            }
+        })
+
+
+        var pageFrsListe = document.getElementById("cardFrsList");
+        var pageFrsDetail = document.getElementById("cardFrsDetail");
+        var totalDette = 0;
+
+        $('#datatable-buttons tbody').on('dblclick','tr',function () {
+            var currow = $(this).closest('tr');
+            var col1 = currow.find('td:eq(0)').text();
+            var col2 = currow.find('td:eq(1)').text();
+            var col3 = currow.find('td:eq(3)').text();
+            pageFrsListe.style.display = 'none';
+            pageFrsDetail.style.display = 'block';
+
+            var tableDetailClient = document.getElementById("datatable-buttonsDetailFrs");
+            $.ajax({
+                type: "GET",
+                url: "/GetDetteFrs?nomFrs="+col1,
+                success: function (result) {
+                    if (result.status === "success") {
+                        var tableFacAvoir = document.getElementById("tableFrsAvanceDetail");
+                        var tbodyFacA = tableFacAvoir.querySelector("tbody");
+                        tableFacAvoir.removeChild(tbodyFacA);
+                        var nouveauTbodyA = document.createElement("tbody");
+                        tableFacAvoir.appendChild(nouveauTbodyA);
+                        $.each(result.data, function (i, dette) {
+
+                            var nouvelleLigne = nouveauTbodyA.insertRow(-1);
+
+                            /*------------ convert date to normale ---------------- */
+                            let date0000 = dette.detteDate.toString();
+                            let da = date0000.substring(0, date0000.indexOf('.'));
+                            let date3 = new Date(da + "-03:00")
+                            let date4 = date3.toISOString();
+                            let date5 = date4.substring(0, date4.indexOf("."));
+                            let date6 = date5.replace("T", " ")
+                            /*--------- fin convert date to normale ---------------- */
+
+                            if (dette.montantDette > dette.montantPayDette) {
+
+                                var nouvelleCellule = nouvelleLigne.insertCell(0);
+                                var nouveauTexte = document.createTextNode(dette.detteDesignation + "" + dette.idDette);
+                                nouvelleCellule.appendChild(nouveauTexte);
+
+                                var nouvelleCellule1 = nouvelleLigne.insertCell(1);
+                                var nouveauTexte1 = document.createTextNode(date6);
+                                nouvelleCellule1.appendChild(nouveauTexte1);
+
+                                var nouvelleCellule2 = nouvelleLigne.insertCell(2);
+                                var nouveauTexte2 = document.createTextNode(dette.montantDette);
+                                nouvelleCellule2.appendChild(nouveauTexte2);
+
+                                var nouvelleCellule3 = nouvelleLigne.insertCell(3);
+                                var nouveauTexte3 = document.createTextNode(dette.montantPayDette);
+                                nouvelleCellule3.appendChild(nouveauTexte3);
+
+                                var nouvelleCellule4 = nouvelleLigne.insertCell(4);
+                                var nouveauTexte4 = document.createTextNode((dette.montantDette) - (dette.montantPayDette));
+                                nouvelleCellule4.appendChild(nouveauTexte4);
+
+                                var nouvelleCellule5 = nouvelleLigne.insertCell(5);
+                                var nouveauTexte5 = document.createTextNode("Avance de " + dette.produitEndette);
+                                nouvelleCellule5.appendChild(nouveauTexte5);
+
+                                var nouvelleCelluleA6 = nouvelleLigne.insertCell(6);
+                                nouvelleCelluleA6.classList.add('ps-2');
+                                nouvelleCelluleA6.id = "checkBoxT";
+                                nouvelleCelluleA6.style.display = "none";
+                                nouvelleCelluleA6.style.minWidth = "14px";
+                                nouvelleCelluleA6.style.maxWidth = "14px";
+                                var inputCredit = document.createElement("input");
+                                inputCredit.id = "checkBoxT";
+                                inputCredit.type = "radio";
+                                inputCredit.name = "check";
+                                inputCredit.value = "1";
+                                inputCredit.style.float = "right";
+                                inputCredit.style.marginRight = "10px";
+                                nouvelleCelluleA6.appendChild(inputCredit);
+
+                                var nouvelleCelluleA7 = nouvelleLigne.insertCell(7);
+                                nouvelleCelluleA7.style.paddingLeft = "10px";
+                                nouvelleCelluleA7.style.display = "none";
+                                var nouveauTexteA7 = document.createTextNode(dette.idDette);
+                                nouvelleCelluleA7.appendChild(nouveauTexteA7);
+                            }
+
+                            totalDette += ((dette.montantDette) - (dette.montantPayDette));
+
+
+                        });
+                        document.getElementById("totalDetteFrs").innerText = totalDette;
+                    }
+                },
+                error: function (e) {
+                    alert("erreur getCredit : " + e);
+                }
+            })
+
+            var tabledetailClientLigne = tableDetailClient.getElementsByTagName("tr");
+            for (var l=0;l<tabledetailClientLigne.length;l++) {
+                var col001 = tabledetailClientLigne[1].getElementsByTagName("td")[0];
+                var col002 = tabledetailClientLigne[1].getElementsByTagName("td")[1];
+                var col003 = tabledetailClientLigne[1].getElementsByTagName("td")[2];
+
+                col001.innerText=col1;
+                col002.innerHTML=col2;
+                col003.innerText=col3;
+                document.getElementById("inputFrsDette").value = col1;
+            }
+        })
+
+        var btnCloseDetailFrs = document.getElementById("btnCloseDetailFrs");
+        btnCloseDetailFrs.addEventListener('click',closeDetailC);
+        function closeDetailC(){
+            pageFrsListe.style.display = 'block';
+            pageFrsDetail.style.display = 'none';
+        }
+
+        /* ****************** print pageListe client *************************************** */
+
+        var boutonImprimerFrs = document.getElementById("btnPrintFrs");
+        boutonImprimerFrs.addEventListener('click',printFrsAction);
+        function printFrsAction() {
+            printJS({
+                printable: 'datatable-frsImprimer2',
+                type: 'html',
+                targetStyles: ['*']
+            });
+        }
+
+        /* ********************** exporter tableClient vers excel ******************************** */
+
+        var boutonExcelFrs = document.getElementById("btnExcelFrs");
+        boutonExcelFrs.addEventListener('click',Export);
+        function Export() {
+            $("#datatable-frsImprimer2").table2excel({
+                filename: "Frs_Liste "+new Date().getFullYear()+"-"+new Date().getMonth()+"-"+new Date().getDate()+" "+new Date().getHours()+"h"+new Date().getMinutes()+"min .xls"
+            });
+        }
+    </script>
+
+</body>
+</html>

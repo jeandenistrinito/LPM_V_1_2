@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>lpm.v.0</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+
+  <link rel="stylesheet" href="/webjars/bootstrap/5.1.3/css/bootstrap.min.css">
+  <script rel="stylesheet" src="/webjars/bootstrap/5.1.3/js/bootstrap.bundle.js"></script>
+
+  <link href="../liens/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="../liens/remixicon/remixicon.css" rel="stylesheet">
+  <link href="../assets3/css/icons.min.css" rel="stylesheet" >
+
+  <link href="../js/print.min.css" rel="stylesheet">
+  <link href="../js/simplebar.css" rel="stylesheet">
+  <link href="../css/styles.css" rel="stylesheet">
+
+
+</head>
+<body style="background-color: transparent">
+
+<!-- *********************************** homecontent ****************************************************** -->
+  <div class="container-fluid" style="height: 100vh;padding-top: 20px" data-simplebar>
+
+    <div class="row">
+      <div class="col-12 mt-1">
+        <!--<img id="image" src="../images/produit1.jpg" alt="produit1" style="position: absolute;max-width: 300px;min-width: 300px;max-height: 80px;left: 35%;border-radius: 10px;opacity: 0.3;">-->
+        <div class="boutons_modals head">
+          <ul class="ul-nav">
+            <li class="d-flex" style="display: flex;justify-content: left">
+              <h4 class="page-title">Client</h4>
+            </li>
+          </ul>
+          <ul class="ul-nav" style="margin-right: 0">
+            <li class="ul-li-nav" style="margin-right: 0">
+              <div class="input-group inputSearchStock" id="inputSearch">
+                <input type="text" required class="form-control dropdown-toggle" placeholder="Search..." id="input-search-stock">
+                <button id="btn-search-stick" class="input-group-text btn-primary" type="submit"><i
+                        class="uil-search"></i></button>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="boutons_modals">
+        <ul class="ul-nav">
+          <li class="ul-li-nav">
+            <a class="btn btn-primary" id="btnNouveauClient">Nouveau Client</a>
+          </li>
+        </ul>
+        <ul class="ul-nav">
+          <li class="ul-li-nav">
+            <button class="btn btn-primary" id="boutonExcelClient" ><img src="../images/excel1_24px.png" style="height: 20px;width: 16px"></button>
+          </li>
+          <li class="ul-li-nav">
+            <a class="btn btn-primary" id="boutonPrintClient"><img src="../images/print1_24px.png" style="height: 16px"></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="row" id="utilisateur">
+      <div class="col-12 p-2">
+        <div class="card" id="cardClientListe" style="margin: 0 12px;">
+          <div class="card-body" style="padding: 0">
+              <table id="datatable-client" class="table dt-responsive nowrap w-100 table-hover text-dark">
+                  <thead>
+                  <tr>
+                    <th style="padding-left: 12px">Nom & Prenom</th>
+                    <th style="padding-left: 12px">Adresse</th>
+                    <th style="padding-left: 12px">CIN</th>
+                    <th style="padding-left: 12px">Contact</th>
+                    <th style="padding-left: 12px">Nif</th>
+                    <th style="padding-left: 12px">Cif</th>
+                    <th style="padding-left: 12px">Statistique</th>
+                    <th style="padding-left: 12px;max-width: 46px;min-width: 46px"></th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr th:each="client:${clientList}">
+                    <td th:text="${client.getNomPrenom()}" style="padding-left: 12px"></td>
+                    <td th:text="${client.getAdresseClient()}" style="padding-left: 12px"></td>
+                    <td th:text="${client.getCinClient()}" style="padding-left: 12px"></td>
+                    <td th:text="${client.getTelClient()}" style="padding-left: 12px"></td>
+                    <td th:text="${client.getNifClient()}" style="padding-left: 12px"></td>
+                    <td th:text="${client.cifClient}" style="padding-left: 12px"></td>
+                    <td th:text="${client.statistique}" style="padding-left: 12px"></td>
+                    <td style="padding-right: 0px;max-width: 46px;min-width: 46px;width: 46px">
+                      <div class="actionEditSupp" style="margin: -1px 0 -3px 0;right: 0px;align-content: end">
+                        <a class="btn modifierVente" style="padding: 3px;width: 20px;height: 20px;border-radius: 3px;background-color: olivedrab;color: white;margin-top: -2px"><img src="../images/edit_user1_24px.png" style="height: 12px;vertical-align: top"></img></a>
+                        <a class="btn supprimerVente" style="padding: 3px;width: 20px;height: 20px;border-radius: 3px;background-color: orangered;color: white;margin-top: -2px"><img src="../images/remove_user1_24px.png" style="height: 12px;vertical-align: top"></img></a>
+                      </div>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+          </div> <!-- end card body-->
+        </div> <!-- end card -->
+        <div class="card" id="cardClientDetail" style="display: none;background: transparent">
+          <div class="card-body">
+            <table id="datatable-buttonsDetailClient" class="table dt-responsive nowrap w-100" style="background: rgba(17,19,33,0.8)">
+              <thead>
+              <tr>
+                <th style="padding-left: 22px;">Nom & Prenom</th>
+                <th>Adresse</th>
+                <th>Contact</th>
+                <th>Crédit</th>
+                <th>Status</th>
+                <!--<th>Action</th>-->
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td id="nomClientDetail" style="padding-left: 20px;padding-bottom: 6px">0</td>
+                <td id="adresseClientDetail">0</td>
+                <td id="contactClientDetail">0</td>
+                <td id="totalCreditClient">0.0</td>
+                <td>Impayé</td>
+                <!--<td style="padding-right: 0px">
+                  <div class="actionEditSupp" style="right: 0px;align-content: end">
+                    <a class="btn modifierVente" style="padding: 0;width: 20px;height: 20px;border-radius: 3px;background-color: olivedrab;color: white;margin-top: -2px"><i class="bi bi-pencil-fill" style="font-size: 11px;vertical-align: top"></i></a>
+                    <a class="btn supprimerVente" style="padding: 0;width: 20px;height: 20px;border-radius: 3px;background-color: orangered;color: white;margin-top: -2px"><i class="bi bi-cart-x" style="font-size: 12px;vertical-align: top"></i></a>
+                  </div>
+                </td>-->
+              </tr>
+              </tbody>
+            </table>
+            <div class="row mt-3">
+              <div class="col-12">
+                <div class="card" style="height: 100vh;">
+                  <div class="card-body" id="cardBodyDetailCient">
+                    <div class="row mb-2">
+                      <div class="col-12">
+                        <div class="d-inline-flex ps-2 pe-2 me-2">
+                          <label style="color: #eee;font-size: 14px;font-weight: 500">Information Client</label>
+                        </div>
+                        <div class="d-inline-flex float-end ps-2 pe-2 me-0">
+                          <a id="btnCloseDetailClient" class="btn"></a>
+                        </div>
+                      </div>
+                    </div>
+                    <hr>
+                    <div class="row mb-1">
+                      <div class="col-12">
+                        <div class="float-start d-flex ps-0">
+                          <!--<a type="button" id="btnNouvCredit" class="btn btn-outline-success me-1" style="min-height: 35px;height: 35px">Nouveau crédit</a>-->
+                          <a type="button" id="btnReglerCreditClient" class="btn btn-outline-danger me-1" style="min-height: 35px;height: 35px" >Payer crédit</a>
+                        </div>
+                        <div class="d-inline-flex float-end ps-2 pe-0 me-0">
+                          <a class="btn btn-success btn-export-to-excel bg-forest ms-2"><i class="ri ri-file-excel-2-fill"></i> </a>
+                          <a class="btn btn-success btn-export-to-excel bg-forest ms-2"><i class="ri ri-printer-fill"></i> </a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card" style="background: transparent;height: 28vh">
+                      <div class="card-body bodyAvoir p-0 mt-2" style="background: transparent;height: 30vh" id="scroll" data-simplebar>
+                        <table class="table table-bordered dt-responsive nowrap w-100" id="tableClientDetail">
+                          <thead>
+                          <tr>
+                            <th>Numéro</th>
+                            <th>Facture</th>
+                            <th>Date</th>
+                            <th>Crédit</th>
+                            <th>Payer</th>
+                            <th>Reste</th>
+                            <th>Déscription</th>
+                            <th id="checkBoxT" style="min-width: 14px;width: 14px;max-width: 14px;display: none"></th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          <tr>
+                            <td class="ps-2">Num</td>
+                            <td class="ps-2">FAC-001</td>
+                            <td class="ps-2">2022/10/13</td>
+                            <td class="ps-2">0 Ar</td>
+                            <td class="ps-2">0 Ar</td>
+                            <td class="ps-2">0 Ar</td>
+                            <td class="ps-2">null</td>
+                          </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                    <hr>
+                    <div class="row col-12" id="rowBtnValiderPaye" style="display:none;">
+                      <div class="d-flex" style="justify-content: center">
+                        <button type="button" class="btn btn-danger" id="annulerPayeCredit" style="min-height: 32px;height: 32px;width: auto;margin-right: 5px">Annuler</button>
+                        <button type="button" class="btn btn-success" onclick="check();" style="height: 33px;min-height: 32px;height: 32px;width: auto;" id="validerPayeCrdit">Valider</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div> <!-- end card body-->
+        </div> <!-- end card -->
+      </div><!-- end col-->
+    </div>
+
+    <!-- Standard modal -->
+    <div id="tableCleintImprimer" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-contentClient">
+          <div class="modal-body"  id="datatable-clientImprimer2">
+            <h4 align="center" style="alignment: center;height: 40px;width: 100%;font-weight: 700;font-size: 16px;color: #223">LISTE DES CLIENTS ENREGISTRES</h4>
+            <table id="datatable-clientImprimer1" class="table mt-4" style="width: 100%;margin-top: 30px;border-spacing: 0;">
+              <tr style="background-color: rgba(240,240,240,0.6);border: 2px solid #aaa;border-radius: 4px">
+                <th style="text-align: left;padding-left: 10px;padding-top: 5px;padding-bottom: 5px;border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;color: #333">Nom_Prénoms</th>
+                <th style="text-align: left;padding-left: 10px;padding-top: 5px;padding-bottom: 5px;border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;color: #333">Adresse</th>
+                <th style="text-align: left;padding-left: 10px;padding-top: 5px;padding-bottom: 5px;border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;color: #333">CIN</th>
+                <th style="text-align: left;padding-left: 10px;padding-top: 5px;padding-bottom: 5px;border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;color: #333">Contact</th>
+                <th style="text-align: left;padding-left: 10px;padding-top: 5px;padding-bottom: 5px;border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;color: #333">Nif</th>
+                <th style="text-align: left;padding-left: 10px;padding-top: 5px;padding-bottom: 5px;border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;color: #333">Cif</th>
+                <th style="text-align: left;padding-left: 10px;padding-top: 5px;padding-bottom: 5px;border: 1px solid transparent;border-bottom-color: #aaa;border-top-color: #aaa;color: #333">Statistique</th>
+              </tr>
+              <tr th:each="client:${clientList}" style="border: 0.2px solid transparent;border-bottom-color: #eee;border-bottom-width: 2px;">
+                <td th:text="${client.getNomPrenom()}" style="padding-left: 10px;padding-top: 10px;border: 1px solid transparent;border-bottom-color: #ccc;color: #333"></td>
+                <td th:text="${client.getAdresseClient()}" style="padding-left: 10px;padding-top: 10px;border: 1px solid transparent;border-bottom-color: #ccc;color: #333"></td>
+                <td th:text="${client.getCinClient()}" style="padding-left: 10px;padding-top: 10px;border: 1px solid transparent;border-bottom-color: #ccc;color: #333"></td>
+                <td th:text="${client.getTelClient()}" style="padding-left: 10px;padding-top: 10px;border: 1px solid transparent;border-bottom-color: #ccc;color: #333"></td>
+                <td th:text="${client.getNifClient()}" style="padding-left: 10px;padding-top: 10px;border: 1px solid transparent;border-bottom-color: #ccc;color: #333"></td>
+                <td th:text="${client.cifClient}" style="padding-left: 10px;padding-top: 10px;border: 1px solid transparent;border-bottom-color: #ccc;color: #333"></td>
+                <td th:text="${client.statistique}" style="padding-left: 10px;padding-top: 10px;border: 1px solid transparent;border-bottom-color: #ccc;color: #333"></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="nouveau-client" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel"
+         aria-hidden="true">
+      <div class="modal-dialog">
+        <!--<form class="modal-content" method="post" th:action="@{/SaveClient}">
+          <div class="modal-header">
+            <h4 class="modal-title" >Nouveau Client</h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-1">
+              <label for="input-cin" class="form-label">Numero CIN</label>
+              <input name="cinClient" th:value="${client.cinClient}" type="text" id="input-cin" class="form-control">
+            </div>
+            <div class="mb-1">
+              <div class="row">
+                <div class="col-12">
+                  <label for="input-nom" class="form-label">Nom du Client</label>
+                  <input name="nomPrenom" th:value="${client.nomPrenom}" type="text" id="input-nom" class="form-control">
+                </div>
+              </div>
+              <input type="hidden">
+            </div>
+            <div class="mb-1">
+              <div class="row">
+                <div class="col-6">
+                  <label for="input-adresse" class="form-label">Adresse</label>
+                  <input name="adresseClient" th:value="${client.adresseClient}" type="text" id="input-adresse" class="form-control">
+                </div>
+                <div class="col-6">
+                  <label for="input-contact" class="form-label">Contact</label>
+                  <input name="telClient" th:value="${client.telClient}" type="text" id="input-contact" class="form-control">
+                </div>
+              </div>
+
+            </div>
+            <div class="mb-1">
+              <div class="row">
+                <div class="col-6">
+                  <label for="input-nif" class="form-label">NIF</label>
+                  <input name="nifClient" th:value="${client.nifClient}" id="input-nif" class="form-control">
+                </div>
+                <div class="col-6">
+                  <label for="input-stat" class="form-label">STAT</label>
+                  <input name="statistique" th:value="${client.statistique}" id="input-stat" class="form-control">
+                </div>
+              </div>
+
+            </div>
+
+            <div class="mb-1">
+              <label for="input-cif" class="form-label">CIF</label>
+              <input name="cifClient" th:value="${client.cifClient}" id="input-cif" class="form-control">
+            </div>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Annuler</button>
+            <button id="btn-enregistrer-utilisateur" type="submit" class="btn btn-primary">Enregistrer</button>
+          </div>
+        </form>--><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div>
+
+      <div id="modalNouveauClient" class="modal modalEnc" tabindex="-1" role="dialog" aria-hidden="true" style="justify-content: center">
+          <div class="modal-content modal-contentEnc" style="width: 400px;height: 530px;margin-left: 0;margin-top: -50px;background: rgb(24,35,50);box-shadow: 0 0 10px rgba(200,200,200,0.9)">
+              <div class="container corpsprixSpecial" style="margin: 0">
+                  <form class="modal-content" method="post" th:action="@{/SaveClient}" style="background: transparent;border: none">
+                      <div class="modal-header">
+                          <h4 class="modal-title" >Nouveau Client</h4>
+                          <button type="button" class="btn" id="btnCloseModalAvoir"></button>
+                      </div>
+                      <div class="modal-body">
+                          <div class="mb-1">
+                              <label for="input-cin" class="form-label">Numero CIN</label>
+                              <input name="cinClient" th:value="${client.cinClient}" type="text" id="input-cin" class="form-control">
+                          </div>
+                          <div class="mb-1">
+                              <div class="row">
+                                  <div class="col-12">
+                                      <label for="input-nom" class="form-label">Nom du Client</label>
+                                      <input name="nomPrenom" th:value="${client.nomPrenom}" type="text" id="input-nom" class="form-control">
+                                  </div>
+                              </div>
+                              <input type="hidden">
+                          </div>
+                          <div class="mb-1">
+                              <div class="row">
+                                  <div class="col-6">
+                                      <label for="input-adresse" class="form-label">Adresse</label>
+                                      <input name="adresseClient" th:value="${client.adresseClient}" type="text" id="input-adresse" class="form-control">
+                                  </div>
+                                  <div class="col-6">
+                                      <label for="input-contact" class="form-label">Contact</label>
+                                      <input name="telClient" th:value="${client.telClient}" type="text" id="input-contact" class="form-control">
+                                  </div>
+                              </div>
+
+                          </div>
+                          <div class="mb-1">
+                              <div class="row">
+                                  <div class="col-6">
+                                      <label for="input-nif" class="form-label">NIF</label>
+                                      <input name="nifClient" th:value="${client.nifClient}" id="input-nif" class="form-control">
+                                  </div>
+                                  <div class="col-6">
+                                      <label for="input-stat" class="form-label">STAT</label>
+                                      <input name="statistique" th:value="${client.statistique}" id="input-stat" class="form-control">
+                                  </div>
+                              </div>
+
+                          </div>
+
+                          <div class="mb-1">
+                              <label for="input-cif" class="form-label">CIF</label>
+                              <input name="cifClient" th:value="${client.cifClient}" id="input-cif" class="form-control">
+                          </div>
+
+                      </div>
+                      <div class="modal-footer" style="display: flex;justify-content: center">
+                          <button type="button" class="btn btn-danger" id="btnAnnulerModalClient">Annuler</button>
+                          <button id="btn-enregistrer-utilisateur" type="submit" class="btn btn-primary">Enregistrer</button>
+                      </div>
+                  </form><!-- /.modal-content -->
+              </div>
+          </div>
+      </div>
+    <!-- /.modal -->
+
+    <!-- Standard modal -->
+    <div id="modalPayeCreditClient" class="modal modalEnc" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-content modal-contentEnc" style="width: 400px;height: 450px;margin-top: 80px;background: rgb(24,35,50);box-shadow: 0 0 10px rgba(200,200,200,0.9)">
+        <div class="container corpsprixSpecial" style="margin: 0">
+          <form class="modal-content" style="background: none;border: none">
+            <div class="modal-header" style="height: 50px">
+              <h6 class="modal-title" id="standard-modalLabel" style="font-weight: 700;font-size: 14px;color: #aaa">REGLEMENT DU CREDIT</h6>
+              <button type="button" id="btnCloseAvoir" class="btn-close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="mb-0">
+                <label id="labFac" class="form-label"></label><br/>
+                <label id="labClient" class="form-label"></label><br/>
+                <label id="inputDesi" class="form-label" ></label><br/>
+                <label id="inputQte" class="form-label"></label>
+              </div>
+              <hr>
+              <div class="mb-3">
+                <div class="form-group">
+                  <div class="row">
+                    <div class="col-4">
+                      <label for="inputUte" class="form-label">TOTAL : </label>
+                    </div>
+                    <div class="col-8">
+                      <input id="inputUte" type="text" class="form-control" disabled/>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="row">
+                    <div class="col-4">
+                      <label for="inputPu" class="form-label">RESTE : </label>
+                    </div>
+                    <div class="col-8">
+                      <input id="inputPu" type="text" class="form-control" disabled/>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="row">
+                    <div class="col-4">
+                      <label for="inputPAYER" class="form-label">PAYER : </label>
+                    </div>
+                    <div class="col-8">
+                      <input id="inputPAYER" type="text" class="form-control"/>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="row">
+                    <div class="col-4">
+                      <label for="typePaye" class="form-label">PAR : </label>
+                    </div>
+                    <div class="col-8">
+                      <select id="typePaye" class="form-select">
+                        <option value="espèce">espèce</option>
+                        <option value="chèque">chèque</option>
+                        <option value="virement">virement</option>
+                        <option value="téléphone">téléphone</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer" style="justify-content: center">
+              <button id="btnAnnulerCreditModal" type="button" class="btn btn-danger" >Annuler</button>
+              <button id="btnAccorderCreditModal" type="button" class="btn btn-primary btn-enregistrer">Accorder</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- /.modal -->
+
+  </div> <!-- container -->
+<!-------------------------------------------------------------------- script ------------------------------->
+
+<script src="../liens/js/jquery-3.5.1.min.js"></script>
+<script src="../js/table2excel.js"></script>
+<script src="../js/print.min.js"></script>
+<script src="../js/simplebar.min.js"></script>
+<script src="../js/main.js"></script>
+
+<script>
+
+
+    document.getElementById("btnNouveauClient").addEventListener('click',function (){
+        document.getElementById("modalNouveauClient").style.display="flex";
+    })
+    document.getElementById("btnCloseModalAvoir").addEventListener('click',function (){
+        document.getElementById("modalNouveauClient").style.display="none";
+    })
+    document.getElementById("btnAnnulerModalClient").addEventListener('click',function (){
+        document.getElementById("modalNouveauClient").style.display="none";
+    })
+
+
+  /* *************************** filtrage du tableau ************************************ */
+
+  var inputSearch = document.getElementById("input-search-stock");
+  inputSearch.addEventListener("keyup",function(){
+    var keyword = this.value;
+    keyword = keyword.toUpperCase();
+    var table_3 = document.getElementById("datatable-client");
+    var all_tr = table_3.getElementsByTagName("tr");
+    for(var i=0; i<all_tr.length; i++){
+      var all_columns = all_tr[i].getElementsByTagName("td");
+      for( var j=0;j<all_columns.length; j++){
+        if(all_columns[j]){
+          var column_value = all_columns[j].textContent || all_columns[j].innerText;
+          column_value = column_value.toUpperCase();
+          if(column_value.indexOf(keyword) > -1){
+            all_tr[i].style.display = ""; // show
+            break;
+          }else{
+            all_tr[i].style.display = "none"; // hide
+          }
+        }
+      }
+    }
+  })
+
+
+  var pageClientListe = document.getElementById("cardClientListe");
+  var pageClientDetail = document.getElementById("cardClientDetail");
+
+  $('#datatable-client tbody').on('dblclick','tr',function () {
+    var currow = $(this).closest('tr');
+    var col1 = currow.find('td:eq(0)').text();
+    var col2 = currow.find('td:eq(1)').text();
+    var col3 = currow.find('td:eq(3)').text();
+    pageClientListe.style.display = 'none';
+    pageClientDetail.style.display = 'block';
+
+    document.getElementById("nomClientDetail").innerText = col1;
+    document.getElementById("adresseClientDetail").innerText = col2;
+    document.getElementById("contactClientDetail").innerText = col3;
+    var totalCredit = 0;
+
+    $.ajax({
+      type: "GET",
+      url: "/GetCreditClient?nomClient="+col1,
+      success: function (result) {
+        if (result.status === "success") {
+          var tableFacAvoir = document.getElementById("tableClientDetail");
+          var tbodyFacA = tableFacAvoir.querySelector("tbody");
+          tableFacAvoir.removeChild(tbodyFacA);
+          var nouveauTbodyA = document.createElement("tbody");
+          tableFacAvoir.appendChild(nouveauTbodyA);
+          $.each(result.data, function (i, credit) {
+
+            /*------------ convert date to normale ---------------- */
+            let date0000 = credit.dateCredit.toString();
+            let da = date0000.substring(0, date0000.indexOf('.'));
+            let date3 = new Date(da + "-03:00")
+            let date4 = date3.toISOString();
+            let date5 = date4.substring(0, date4.indexOf("."));
+            let date6 = date5.replace("T", " ")
+            /*--------- fin convert date to normale ---------------- */
+
+            var nouvelleLigneA = nouveauTbodyA.insertRow(-1);
+
+            if (credit.montantCredit > credit.montantPayeCredit) {
+
+              var nouvelleCelluleA = nouvelleLigneA.insertCell(0);
+              nouvelleCelluleA.style.paddingLeft = "10px";
+              var nouveauTexteA = document.createTextNode(credit.creditDesignation + "" + credit.idCredit);
+              nouvelleCelluleA.appendChild(nouveauTexteA);
+
+              var nouvelleCelluleA = nouvelleLigneA.insertCell(1);
+              nouvelleCelluleA.style.paddingLeft = "10px";
+              var nouveauTexteA = document.createTextNode(credit.facVenteCredit);
+              nouvelleCelluleA.appendChild(nouveauTexteA);
+
+              var nouvelleCelluleA1 = nouvelleLigneA.insertCell(2);
+              nouvelleCelluleA1.style.paddingLeft = "10px";
+              var nouveauTexteA1 = document.createTextNode(date6);
+              nouvelleCelluleA1.appendChild(nouveauTexteA1);
+
+              var nouvelleCelluleA2 = nouvelleLigneA.insertCell(3);
+              nouvelleCelluleA2.style.paddingLeft = "10px";
+              var nouveauTexteA2 = document.createTextNode(credit.montantCredit);
+              nouvelleCelluleA2.appendChild(nouveauTexteA2);
+
+              var nouvelleCelluleA3 = nouvelleLigneA.insertCell(4);
+              nouvelleCelluleA3.style.paddingLeft = "10px";
+              var nouveauTexteA3 = document.createTextNode(credit.montantPayeCredit);
+              nouvelleCelluleA3.appendChild(nouveauTexteA3);
+
+              var nouvelleCelluleA4 = nouvelleLigneA.insertCell(5);
+              nouvelleCelluleA4.style.paddingLeft = "10px";
+              var nouveauTexteA4 = document.createTextNode((credit.montantCredit) - (credit.montantPayeCredit));
+              nouvelleCelluleA4.appendChild(nouveauTexteA4);
+
+              var nouvelleCelluleA5 = nouvelleLigneA.insertCell(6);
+              nouvelleCelluleA5.style.paddingLeft = "10px";
+              var nouveauTexteA5 = document.createTextNode("indéfini...");
+              nouvelleCelluleA5.appendChild(nouveauTexteA5);
+
+              var nouvelleCelluleA6 = nouvelleLigneA.insertCell(7);
+              nouvelleCelluleA6.classList.add('ps-2');
+              nouvelleCelluleA6.id = "checkBoxT";
+              nouvelleCelluleA6.style.display = "none";
+              nouvelleCelluleA6.style.minWidth = "14px";
+              nouvelleCelluleA6.style.maxWidth = "14px";
+              var inputCredit = document.createElement("input");
+              inputCredit.id = "checkBoxT";
+              inputCredit.type = "radio";
+              inputCredit.name = "check";
+              inputCredit.value = "1";
+              inputCredit.style.float = "right";
+              inputCredit.style.marginRight = "10px";
+              nouvelleCelluleA6.appendChild(inputCredit);
+
+              var nouvelleCelluleA7 = nouvelleLigneA.insertCell(8);
+              nouvelleCelluleA7.style.paddingLeft = "10px";
+              nouvelleCelluleA7.style.display = "none";
+              var nouveauTexteA7 = document.createTextNode(credit.idCredit);
+              nouvelleCelluleA7.appendChild(nouveauTexteA7);
+              console.log("id0 : " + nouvelleCelluleA7.textContent)
+            }
+
+            totalCredit += (credit.montantCredit) - (credit.montantPayeCredit);
+            console.log("totalCredit : "+totalCredit);
+
+          });
+          document.getElementById("totalCreditClient").innerText = totalCredit;
+        }
+      },
+      error: function (e) {
+        alert("erreur getCredit : " + e);
+      }
+    })
+  });
+
+  /* ----------------------- refresh -------------------------------- */
+  function refreshCredit($nomClient) {
+    var totalCreditCr = 0;
+
+    $.ajax({
+      type: "GET",
+      url: "/GetCreditClient?nomClient=" + col1,
+      success: function (result) {
+        if (result.status === "success") {
+          var tableFacAvoir = document.getElementById("tableClientDetail");
+          var tbodyFacA = tableFacAvoir.querySelector("tbody");
+          tableFacAvoir.removeChild(tbodyFacA);
+          var nouveauTbodyA = document.createElement("tbody");
+          tableFacAvoir.appendChild(nouveauTbodyA);
+          $.each(result.data, function (i, credit) {
+
+            /*------------ convert date to normale ---------------- */
+            let date0000 = credit.dateCredit.toString();
+            let da = date0000.substring(0, date0000.indexOf('.'));
+            let date3 = new Date(da + "-03:00")
+            let date4 = date3.toISOString();
+            let date5 = date4.substring(0, date4.indexOf("."));
+            let date6 = date5.replace("T", " ")
+            /*--------- fin convert date to normale ---------------- */
+
+            var nouvelleLigneA = nouveauTbodyA.insertRow(-1);
+
+            var nouvelleCelluleA = nouvelleLigneA.insertCell(0);
+            nouvelleCelluleA.style.paddingLeft = "10px";
+            var nouveauTexteA = document.createTextNode(credit.facVenteCredit);
+            nouvelleCelluleA.appendChild(nouveauTexteA);
+
+            var nouvelleCelluleA1 = nouvelleLigneA.insertCell(1);
+            nouvelleCelluleA1.style.paddingLeft = "10px";
+            var nouveauTexteA1 = document.createTextNode(date6);
+            nouvelleCelluleA1.appendChild(nouveauTexteA1);
+
+            var nouvelleCelluleA2 = nouvelleLigneA.insertCell(2);
+            nouvelleCelluleA2.style.paddingLeft = "10px";
+            var nouveauTexteA2 = document.createTextNode(credit.montantCredit);
+            nouvelleCelluleA2.appendChild(nouveauTexteA2);
+
+            var nouvelleCelluleA3 = nouvelleLigneA.insertCell(3);
+            nouvelleCelluleA3.style.paddingLeft = "10px";
+            var nouveauTexteA3 = document.createTextNode(credit.montantPayeCredit);
+            nouvelleCelluleA3.appendChild(nouveauTexteA3);
+
+            var nouvelleCelluleA4 = nouvelleLigneA.insertCell(4);
+            nouvelleCelluleA4.style.paddingLeft = "10px";
+            var nouveauTexteA4 = document.createTextNode((credit.montantCredit) - (credit.montantPayeCredit));
+            nouvelleCelluleA4.appendChild(nouveauTexteA4);
+
+            var nouvelleCelluleA5 = nouvelleLigneA.insertCell(5);
+            nouvelleCelluleA5.style.paddingLeft = "10px";
+            var nouveauTexteA5 = document.createTextNode("indéfini...");
+            nouvelleCelluleA5.appendChild(nouveauTexteA5);
+
+            var nouvelleCelluleA6 = nouvelleLigneA.insertCell(6);
+            nouvelleCelluleA6.classList.add('ps-2');
+            nouvelleCelluleA6.id = "checkBoxT";
+            nouvelleCelluleA6.style.display = "none";
+            nouvelleCelluleA6.style.minWidth = "14px";
+            nouvelleCelluleA6.style.maxWidth = "14px";
+            var inputCredit = document.createElement("input");
+            inputCredit.id = "checkBoxT";
+            inputCredit.type = "radio";
+            inputCredit.name = "check";
+            inputCredit.value = "1";
+            inputCredit.style.float = "right";
+            inputCredit.style.marginRight = "10px";
+            nouvelleCelluleA6.appendChild(inputCredit);
+
+            var nouvelleCelluleA7 = nouvelleLigneA.insertCell(7);
+            nouvelleCelluleA7.style.paddingLeft = "10px";
+            nouvelleCelluleA7.style.display = "none";
+            var nouveauTexteA7 = document.createTextNode(credit.idCredit);
+            nouvelleCelluleA7.appendChild(nouveauTexteA7);
+            console.log("id0 : " + nouvelleCelluleA7.textContent)
+
+            totalCreditCr += (credit.montantCredit) - (credit.montantPayeCredit);
+            console.log("totalCredit : " + totalCredit);
+
+            /*var imgC = document.createElement("img");
+          imgC.src="../images/edit1_16px.png";
+          imgC.style.height="18px";
+          imgC.style.verticalAlign="top";
+
+          var aC = document.createElement("a");
+          aC.className="btn modifierVente";
+          aC.style.padding="3px";
+          aC.style.width="35px";
+          aC.style.height="26px";
+          aC.style.borderRadius="3px";
+          aC.style.background="olivedrab";
+          aC.style.color="white";
+          aC.style.marginTop="-2px";
+          aC.appendChild(imgC);
+
+          var divC = document.createElement("div");
+          divC.className="actionEditSupp";
+          divC.style.margin="-1px 0 -3px 0";
+          divC.style.right="0";
+          divC.style.alignContent="end";
+          divC.appendChild(aC);
+
+          var nouvelleCelluleA4 = nouvelleLigneA.insertCell(5);
+          nouvelleCelluleA4.appendChild(divC);*/
+
+          });
+          document.getElementById("totalCreditClient").innerText = totalCreditCr;
+        }
+      },
+      error: function (e) {
+        alert("erreur getCredit : " + e);
+      }
+    })
+  }
+  /* ---------------------- fin refresh ----------------------------- */
+
+  var btnCloseDetailClient = document.getElementById("btnCloseDetailClient");
+  btnCloseDetailClient.addEventListener('click',closeDetailC);
+  function closeDetailC(){
+    pageClientListe.style.display = 'block';
+    pageClientDetail.style.display = 'none';
+  }
+
+
+  /* ---------------------- reglement du credit ------------------------------------ */
+  var rowBtnPayerCredit = document.getElementById("rowBtnValiderPaye");
+  var btnAnnulerCredit = document.getElementById("annulerPayeCredit");
+  var btnValiderCredit = document.getElementById("validerPayeCrdit");
+  var btnReglerCredit = document.getElementById("btnReglerCreditClient");
+  btnReglerCredit.addEventListener('click',creerAvoirFacture);
+  function creerAvoirFacture(){
+    //if (btnReglerCredit.textContent === "Règler un crédit"){
+    var idCheckBox = document.querySelectorAll("#checkBoxT");
+    for (var i=0;i<idCheckBox.length;i++){
+      idCheckBox[i].style.display='';
+    }
+    rowBtnPayerCredit.style.display="block";
+  }
+  btnAnnulerCredit.addEventListener('click',function (){
+    var idCheckBox2 = document.querySelectorAll("#checkBoxT");
+    for (var j=0;j<idCheckBox2.length;j++){
+      idCheckBox2[j].style.display='none';
+      idCheckBox2[j].classList.add('unchecked')
+    }
+    var inputs = document.querySelectorAll('#checkBoxT'),
+            inputsLength = inputs.length;
+    for (var i = 0 ; i < inputsLength ; i++) {
+      if (inputs[i].type == 'radio') {
+        inputs[i].checked = false;
+      }
+    }
+    rowBtnPayerCredit.style.display="none";
+  });
+
+  document.getElementById("btnCloseAvoir").addEventListener('click',function (){
+      document.getElementById("modalPayeCreditClient").style.display = "none";
+  })
+  document.getElementById("btnAnnulerCreditModal").addEventListener('click',function (){
+      document.getElementById("modalPayeCreditClient").style.display = "none";
+  })
+
+  var labFac = document.getElementById("labFac");
+  var labClient = document.getElementById("labClient");
+  var inputDesi = document.getElementById("inputDesi");
+  var inputQte = document.getElementById("inputQte");
+  var inputUte = document.getElementById("inputUte");
+  var inputPu = document.getElementById("inputPu");
+  var inputPAYER = document.getElementById("inputPAYER");
+  var selectTypePaye = document.getElementById("typePaye");
+  var idCreditPaye = 0;
+  function check() {
+    var inputs = document.querySelectorAll('#checkBoxT'),
+            inputsLength = inputs.length;
+    for (var i = 0 ; i < inputsLength ; i++) {
+      if (inputs[i].type == 'radio' && inputs[i].checked) {
+        /*var rowCol = inputs[i].parentNode.parentNode;
+        alert('La case cochée est la n°'+ rowCol.rowIndex);*/
+
+        document.getElementById("modalPayeCreditClient").style.display = "block";
+
+        //let nomClientFac = document.getElementById("facClient").innerText;
+        var rowCol = inputs[i].parentNode.parentNode;
+        let fa = rowCol.querySelector('td:nth-child(2)')
+        let da = rowCol.querySelector('td:nth-child(3)')
+        let cr = rowCol.querySelector('td:nth-child(4)')
+        let ute = rowCol.querySelector('td:nth-child(5)')
+        let rs = rowCol.querySelector('td:nth-child(6)')
+        let dateC = rowCol.querySelector('td:nth-child(7)')
+        let idCred = rowCol.querySelector('td:nth-child(9)')
+
+        labFac.innerText = "Crédit le : "+da.textContent;
+        labClient.innerText = "Client : "+document.getElementById("nomClientDetail").textContent
+        inputDesi.innerText = "Référence facture : "+fa.textContent;
+        inputUte.value = cr.textContent;
+        inputPu.value = rs.textContent;
+
+        idCreditPaye = parseInt(idCred.textContent);
+        console.log("id6 : "+dateC.textContent)
+        console.log("id 7: "+idCred.textContent)
+
+
+      }
+    }
+  }
+
+  /* ----------------------- enregistrer payement credit ----------------------------- */
+  var btnAccorderCredit = document.getElementById("btnAccorderCreditModal");
+  btnAccorderCredit.addEventListener('click',function (){
+    var totalCredit1 = 0;
+    var formDataCredit = {
+      idCredit : idCreditPaye,
+      montantCredit : $("#inputUte").val(),
+      montantPayeCredit : $("#inputPAYER").val(),
+      typePayeCredit : $("#typePaye").val()
+    }
+    $.ajax({
+      type: "POST",
+      contentType: "application/json",
+      url : "/SavePayeCredit",
+      data : JSON.stringify(formDataCredit),
+      dataType : 'json',
+      success: function (result) {
+        if (result.status === "success") {
+
+          //refreshCredit(labClient.innerText)
+
+          $.ajax({
+            type: "GET",
+            url: "/GetCreditClient?nomClient="+document.getElementById("nomClientDetail").textContent,
+            success: function (result) {
+              if (result.status === "success") {
+                var tableFacAvoir = document.getElementById("tableClientDetail");
+                var tbodyFacA = tableFacAvoir.querySelector("tbody");
+                tableFacAvoir.removeChild(tbodyFacA);
+                var nouveauTbodyA = document.createElement("tbody");
+                tableFacAvoir.appendChild(nouveauTbodyA);
+                $.each(result.data, function (i, credit) {
+
+                  let date0000 = credit.dateCredit.toString();
+                  let da = date0000.substring(0, date0000.indexOf('.'));
+                  let date3 = new Date(da + "-03:00")
+                  let date4 = date3.toISOString();
+                  let date5 = date4.substring(0, date4.indexOf("."));
+                  let date6 = date5.replace("T", " ")
+
+                  var nouvelleLigneA = nouveauTbodyA.insertRow(-1);
+
+                  var nouvelleCelluleA = nouvelleLigneA.insertCell(0);
+                  nouvelleCelluleA.style.paddingLeft = "10px";
+                  var nouveauTexteA = document.createTextNode(credit.facVenteCredit);
+                  nouvelleCelluleA.appendChild(nouveauTexteA);
+
+                  var nouvelleCelluleA1 = nouvelleLigneA.insertCell(1);
+                  nouvelleCelluleA1.style.paddingLeft = "10px";
+                  var nouveauTexteA1 = document.createTextNode(date6);
+                  nouvelleCelluleA1.appendChild(nouveauTexteA1);
+
+                  var nouvelleCelluleA2 = nouvelleLigneA.insertCell(2);
+                  nouvelleCelluleA2.style.paddingLeft = "10px";
+                  var nouveauTexteA2 = document.createTextNode(credit.montantCredit);
+                  nouvelleCelluleA2.appendChild(nouveauTexteA2);
+
+                  var nouvelleCelluleA3 = nouvelleLigneA.insertCell(3);
+                  nouvelleCelluleA3.style.paddingLeft = "10px";
+                  var nouveauTexteA3 = document.createTextNode(credit.montantPayeCredit);
+                  nouvelleCelluleA3.appendChild(nouveauTexteA3);
+
+                  var nouvelleCelluleA4 = nouvelleLigneA.insertCell(4);
+                  nouvelleCelluleA4.style.paddingLeft = "10px";
+                  var nouveauTexteA4 = document.createTextNode((credit.montantCredit) - (credit.montantPayeCredit));
+                  nouvelleCelluleA4.appendChild(nouveauTexteA4);
+
+                  var nouvelleCelluleA5 = nouvelleLigneA.insertCell(5);
+                  nouvelleCelluleA5.style.paddingLeft = "10px";
+                  var nouveauTexteA5 = document.createTextNode("indéfini...");
+                  nouvelleCelluleA5.appendChild(nouveauTexteA5);
+
+                  var nouvelleCelluleA6 = nouvelleLigneA.insertCell(6);
+                  nouvelleCelluleA6.classList.add('ps-2');
+                  nouvelleCelluleA6.id = "checkBoxT";
+                  nouvelleCelluleA6.style.display="none";
+                  nouvelleCelluleA6.style.minWidth="14px";
+                  nouvelleCelluleA6.style.maxWidth="14px";
+                  var inputCredit = document.createElement("input");
+                  inputCredit.id="checkBoxT";
+                  inputCredit.type="radio";
+                  inputCredit.name="check";
+                  inputCredit.value="1";
+                  inputCredit.style.float="right";
+                  inputCredit.style.marginRight="10px";
+                  nouvelleCelluleA6.appendChild(inputCredit);
+
+                  var nouvelleCelluleA7 = nouvelleLigneA.insertCell(7);
+                  nouvelleCelluleA7.style.paddingLeft = "10px";
+                  nouvelleCelluleA7.style.display = "none";
+                  var nouveauTexteA7 = document.createTextNode(credit.idCredit);
+                  nouvelleCelluleA7.appendChild(nouveauTexteA7);
+                  console.log("id0 : "+nouvelleCelluleA7.textContent)
+
+                  totalCredit1 += (credit.montantCredit) - (credit.montantPayeCredit);
+                  console.log("totalCredit : "+totalCredit1);
+
+                });
+                document.getElementById("totalCreditClient").innerText = totalCredit1;
+              }
+            },
+            error: function (e) {
+              alert("erreur getCredit : " + e);
+            }
+          })
+
+          //alert(result.data.montant)
+          console.log("id : "+result.data.idCreditC);
+          console.log("montant : "+result.data.montant);
+          console.log("payer : "+result.data.payerPaye);
+          console.log("type : "+result.data.typePaye);
+          document.getElementById("modalPayeCreditClient").style.display = "none";
+        }
+      },
+      error: function (e) {
+        alert("erreur getCredit : " + e);
+      }
+    })
+  })
+
+  /* ****************** print pageListe client *************************************** */
+
+  var boutonImprimerClient = document.getElementById("boutonPrintClient");
+  boutonImprimerClient.addEventListener('click',printClientAction);
+  function printClientAction() {
+    printJS({
+      printable: 'datatable-clientImprimer2',
+      type: 'html',
+      targetStyles: ['*']
+    });
+  }
+
+  /* ********************** exporter tableClient vers excel ******************************** */
+
+  var boutonExcelClient = document.getElementById("boutonExcelClient");
+  boutonExcelClient.addEventListener('click',Export);
+  function Export() {
+    $("#datatable-clientImprimer2").table2excel({
+      filename: "Client_Liste "+new Date().getFullYear()+"-"+new Date().getMonth()+"-"+new Date().getDate()+" "+new Date().getHours()+"h"+new Date().getMinutes()+"min .xls"
+    });
+  }
+
+
+
+</script>
+
+</body>
+</html>
